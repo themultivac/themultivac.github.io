@@ -6,6 +6,24 @@
     <title>The Multivac | Daily AI Oracle</title>
     <meta name="description" content="One question. All frontier AI models. Blind evaluation. Daily.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Ailerons Font -->
+    <style>
+        @font-face {
+            font-family: 'Ailerons';
+            src: url('https://cdn.jsdelivr.net/gh/sebastianoramarche/ailerons@master/fonts/ailerons.woff2') format('woff2'),
+                 url('https://cdn.jsdelivr.net/gh/sebastianoramarche/ailerons@master/fonts/ailerons.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+    
     <style>
         * {
             margin: 0;
@@ -16,21 +34,24 @@
         :root {
             --bg-primary: #0a0a0f;
             --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
             --text-primary: #e8e8ed;
             --text-secondary: #9090a0;
             --accent: #6366f1;
             --accent-glow: rgba(99, 102, 241, 0.3);
+            --font-display: 'Ailerons', 'Outfit', sans-serif;
+            --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'Space Mono', monospace;
         }
         
         body {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: var(--font-body);
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             padding: 2rem;
             overflow-x: hidden;
         }
@@ -52,8 +73,15 @@
         }
         
         .container {
-            max-width: 600px;
+            max-width: 700px;
+            width: 100%;
             text-align: center;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding-top: 2rem;
+            padding-bottom: 3rem;
         }
         
         .logo {
@@ -68,21 +96,26 @@
         }
         
         h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
             margin-bottom: 0.5rem;
             background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-transform: uppercase;
         }
         
         .tagline {
-            font-size: 1.25rem;
+            font-family: var(--font-mono);
+            font-size: 1rem;
             color: var(--text-secondary);
             margin-bottom: 2.5rem;
             font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
         }
         
         .description {
@@ -90,10 +123,12 @@
             line-height: 1.8;
             color: var(--text-secondary);
             margin-bottom: 2.5rem;
+            font-weight: 300;
         }
         
         .description strong {
             color: var(--text-primary);
+            font-weight: 500;
         }
         
         .cta-button {
@@ -101,7 +136,8 @@
             align-items: center;
             gap: 0.5rem;
             padding: 1rem 2rem;
-            font-size: 1.1rem;
+            font-family: var(--font-body);
+            font-size: 1rem;
             font-weight: 600;
             color: white;
             background: var(--accent);
@@ -136,23 +172,210 @@
         }
         
         .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 400;
             color: var(--accent);
+            letter-spacing: 0.05em;
         }
         
         .stat-label {
-            font-size: 0.9rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
             color: var(--text-secondary);
             margin-top: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
         
+        /* Questions Archive Section */
+        .questions-section {
+            margin-top: 4rem;
+            text-align: left;
+            width: 100%;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+        
+        /* Sort Dropdown */
+        .sort-dropdown {
+            position: relative;
+        }
+        
+        .sort-button {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.65rem 1rem;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: #2a2a32;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .sort-button:hover {
+            background: #35353f;
+            color: var(--text-primary);
+        }
+        
+        .sort-button svg {
+            width: 14px;
+            height: 14px;
+            transition: transform 0.2s ease;
+        }
+        
+        .sort-dropdown.open .sort-button svg {
+            transform: rotate(180deg);
+        }
+        
+        .sort-menu {
+            position: absolute;
+            top: calc(100% + 4px);
+            right: 0;
+            background: #2a2a32;
+            border-radius: 8px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+            z-index: 100;
+            min-width: 160px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+        
+        .sort-dropdown.open .sort-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .sort-option {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        
+        .sort-option:hover {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--text-primary);
+        }
+        
+        .sort-option.active {
+            color: var(--accent);
+        }
+        
+        /* Question Cards */
+        .questions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .question-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .question-card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateX(4px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        
+        .question-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .question-number {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent);
+            background: rgba(99, 102, 241, 0.15);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+        }
+        
+        .question-date {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+        }
+        
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+        
+        .question-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            text-decoration: none;
+            transition: gap 0.2s ease;
+        }
+        
+        .question-card:hover .question-link {
+            gap: 0.75rem;
+        }
+        
+        .question-link svg {
+            width: 14px;
+            height: 14px;
+        }
+        
+        /* Quote Section */
         .quote {
             margin-top: 3rem;
             padding: 1.5rem;
             background: var(--bg-secondary);
             border-radius: 12px;
             border-left: 3px solid var(--accent);
+            text-align: left;
         }
         
         .quote p {
@@ -165,7 +388,8 @@
         .quote cite {
             display: block;
             margin-top: 0.75rem;
-            font-size: 0.85rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
             color: var(--text-secondary);
             font-style: normal;
         }
@@ -178,10 +402,12 @@
         }
         
         .links a {
+            font-family: var(--font-mono);
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: color 0.2s;
+            letter-spacing: 0.05em;
         }
         
         .links a:hover {
@@ -190,51 +416,94 @@
         
         footer {
             margin-top: 3rem;
-            font-size: 0.8rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
             color: var(--text-secondary);
         }
         
         @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-            .tagline { font-size: 1rem; }
+            h1 { font-size: 2.2rem; }
+            .tagline { font-size: 0.85rem; }
             .stats { gap: 1.5rem; }
-            .stat-value { font-size: 1.5rem; }
+            .stat-value { font-size: 1.8rem; }
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            .question-card {
+                padding: 1.25rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo">🔮</div>
-        <h1>The Multivac</h1>
-        <p class="tagline">Daily AI Oracle</p>
-        
-        <p class="description">
-            <strong>One question.</strong> All frontier AI models. 
-            <strong>Blind evaluation.</strong> No favoritism.
-            <strong>Daily.</strong> Fresh questions that can't be memorized.
-        </p>
-        
-        <a href="https://themultivac.substack.com" class="cta-button">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-            </svg>
-            Read on Substack
-        </a>
-        
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-value">10+</div>
-                <div class="stat-label">Models Tested</div>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="logo">🔮</div>
+            <h1>The Multivac</h1>
+            <p class="tagline">Daily AI Oracle</p>
+            
+            <p class="description">
+                <strong>One question.</strong> All frontier AI models. 
+                <strong>Blind evaluation.</strong> No favoritism.
+                <strong>Daily.</strong> Fresh questions that can't be memorized.
+            </p>
+            
+            <a href="https://themultivac.substack.com" class="cta-button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                </svg>
+                Read on Substack
+            </a>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">10+</div>
+                    <div class="stat-label">Models Tested</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">Daily</div>
+                    <div class="stat-label">New Questions</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Blind Evaluation</div>
+                </div>
             </div>
-            <div class="stat">
-                <div class="stat-value">Daily</div>
-                <div class="stat-label">New Questions</div>
+        </section>
+        
+        <!-- Questions Archive Section -->
+        <section class="questions-section">
+            <div class="section-header">
+                <h2 class="section-title">Questions Archive</h2>
+                <div class="sort-dropdown" id="sortDropdown">
+                    <button class="sort-button" onclick="toggleSort()">
+                        <span id="sortLabel">Newest to Oldest</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="sort-menu">
+                        <button class="sort-option active" onclick="setSortOrder('newest')">Newest to Oldest</button>
+                        <button class="sort-option" onclick="setSortOrder('oldest')">Oldest to Newest</button>
+                    </div>
+                </div>
             </div>
-            <div class="stat">
-                <div class="stat-value">100%</div>
-                <div class="stat-label">Blind Evaluation</div>
+            
+            <div class="questions-list" id="questionsList">
+                <!-- Question cards will be rendered here by JavaScript -->
             </div>
-        </div>
+        </section>
         
         <div class="quote">
             <p>"The last question was asked for the first time, half in jest... 
@@ -252,5 +521,106 @@
     <footer>
         Anonymous evaluation. Transparent methodology. No affiliations.
     </footer>
+    
+    <script>
+        // Questions data - add new questions here
+        const questions = [
+            {
+                number: 1,
+                date: "2025-12-23",
+                question: "What are Space-based Data Centres?",
+                link: "https://substack.com/home/post/p-182405353"
+            }
+            // Add more questions here:
+            // {
+            //     number: 2,
+            //     date: "2025-01-24",
+            //     question: "Your question here",
+            //     link: "https://link-to-evaluation"
+            // }
+        ];
+        
+        let sortOrder = 'newest'; // 'newest' or 'oldest'
+        
+        // Toggle sort dropdown
+        function toggleSort() {
+            document.getElementById('sortDropdown').classList.toggle('open');
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('sortDropdown');
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+        
+        // Set sort order
+        function setSortOrder(order) {
+            sortOrder = order;
+            
+            // Update button label
+            document.getElementById('sortLabel').textContent = 
+                order === 'newest' ? 'Newest to Oldest' : 'Oldest to Newest';
+            
+            // Update active state
+            document.querySelectorAll('.sort-option').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Close dropdown
+            document.getElementById('sortDropdown').classList.remove('open');
+            
+            // Re-render questions
+            renderQuestions();
+        }
+        
+        // Format date nicely
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const day = date.getDate();
+            const month = date.toLocaleDateString('en-US', { month: 'long' });
+            const year = date.getFullYear();
+            return `${day}-${month}, ${year}`;
+        }
+        
+        // Render questions
+        function renderQuestions() {
+            const container = document.getElementById('questionsList');
+            
+            if (questions.length === 0) {
+                container.innerHTML = '<div class="empty-state">No questions yet. Check back soon!</div>';
+                return;
+            }
+            
+            // Sort questions
+            const sorted = [...questions].sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+            });
+            
+            // Render
+            container.innerHTML = sorted.map(q => `
+                <a href="${q.link}" target="_blank" rel="noopener" class="question-card">
+                    <div class="question-meta">
+                        <span class="question-number">Q${String(q.number).padStart(3, '0')}</span>
+                        <span class="question-date">${formatDate(q.date)}</span>
+                    </div>
+                    <p class="question-text">${q.question}</p>
+                    <span class="question-link">
+                        Read Evaluation
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </span>
+                </a>
+            `).join('');
+        }
+        
+        // Initial render
+        renderQuestions();
+    </script>
 </body>
 </html>
