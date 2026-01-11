@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Multivac | Daily AI Oracle</title>
     <meta name="description" content="One question. All frontier AI models. Blind evaluation. Daily.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%236366f1'/></svg>">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -80,19 +80,8 @@
         
         /* Hero Section */
         .hero {
-            padding-top: 2rem;
+            padding-top: 3rem;
             padding-bottom: 3rem;
-        }
-        
-        .logo {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            animation: pulse 3s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.05); }
         }
         
         h1 {
@@ -449,7 +438,6 @@
     <div class="container">
         <!-- Hero Section -->
         <section class="hero">
-            <div class="logo">🔮</div>
             <h1>The Multivac</h1>
             <p class="tagline">Daily AI Oracle</p>
             
@@ -602,6 +590,48 @@
                 date: "2026-01-04",
                 question: "Why studying Thermodynamics is important to understand reality?",
                 link: "https://open.substack.com/pub/themultivac/p/why-studying-thermodynamics-is-important?r=72olj0&utm_campaign=post&utm_medium=web"
+            },
+            {
+                number: 14,
+                date: "2026-01-05",
+                question: "Why there isn't much progress in Fundamentals of Physics in past two years?",
+                link: "https://themultivac.substack.com/p/why-there-isnt-much-progress-in-fundamentals"
+            },
+            {
+                number: 15,
+                date: "2026-01-06",
+                question: "What are World Models?",
+                link: "https://themultivac.substack.com/p/what-are-world-models"
+            },
+            {
+                number: 16,
+                date: "2026-01-07",
+                question: "What are Neuromorphic Hardware?",
+                link: "https://themultivac.substack.com/p/what-are-neuromorphic-hardware"
+            },
+            {
+                number: 17,
+                date: "2026-01-08",
+                question: "How Important is Edge AI?",
+                link: "https://themultivac.substack.com/p/how-important-is-edge-ai"
+            },
+            {
+                number: 18,
+                date: "2026-01-09",
+                question: "Spatio Temporal Representation Learning",
+                link: "https://themultivac.substack.com/p/spatio-temporal-representation-learning"
+            },
+            {
+                number: 19,
+                date: "2026-01-10",
+                question: "Why Are We Back At Age Of Research After Age of Scaling [2019-2025]?",
+                link: "https://themultivac.substack.com/p/why-are-we-back-at-age-of-research"
+            },
+            {
+                number: 20,
+                date: "2026-01-11",
+                question: "Why Llama Models Underperformed?",
+                link: "https://themultivac.substack.com/p/why-llama-models-underperformed"
             }
         ];
         
@@ -646,7 +676,7 @@
             const [year, month, day] = dateStr.split('-');
             const months = ['January', 'February', 'March', 'April', 'May', 'June', 
                             'July', 'August', 'September', 'October', 'November', 'December'];
-            return `${parseInt(day)}-${months[parseInt(month) - 1]}, ${year}`;
+            return `${parseInt(day)}—${months[parseInt(month) - 1]}, ${year}`;
         }
         
         // Render questions
