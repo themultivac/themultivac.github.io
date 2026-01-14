@@ -679,10 +679,10 @@
         <!-- Phase 2 Content -->
         <div class="phase-content active" id="phase2">
             <div class="phase-header phase-2">
-                <h3 class="phase-title">🔮 Phase 2: 10×10 Peer Matrix Evaluation</h3>
+                <h3 class="phase-title">Phase 2: 10x10 Peer Matrix Evaluation</h3>
                 <p class="phase-description">
                     All 10 frontier models answer the same question. Then all 10 models judge all 10 responses — 100 total judgments per evaluation. No single-judge bias. 
-                    <a href="about.html">Learn more about the methodology →</a>
+                    <a href="about.html">Learn more about the methodology</a>
                 </p>
             </div>
             
@@ -700,7 +700,7 @@
         <!-- Phase 1 Content -->
         <div class="phase-content" id="phase1">
             <div class="phase-header">
-                <h3 class="phase-title">📚 Phase 1: Foundation Questions</h3>
+                <h3 class="phase-title">Phase 1: Foundation Questions</h3>
                 <p class="phase-description">
                     Daily questions exploring AI capabilities across knowledge domains. Each model's response published in full — you be the judge.
                 </p>
@@ -880,6 +880,16 @@
         // Phase 2 Questions (10x10 Matrix Evaluations)
         const phase2Questions = [
             {
+                id: "REASON-001",
+                date: "2026-01-14",
+                category: "REASONING",
+                title: "The Two Envelope Paradox",
+                subtitle: "You find $100 in envelope A. Expected value of switching = $125. But this logic works for ANY amount. What's the flaw?",
+                link: "https://substack.com/home/post/p-184577394",
+                winner: "Claude Opus 4.5",
+                winnerScore: "9.24"
+            },
+            {
                 id: "CODE-001",
                 date: "2026-01-13",
                 category: "CODE",
@@ -984,7 +994,7 @@
                         <span class="question-number phase-2">${q.id}</span>
                         <span class="question-category">${q.category}</span>
                         <span class="question-date">${formatDate(q.date)}</span>
-                        ${q.winner ? `<span class="winner-badge">🥇 ${q.winner} (${q.winnerScore})</span>` : ''}
+                        ${q.winner ? `<span class="winner-badge">1st ${q.winner} (${q.winnerScore})</span>` : ''}
                     </div>
                     <p class="question-text">${q.title}</p>
                     <p class="question-subtitle">${q.subtitle}</p>
