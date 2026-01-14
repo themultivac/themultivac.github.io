@@ -39,6 +39,8 @@
             --text-secondary: #9090a0;
             --accent: #6366f1;
             --accent-glow: rgba(99, 102, 241, 0.3);
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
             --font-display: 'Ailerons', 'Outfit', sans-serif;
             --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
             --font-mono: 'Space Mono', monospace;
@@ -73,7 +75,7 @@
         }
         
         .container {
-            max-width: 700px;
+            max-width: 800px;
             width: 100%;
             text-align: center;
         }
@@ -120,6 +122,13 @@
             font-weight: 500;
         }
         
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
         .cta-button {
             display: inline-flex;
             align-items: center;
@@ -140,6 +149,17 @@
         .cta-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 30px var(--accent-glow);
+        }
+        
+        .cta-button.secondary {
+            background: transparent;
+            border: 1px solid var(--accent);
+            box-shadow: none;
+        }
+        
+        .cta-button.secondary:hover {
+            background: rgba(99, 102, 241, 0.1);
+            box-shadow: 0 4px 20px var(--accent-glow);
         }
         
         .cta-button svg {
@@ -177,9 +197,115 @@
             letter-spacing: 0.1em;
         }
         
+        /* Phase Tabs */
+        .phase-tabs {
+            display: flex;
+            gap: 0;
+            margin-top: 4rem;
+            margin-bottom: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .phase-tab {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .phase-tab:hover {
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .phase-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        .phase-tab .tab-badge {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            font-size: 0.65rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+        
+        .phase-tab .tab-badge.new {
+            background: var(--accent-green);
+            color: white;
+        }
+        
+        .phase-tab .tab-badge.complete {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+        }
+        
+        /* Phase Content */
+        .phase-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .phase-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Phase Header */
+        .phase-header {
+            padding: 2rem;
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent);
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .phase-header.phase-2 {
+            border-left-color: var(--accent-green);
+        }
+        
+        .phase-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .phase-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .phase-description a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .phase-description a:hover {
+            text-decoration: underline;
+        }
+        
         /* Questions Archive Section */
         .questions-section {
-            margin-top: 4rem;
             text-align: left;
             width: 100%;
         }
@@ -305,11 +431,16 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
         
+        .question-card.phase-2-card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        
         .question-meta {
             display: flex;
             align-items: center;
             gap: 1rem;
             margin-bottom: 0.75rem;
+            flex-wrap: wrap;
         }
         
         .question-number {
@@ -320,6 +451,22 @@
             padding: 0.25rem 0.5rem;
             border-radius: 4px;
             letter-spacing: 0.05em;
+        }
+        
+        .question-number.phase-2 {
+            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.15);
+        }
+        
+        .question-category {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-orange);
+            background: rgba(245, 158, 11, 0.15);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
         
         .question-date {
@@ -333,6 +480,13 @@
             font-size: 1.1rem;
             font-weight: 500;
             color: var(--text-primary);
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+        
+        .question-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
             line-height: 1.5;
             margin-bottom: 0.75rem;
         }
@@ -348,6 +502,10 @@
             transition: gap 0.2s ease;
         }
         
+        .question-card.phase-2-card .question-link {
+            color: var(--accent-green);
+        }
+        
         .question-card:hover .question-link {
             gap: 0.75rem;
         }
@@ -355,6 +513,20 @@
         .question-link svg {
             width: 14px;
             height: 14px;
+        }
+        
+        /* Winner Badge */
+        .winner-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-orange);
+            background: rgba(245, 158, 11, 0.1);
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            margin-left: auto;
         }
         
         /* Quote Section */
@@ -431,6 +603,20 @@
             .question-card {
                 padding: 1.25rem;
             }
+            .phase-tabs {
+                flex-direction: column;
+            }
+            .phase-tab {
+                border-bottom: none;
+                border-left: 3px solid transparent;
+            }
+            .phase-tab.active {
+                border-bottom: none;
+                border-left-color: var(--accent);
+            }
+            .cta-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -447,21 +633,29 @@
                 <strong>Daily.</strong> Fresh questions that can't be memorized.
             </p>
             
-            <a href="https://themultivac.substack.com" class="cta-button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                </svg>
-                Read on Substack
-            </a>
+            <div class="cta-buttons">
+                <a href="https://themultivac.substack.com" class="cta-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                    Read on Substack
+                </a>
+                <a href="about.html" class="cta-button secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    About & Methodology
+                </a>
+            </div>
             
             <div class="stats">
                 <div class="stat">
-                    <div class="stat-value">10+</div>
+                    <div class="stat-value">10</div>
                     <div class="stat-label">Models Tested</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">Daily</div>
-                    <div class="stat-label">New Questions</div>
+                    <div class="stat-value">100</div>
+                    <div class="stat-label">Judgments/Eval</div>
                 </div>
                 <div class="stat">
                     <div class="stat-value">100%</div>
@@ -470,28 +664,70 @@
             </div>
         </section>
         
-        <!-- Questions Archive Section -->
-        <section class="questions-section">
-            <div class="section-header">
-                <h2 class="section-title">Questions Archive</h2>
-                <div class="sort-dropdown" id="sortDropdown">
-                    <button class="sort-button" onclick="toggleSort()">
-                        <span id="sortLabel">Newest to Oldest</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    <div class="sort-menu">
-                        <button class="sort-option active" onclick="setSortOrder('newest')">Newest to Oldest</button>
-                        <button class="sort-option" onclick="setSortOrder('oldest')">Oldest to Newest</button>
-                    </div>
-                </div>
+        <!-- Phase Tabs -->
+        <div class="phase-tabs">
+            <button class="phase-tab" onclick="switchPhase('phase1')" id="tab-phase1">
+                Phase 1
+                <span class="tab-badge complete">21 Questions</span>
+            </button>
+            <button class="phase-tab active" onclick="switchPhase('phase2')" id="tab-phase2">
+                Phase 2
+                <span class="tab-badge new">NEW</span>
+            </button>
+        </div>
+        
+        <!-- Phase 2 Content -->
+        <div class="phase-content active" id="phase2">
+            <div class="phase-header phase-2">
+                <h3 class="phase-title">🔮 Phase 2: 10×10 Peer Matrix Evaluation</h3>
+                <p class="phase-description">
+                    All 10 frontier models answer the same question. Then all 10 models judge all 10 responses — 100 total judgments per evaluation. No single-judge bias. 
+                    <a href="about.html">Learn more about the methodology →</a>
+                </p>
             </div>
             
-            <div class="questions-list" id="questionsList">
-                <!-- Question cards will be rendered here by JavaScript -->
+            <section class="questions-section">
+                <div class="section-header">
+                    <h2 class="section-title">Evaluations</h2>
+                </div>
+                
+                <div class="questions-list" id="phase2List">
+                    <!-- Phase 2 questions rendered by JS -->
+                </div>
+            </section>
+        </div>
+        
+        <!-- Phase 1 Content -->
+        <div class="phase-content" id="phase1">
+            <div class="phase-header">
+                <h3 class="phase-title">📚 Phase 1: Foundation Questions</h3>
+                <p class="phase-description">
+                    Daily questions exploring AI capabilities across knowledge domains. Each model's response published in full — you be the judge.
+                </p>
             </div>
-        </section>
+            
+            <section class="questions-section">
+                <div class="section-header">
+                    <h2 class="section-title">Questions Archive</h2>
+                    <div class="sort-dropdown" id="sortDropdown">
+                        <button class="sort-button" onclick="toggleSort()">
+                            <span id="sortLabel">Newest to Oldest</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="sort-menu">
+                            <button class="sort-option active" onclick="setSortOrder('newest')">Newest to Oldest</button>
+                            <button class="sort-option" onclick="setSortOrder('oldest')">Oldest to Newest</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="questions-list" id="questionsList">
+                    <!-- Phase 1 questions rendered by JS -->
+                </div>
+            </section>
+        </div>
         
         <div class="quote">
             <p>"The last question was asked for the first time, half in jest... 
@@ -500,7 +736,7 @@
         </div>
         
         <div class="links">
-            <a href="https://themultivac.substack.com/about">Methodology</a>
+            <a href="about.html">Methodology</a>
             <a href="https://github.com/themultivac">GitHub</a>
             <a href="https://x.com/themultivac">X / Twitter</a>
         </div>
@@ -511,8 +747,8 @@
     </footer>
     
     <script>
-        // Questions data - add new questions here
-        const questions = [
+        // Phase 1 Questions
+        const phase1Questions = [
             {
                 number: 1,
                 date: "2025-12-23",
@@ -553,43 +789,43 @@
                 number: 7,
                 date: "2025-12-29",
                 question: "Present The Strongest Argument Against LLMs as a stepping stone to AGI.",
-                link: "https://open.substack.com/pub/themultivac/p/present-the-strongest-argument-against?r=72olj0&utm_campaign=post&utm_medium=web"
+                link: "https://open.substack.com/pub/themultivac/p/present-the-strongest-argument-against"
             },
             {
                 number: 8,
                 date: "2025-12-30",
                 question: "What are the tradeoffs between General Intelligence and Universal Intelligence approaches?",
-                link: "https://open.substack.com/pub/themultivac/p/what-are-the-tradeoffs-between-general?r=72olj0&utm_campaign=post&utm_medium=web"
+                link: "https://open.substack.com/pub/themultivac/p/what-are-the-tradeoffs-between-general"
             },
             {
                 number: 9,
                 date: "2025-12-31",
                 question: "Explain Game Theory In a way A 5 Year Old would understand.",
-                link: "https://open.substack.com/pub/themultivac/p/explain-game-theory-in-a-way-a-5?r=72olj0&utm_campaign=post&utm_medium=web"
+                link: "https://open.substack.com/pub/themultivac/p/explain-game-theory-in-a-way-a-5"
             },
             {
                 number: 10,
                 date: "2026-01-01",
                 question: "What is Nano Technology and Who are the key players?",
-                link: "https://open.substack.com/pub/themultivac/p/what-is-nano-technology-and-who-are?r=72olj0&utm_campaign=post&utm_medium=web"
+                link: "https://open.substack.com/pub/themultivac/p/what-is-nano-technology-and-who-are"
             },
             {
                 number: 11,
                 date: "2026-01-02",
                 question: "Bitcoin: A First Principles Approach",
-                link: "https://open.substack.com/pub/themultivac/p/bitcoin-a-first-principles-approach?r=72olj0&utm_campaign=post&utm_medium=web"
+                link: "https://open.substack.com/pub/themultivac/p/bitcoin-a-first-principles-approach"
             },
             {
                 number: 12,
                 date: "2026-01-03",
                 question: "Eric Drexler & Engines of Creation Book",
-                link: "https://open.substack.com/pub/themultivac/p/eric-drexler-and-engines-of-creation?r=72olj0&utm_campaign=post&utm_medium=web"
+                link: "https://open.substack.com/pub/themultivac/p/eric-drexler-and-engines-of-creation"
             },
             {
                 number: 13,
                 date: "2026-01-04",
                 question: "Why studying Thermodynamics is important to understand reality?",
-                link: "https://open.substack.com/pub/themultivac/p/why-studying-thermodynamics-is-important?r=72olj0&utm_campaign=post&utm_medium=web"
+                link: "https://open.substack.com/pub/themultivac/p/why-studying-thermodynamics-is-important"
             },
             {
                 number: 14,
@@ -632,10 +868,41 @@
                 date: "2026-01-11",
                 question: "Why Llama Models Underperformed?",
                 link: "https://themultivac.substack.com/p/why-llama-models-underperformed"
+            },
+            {
+                number: 21,
+                date: "2026-01-12",
+                question: "Recent Advancements Till 2026 Aligned With Situational Awareness by Leopold Aschenbrenner",
+                link: "https://substack.com/home/post/p-184373961"
             }
         ];
         
-        let sortOrder = 'newest'; // 'newest' or 'oldest'
+        // Phase 2 Questions (10x10 Matrix Evaluations)
+        const phase2Questions = [
+            {
+                id: "CODE-001",
+                date: "2026-01-13",
+                category: "CODE",
+                title: "Async Bug Hunt",
+                subtitle: "Find three hidden bugs in Python async code: a race condition, unhandled exception, and resource leak.",
+                link: "https://substack.com/home/post/p-184501465",
+                winner: "Claude Opus 4.5",
+                winnerScore: "9.49"
+            }
+        ];
+        
+        let sortOrder = 'newest';
+        
+        // Switch between phases
+        function switchPhase(phase) {
+            // Update tabs
+            document.querySelectorAll('.phase-tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById('tab-' + phase).classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.phase-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(phase).classList.add('active');
+        }
         
         // Toggle sort dropdown
         function toggleSort() {
@@ -645,7 +912,7 @@
         // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
             const dropdown = document.getElementById('sortDropdown');
-            if (!dropdown.contains(e.target)) {
+            if (dropdown && !dropdown.contains(e.target)) {
                 dropdown.classList.remove('open');
             }
         });
@@ -653,49 +920,32 @@
         // Set sort order
         function setSortOrder(order) {
             sortOrder = order;
-            
-            // Update button label
             document.getElementById('sortLabel').textContent = 
                 order === 'newest' ? 'Newest to Oldest' : 'Oldest to Newest';
-            
-            // Update active state
-            document.querySelectorAll('.sort-option').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            document.querySelectorAll('.sort-option').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            
-            // Close dropdown
             document.getElementById('sortDropdown').classList.remove('open');
-            
-            // Re-render questions
-            renderQuestions();
+            renderPhase1Questions();
         }
         
-        // Format date nicely
+        // Format date
         function formatDate(dateStr) {
             const [year, month, day] = dateStr.split('-');
             const months = ['January', 'February', 'March', 'April', 'May', 'June', 
                             'July', 'August', 'September', 'October', 'November', 'December'];
-            return `${parseInt(day)}—${months[parseInt(month) - 1]}, ${year}`;
+            return `${parseInt(day)} ${months[parseInt(month) - 1]}, ${year}`;
         }
         
-        // Render questions
-        function renderQuestions() {
+        // Render Phase 1 Questions
+        function renderPhase1Questions() {
             const container = document.getElementById('questionsList');
             
-            if (questions.length === 0) {
-                container.innerHTML = '<div class="empty-state">No questions yet. Check back soon!</div>';
-                return;
-            }
-            
-            // Sort questions
-            const sorted = [...questions].sort((a, b) => {
+            const sorted = [...phase1Questions].sort((a, b) => {
                 const dateA = new Date(a.date);
                 const dateB = new Date(b.date);
                 return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
             });
             
-            // Render
             container.innerHTML = sorted.map(q => `
                 <a href="${q.link}" target="_blank" rel="noopener" class="question-card">
                     <div class="question-meta">
@@ -713,8 +963,44 @@
             `).join('');
         }
         
+        // Render Phase 2 Questions
+        function renderPhase2Questions() {
+            const container = document.getElementById('phase2List');
+            
+            if (phase2Questions.length === 0) {
+                container.innerHTML = '<div class="empty-state">Phase 2 evaluations coming soon!</div>';
+                return;
+            }
+            
+            const sorted = [...phase2Questions].sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return dateB - dateA; // Always newest first for Phase 2
+            });
+            
+            container.innerHTML = sorted.map(q => `
+                <a href="${q.link}" target="_blank" rel="noopener" class="question-card phase-2-card">
+                    <div class="question-meta">
+                        <span class="question-number phase-2">${q.id}</span>
+                        <span class="question-category">${q.category}</span>
+                        <span class="question-date">${formatDate(q.date)}</span>
+                        ${q.winner ? `<span class="winner-badge">🥇 ${q.winner} (${q.winnerScore})</span>` : ''}
+                    </div>
+                    <p class="question-text">${q.title}</p>
+                    <p class="question-subtitle">${q.subtitle}</p>
+                    <span class="question-link">
+                        View Results
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </span>
+                </a>
+            `).join('');
+        }
+        
         // Initial render
-        renderQuestions();
+        renderPhase1Questions();
+        renderPhase2Questions();
     </script>
 </body>
 </html>
