@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About & Methodology | The Multivac</title>
-    <meta name="description" content="How The Multivac evaluates AI models: Phase 1 foundation questions and Phase 2 10×10 peer matrix evaluation.">
+    <meta name="description" content="How The Multivac evaluates AI models: Phase 1 foundation questions and Phase 2 10×10 peer matrix evaluation with category-specific model pools.">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%236366f1'/></svg>">
     
     <!-- Fonts -->
@@ -41,6 +41,8 @@
             --accent-green: #10b981;
             --accent-orange: #f59e0b;
             --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
             --font-display: 'Ailerons', 'Outfit', sans-serif;
             --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
             --font-mono: 'Space Mono', monospace;
@@ -74,7 +76,7 @@
         }
         
         .container {
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
         }
         
@@ -335,42 +337,94 @@
             color: var(--accent);
         }
         
-        /* Model List */
-        .model-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        /* Category Model Pools */
+        .category-pools {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .category-pool {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .category-pool.code { border-left-color: var(--accent-blue); }
+        .category-pool.reasoning { border-left-color: var(--accent-purple); }
+        .category-pool.analysis { border-left-color: var(--accent-green); }
+        .category-pool.communication { border-left-color: var(--accent-orange); }
+        .category-pool.meta { border-left-color: var(--accent-red); }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
             gap: 1rem;
-            margin: 1.5rem 0;
+            margin-bottom: 1rem;
+        }
+        
+        .category-icon {
+            font-size: 1.5rem;
+        }
+        
+        .category-title {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+        }
+        
+        .category-day {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            background: rgba(255,255,255,0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+        
+        .category-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .model-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.5rem;
         }
         
         .model-item {
-            background: var(--bg-tertiary);
-            padding: 1rem;
-            border-radius: 8px;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            font-size: 0.85rem;
         }
         
-        .model-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
+        .model-rank {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            min-width: 20px;
         }
         
         .model-name {
-            font-weight: 500;
             color: var(--text-primary);
-            font-size: 0.9rem;
+            font-weight: 500;
         }
         
         .model-provider {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-secondary);
+            margin-left: auto;
         }
         
         /* Quote */
@@ -496,6 +550,7 @@
             .nav-links { gap: 1rem; }
             .matrix-grid { grid-template-columns: repeat(4, 1fr); }
             .matrix-cell { width: 30px; height: 30px; }
+            .model-list { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -515,7 +570,7 @@
         <header class="page-header">
             <h1>About & Methodology</h1>
             <p class="page-subtitle">
-                How The Multivac evaluates frontier AI models through blind, rigorous, daily testing — and why we evolved from single questions to peer matrix evaluation.
+                How The Multivac evaluates frontier AI models through blind, rigorous, daily testing — using category-specific model pools and peer matrix evaluation.
             </p>
         </header>
         
@@ -548,43 +603,26 @@
                 <p>
                     Each question was posed to multiple frontier models. Their raw responses were published in full, allowing readers to compare and judge for themselves.
                 </p>
-                
-                <ul class="feature-list">
-                    <li>
-                        <span class="feature-icon">📚</span>
-                        <div class="feature-text">
-                            <strong>Knowledge Exploration</strong>
-                            <span>Questions spanning thermodynamics, nanotechnology, game theory, world models, and AI scaling laws</span>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="feature-icon">🎯</span>
-                        <div class="feature-text">
-                            <strong>Full Transparency</strong>
-                            <span>Complete, unedited model responses published for reader evaluation</span>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="feature-icon">🔬</span>
-                        <div class="feature-text">
-                            <strong>Capability Mapping</strong>
-                            <span>Understanding where models excel and where they struggle</span>
-                        </div>
-                    </li>
-                </ul>
             </div>
             
             <div class="phase-card phase-2">
                 <span class="phase-badge phase-2">Phase 2 • Active</span>
                 <h3>10×10 Peer Matrix Evaluation</h3>
                 <p>
-                    Starting January 13, 2026, we upgraded to a rigorous evaluation framework: <strong>10 frontier models answer each question, then all 10 models judge all 10 responses</strong> — 100 total judgments per evaluation.
+                    Starting January 13, 2026, we upgraded to a rigorous evaluation framework with <strong>category-specific model pools</strong>. Each category (Code, Reasoning, Analysis, Communication, Edge Cases) has its own optimized pool of 10 models based on OpenRouter rankings.
                 </p>
                 <p>
-                    This eliminates single-judge bias (a problem with benchmarks that use GPT-4 as the sole evaluator) and generates rich meta-data about which models are strictest, most lenient, and most consistent.
+                    All 10 models answer each question, then <strong>all 10 models judge all 10 responses</strong> — 100 total judgments per evaluation. This eliminates single-judge bias.
                 </p>
                 
                 <ul class="feature-list">
+                    <li>
+                        <span class="feature-icon">🎯</span>
+                        <div class="feature-text">
+                            <strong>Category-Optimized Pools</strong>
+                            <span>Code questions judged by coding-focused models. Reasoning questions by reasoning specialists.</span>
+                        </div>
+                    </li>
                     <li>
                         <span class="feature-icon">🔮</span>
                         <div class="feature-text">
@@ -606,24 +644,137 @@
                             <span>Track which models are strictest judges, most lenient, most consistent</span>
                         </div>
                     </li>
-                    <li>
-                        <span class="feature-icon">📅</span>
-                        <div class="feature-text">
-                            <strong>Structured Categories</strong>
-                            <span>Code (Mon), Reasoning (Tue), Analysis (Wed), Communication (Thu), Edge Cases (Fri), Meta/Alignment (Sat)</span>
-                        </div>
-                    </li>
                 </ul>
+            </div>
+        </section>
+        
+        <!-- Category Model Pools -->
+        <section>
+            <h2>Category Model Pools</h2>
+            <p>
+                Each category uses a specialized pool of 10 models optimized for that domain, based on OpenRouter's category rankings and our testing.
+            </p>
+            
+            <div class="category-pools">
+                <!-- Code -->
+                <div class="category-pool code">
+                    <div class="category-header">
+                        <span class="category-icon">💻</span>
+                        <span class="category-title">Programming & Code</span>
+                        <span class="category-day">Monday</span>
+                    </div>
+                    <p class="category-description">Software engineering, debugging, code review, and agentic coding tasks</p>
+                    <div class="model-list">
+                        <div class="model-item"><span class="model-rank">#1</span><span class="model-name">Grok Code Fast 1</span><span class="model-provider">xAI</span></div>
+                        <div class="model-item"><span class="model-rank">#2</span><span class="model-name">Claude Opus 4.5</span><span class="model-provider">Anthropic</span></div>
+                        <div class="model-item"><span class="model-rank">#3</span><span class="model-name">Gemini 3 Flash</span><span class="model-provider">Google</span></div>
+                        <div class="model-item"><span class="model-rank">#4</span><span class="model-name">Claude Sonnet 4.5</span><span class="model-provider">Anthropic</span></div>
+                        <div class="model-item"><span class="model-rank">#5</span><span class="model-name">Gemini 3 Pro</span><span class="model-provider">Google</span></div>
+                        <div class="model-item"><span class="model-rank">#6</span><span class="model-name">MiniMax M2.1</span><span class="model-provider">MiniMax</span></div>
+                        <div class="model-item"><span class="model-rank">#7</span><span class="model-name">GLM 4.7</span><span class="model-provider">Z.AI</span></div>
+                        <div class="model-item"><span class="model-rank">#8</span><span class="model-name">DeepSeek V3.2</span><span class="model-provider">DeepSeek</span></div>
+                        <div class="model-item"><span class="model-rank">#9</span><span class="model-name">GPT-5.2-Codex</span><span class="model-provider">OpenAI</span></div>
+                        <div class="model-item"><span class="model-rank">#10</span><span class="model-name">Grok 3</span><span class="model-provider">xAI</span></div>
+                    </div>
+                </div>
+                
+                <!-- Reasoning -->
+                <div class="category-pool reasoning">
+                    <div class="category-header">
+                        <span class="category-icon">🧠</span>
+                        <span class="category-title">Reasoning & Logic</span>
+                        <span class="category-day">Tuesday</span>
+                    </div>
+                    <p class="category-description">Logical reasoning, scientific thinking, mathematics, and complex problem solving</p>
+                    <div class="model-list">
+                        <div class="model-item"><span class="model-rank">#1</span><span class="model-name">MiMo-V2-Flash</span><span class="model-provider">Xiaomi</span></div>
+                        <div class="model-item"><span class="model-rank">#2</span><span class="model-name">Gemini 3 Flash</span><span class="model-provider">Google</span></div>
+                        <div class="model-item"><span class="model-rank">#3</span><span class="model-name">Claude Sonnet 4.5</span><span class="model-provider">Anthropic</span></div>
+                        <div class="model-item"><span class="model-rank">#4</span><span class="model-name">DeepSeek V3.2</span><span class="model-provider">DeepSeek</span></div>
+                        <div class="model-item"><span class="model-rank">#5</span><span class="model-name">Claude Opus 4.5</span><span class="model-provider">Anthropic</span></div>
+                        <div class="model-item"><span class="model-rank">#6</span><span class="model-name">Gemini 3 Pro</span><span class="model-provider">Google</span></div>
+                        <div class="model-item"><span class="model-rank">#7</span><span class="model-name">Gemini 2.5 Flash</span><span class="model-provider">Google</span></div>
+                        <div class="model-item"><span class="model-rank">#8</span><span class="model-name">GPT-OSS-120B</span><span class="model-provider">OpenAI</span></div>
+                        <div class="model-item"><span class="model-rank">#9</span><span class="model-name">Olmo 3.1 32B Think</span><span class="model-provider">AllenAI</span></div>
+                        <div class="model-item"><span class="model-rank">#10</span><span class="model-name">Grok 3</span><span class="model-provider">xAI</span></div>
+                    </div>
+                </div>
+                
+                <!-- Analysis -->
+                <div class="category-pool analysis">
+                    <div class="category-header">
+                        <span class="category-icon">📊</span>
+                        <span class="category-title">Analysis & Research</span>
+                        <span class="category-day">Wednesday</span>
+                    </div>
+                    <p class="category-description">Data analysis, financial modeling, academic research, and document review</p>
+                    <div class="model-list">
+                        <div class="model-item"><span class="model-rank">#1</span><span class="model-name">MiMo-V2-Flash</span><span class="model-provider">Xiaomi</span></div>
+                        <div class="model-item"><span class="model-rank">#2</span><span class="model-name">Gemini 3 Flash</span><span class="model-provider">Google</span></div>
+                        <div class="model-item"><span class="model-rank">#3</span><span class="model-name">Gemini 2.5 Flash</span><span class="model-provider">Google</span></div>
+                        <div class="model-item"><span class="model-rank">#4</span><span class="model-name">GPT-OSS-120B</span><span class="model-provider">OpenAI</span></div>
+                        <div class="model-item"><span class="model-rank">#5</span><span class="model-name">DeepSeek V3.2</span><span class="model-provider">DeepSeek</span></div>
+                        <div class="model-item"><span class="model-rank">#6</span><span class="model-name">Claude Sonnet 4.5</span><span class="model-provider">Anthropic</span></div>
+                        <div class="model-item"><span class="model-rank">#7</span><span class="model-name">Claude Opus 4.5</span><span class="model-provider">Anthropic</span></div>
+                        <div class="model-item"><span class="model-rank">#8</span><span class="model-name">GPT-OSS-120B</span><span class="model-provider">OpenAI</span></div>
+                        <div class="model-item"><span class="model-rank">#9</span><span class="model-name">Gemini 3 Pro</span><span class="model-provider">Google</span></div>
+                        <div class="model-item"><span class="model-rank">#10</span><span class="model-name">Grok 4.1 Fast</span><span class="model-provider">xAI</span></div>
+                    </div>
+                </div>
+                
+                <!-- Communication -->
+                <div class="category-pool communication">
+                    <div class="category-header">
+                        <span class="category-icon">💬</span>
+                        <span class="category-title">Communication & Writing</span>
+                        <span class="category-day">Thursday</span>
+                    </div>
+                    <p class="category-description">Marketing copy, translation, creative writing, and interpersonal communication</p>
+                    <div class="model-list">
+                        <div class="model-item"><span class="model-rank">#1</span><span class="model-name">Gemini 2.5 Flash-Lite</span><span class="model-provider">Google</span></div>
+                        <div class="model-item"><span class="model-rank">#2</span><span class="model-name">Seed 1.6 Flash</span><span class="model-provider">ByteDance</span></div>
+                        <div class="model-item"><span class="model-rank">#3</span><span class="model-name">Gemini 2.5 Flash</span><span class="model-provider">Google</span></div>
+                        <div class="model-item"><span class="model-rank">#4</span><span class="model-name">GPT-OSS-120B</span><span class="model-provider">OpenAI</span></div>
+                        <div class="model-item"><span class="model-rank">#5</span><span class="model-name">Grok 4.1 Fast</span><span class="model-provider">xAI</span></div>
+                        <div class="model-item"><span class="model-rank">#6</span><span class="model-name">DeepSeek V3.2</span><span class="model-provider">DeepSeek</span></div>
+                        <div class="model-item"><span class="model-rank">#7</span><span class="model-name">GLM 4.7</span><span class="model-provider">Z.AI</span></div>
+                        <div class="model-item"><span class="model-rank">#8</span><span class="model-name">Claude Sonnet 4.5</span><span class="model-provider">Anthropic</span></div>
+                        <div class="model-item"><span class="model-rank">#9</span><span class="model-name">Claude Opus 4.5</span><span class="model-provider">Anthropic</span></div>
+                        <div class="model-item"><span class="model-rank">#10</span><span class="model-name">Mistral Small Creative</span><span class="model-provider">Mistral</span></div>
+                    </div>
+                </div>
+                
+                <!-- Meta/Alignment -->
+                <div class="category-pool meta">
+                    <div class="category-header">
+                        <span class="category-icon">🎯</span>
+                        <span class="category-title">Meta & Alignment / Edge Cases</span>
+                        <span class="category-day">Friday & Saturday</span>
+                    </div>
+                    <p class="category-description">AI alignment, safety, edge cases, and meta-level reasoning about AI systems</p>
+                    <div class="model-list">
+                        <div class="model-item"><span class="model-rank">#1</span><span class="model-name">Claude Opus 4.5</span><span class="model-provider">Anthropic</span></div>
+                        <div class="model-item"><span class="model-rank">#2</span><span class="model-name">Gemini 3 Pro</span><span class="model-provider">Google</span></div>
+                        <div class="model-item"><span class="model-rank">#3</span><span class="model-name">Claude Sonnet 4.5</span><span class="model-provider">Anthropic</span></div>
+                        <div class="model-item"><span class="model-rank">#4</span><span class="model-name">GPT-5.2-Codex</span><span class="model-provider">OpenAI</span></div>
+                        <div class="model-item"><span class="model-rank">#5</span><span class="model-name">GPT-OSS-120B</span><span class="model-provider">OpenAI</span></div>
+                        <div class="model-item"><span class="model-rank">#6</span><span class="model-name">Gemini 3 Flash</span><span class="model-provider">Google</span></div>
+                        <div class="model-item"><span class="model-rank">#7</span><span class="model-name">DeepSeek V3.2</span><span class="model-provider">DeepSeek</span></div>
+                        <div class="model-item"><span class="model-rank">#8</span><span class="model-name">MiMo-V2-Flash</span><span class="model-provider">Xiaomi</span></div>
+                        <div class="model-item"><span class="model-rank">#9</span><span class="model-name">Grok 4.1 Fast</span><span class="model-provider">xAI</span></div>
+                        <div class="model-item"><span class="model-rank">#10</span><span class="model-name">Grok 3</span><span class="model-provider">xAI</span></div>
+                    </div>
+                </div>
             </div>
         </section>
         
         <!-- How Phase 2 Works -->
         <section>
-            <h2>How Phase 2 Works</h2>
+            <h2>How Evaluation Works</h2>
             
             <h3>Step 1: Generation</h3>
             <p>
-                All 10 models receive the identical prompt. They don't know they're being compared or who else is participating.
+                All 10 models from the category pool receive the identical prompt. They don't know they're being compared or who else is participating.
             </p>
             
             <h3>Step 2: Blind Judgment</h3>
@@ -679,7 +830,7 @@
                     <tr>
                         <td>Correctness</td>
                         <td>Is the answer factually and logically correct?</td>
-                        <td>30%</td>
+                        <td>25%</td>
                     </tr>
                     <tr>
                         <td>Completeness</td>
@@ -694,7 +845,7 @@
                     <tr>
                         <td>Depth</td>
                         <td>Does it show deep understanding?</td>
-                        <td>15%</td>
+                        <td>20%</td>
                     </tr>
                     <tr>
                         <td>Usefulness</td>
@@ -710,91 +861,6 @@
             </p>
         </section>
         
-        <!-- The Models -->
-        <section>
-            <h2>The 10 Models</h2>
-            <p>
-                Phase 2 evaluates the current frontier across major AI labs:
-            </p>
-            
-            <div class="model-grid">
-                <div class="model-item">
-                    <div class="model-icon" style="background: #D97706;">🟠</div>
-                    <div>
-                        <div class="model-name">Claude Opus 4.5</div>
-                        <div class="model-provider">Anthropic</div>
-                    </div>
-                </div>
-                <div class="model-item">
-                    <div class="model-icon" style="background: #9333EA;">🟣</div>
-                    <div>
-                        <div class="model-name">Claude Sonnet 4.5</div>
-                        <div class="model-provider">Anthropic</div>
-                    </div>
-                </div>
-                <div class="model-item">
-                    <div class="model-icon" style="background: #10B981;">🟢</div>
-                    <div>
-                        <div class="model-name">GPT-4o</div>
-                        <div class="model-provider">OpenAI</div>
-                    </div>
-                </div>
-                <div class="model-item">
-                    <div class="model-icon" style="background: #059669;">🌀</div>
-                    <div>
-                        <div class="model-name">o1</div>
-                        <div class="model-provider">OpenAI</div>
-                    </div>
-                </div>
-                <div class="model-item">
-                    <div class="model-icon" style="background: #3B82F6;">🔵</div>
-                    <div>
-                        <div class="model-name">Gemini 3 Pro</div>
-                        <div class="model-provider">Google</div>
-                    </div>
-                </div>
-                <div class="model-item">
-                    <div class="model-icon" style="background: #EF4444;">🔴</div>
-                    <div>
-                        <div class="model-name">Grok 4</div>
-                        <div class="model-provider">xAI</div>
-                    </div>
-                </div>
-                <div class="model-item">
-                    <div class="model-icon" style="background: #8B5CF6;">🦙</div>
-                    <div>
-                        <div class="model-name">Llama 4 Scout</div>
-                        <div class="model-provider">Meta</div>
-                    </div>
-                </div>
-                <div class="model-item">
-                    <div class="model-icon" style="background: #06B6D4;">🌊</div>
-                    <div>
-                        <div class="model-name">DeepSeek V3.2</div>
-                        <div class="model-provider">DeepSeek</div>
-                    </div>
-                </div>
-                <div class="model-item">
-                    <div class="model-icon" style="background: #F59E0B;">⚡</div>
-                    <div>
-                        <div class="model-name">Mistral Large</div>
-                        <div class="model-provider">Mistral AI</div>
-                    </div>
-                </div>
-                <div class="model-item">
-                    <div class="model-icon" style="background: #EC4899;">💎</div>
-                    <div>
-                        <div class="model-name">Command A</div>
-                        <div class="model-provider">Cohere</div>
-                    </div>
-                </div>
-            </div>
-            
-            <p>
-                New models are added as they reach frontier capability. Models can be deactivated if they're deprecated or significantly outpaced.
-            </p>
-        </section>
-        
         <!-- Why Peer Evaluation -->
         <section>
             <h2>Why Peer Evaluation?</h2>
@@ -805,6 +871,10 @@
                     <p>Most benchmarks use GPT-4 as the sole evaluator. That means GPT-4's biases contaminate every result. We use 10 judges.</p>
                 </div>
                 <div class="why-card">
+                    <h4>🎯 Domain Expertise</h4>
+                    <p>Code questions are judged by coding specialists. Communication by communication-focused models. Better signal, less noise.</p>
+                </div>
+                <div class="why-card">
                     <h4>📊 Statistical Validity</h4>
                     <p>With 9 judgments per response (excluding self), outlier opinions are smoothed out. The rankings reflect consensus.</p>
                 </div>
@@ -812,66 +882,7 @@
                     <h4>🔍 Meta-Insights</h4>
                     <p>We learn which models are harsh critics vs. lenient graders. This data is valuable and unique.</p>
                 </div>
-                <div class="why-card">
-                    <h4>🎭 Self-Awareness Check</h4>
-                    <p>By having models judge their own responses (then excluding them), we can detect if models rate themselves higher than peers do.</p>
-                </div>
             </div>
-        </section>
-        
-        <!-- Question Categories -->
-        <section>
-            <h2>Weekly Schedule</h2>
-            <p>
-                Phase 2 follows a structured weekly rotation to test different capabilities:
-            </p>
-            
-            <table class="scoring-table">
-                <thead>
-                    <tr>
-                        <th>Day</th>
-                        <th>Category</th>
-                        <th>Focus</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Monday</td>
-                        <td>💻 Code</td>
-                        <td>Debugging, generation, review, optimization</td>
-                    </tr>
-                    <tr>
-                        <td>Tuesday</td>
-                        <td>🧠 Reasoning</td>
-                        <td>Logic puzzles, math, multi-step problems</td>
-                    </tr>
-                    <tr>
-                        <td>Wednesday</td>
-                        <td>📊 Analysis</td>
-                        <td>Data interpretation, research critique, synthesis</td>
-                    </tr>
-                    <tr>
-                        <td>Thursday</td>
-                        <td>💬 Communication</td>
-                        <td>Explanation, teaching, documentation</td>
-                    </tr>
-                    <tr>
-                        <td>Friday</td>
-                        <td>⚠️ Edge Cases</td>
-                        <td>Adversarial inputs, failure modes, stress tests</td>
-                    </tr>
-                    <tr>
-                        <td>Saturday</td>
-                        <td>🎯 Meta/Alignment</td>
-                        <td>Honesty, calibration, sycophancy resistance</td>
-                    </tr>
-                    <tr>
-                        <td>Sunday</td>
-                        <td>📈 Summary</td>
-                        <td>Weekly leaderboard and analysis</td>
-                    </tr>
-                </tbody>
-            </table>
         </section>
         
         <!-- Principles -->
@@ -913,10 +924,10 @@
         <!-- CTA -->
         <div class="cta-section">
             <h3>Follow The Multivac</h3>
-            <p>Daily evaluations. All frontier models. Blind judgments.</p>
+            <p>Daily evaluations. Category-optimized pools. Blind judgments.</p>
             <div class="cta-buttons">
                 <a href="https://themultivac.substack.com" class="cta-button">Subscribe on Substack</a>
-                <a href="https://x.com/themultivac" class="cta-button secondary">Follow on X</a>
+                <a href="https://x.com/themultivac_" class="cta-button secondary">Follow on X</a>
             </div>
         </div>
         
