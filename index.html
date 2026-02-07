@@ -6,13 +6,9 @@
     <title>The Multivac | Daily AI Oracle</title>
     <meta name="description" content="One question. All frontier AI models. Blind evaluation. Daily.">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%236366f1'/></svg>">
-    
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- Ailerons Font -->
     <style>
         @font-face {
             font-family: 'Ailerons';
@@ -23,14 +19,8 @@
             font-display: swap;
         }
     </style>
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --bg-primary: #0a0a0f;
             --bg-secondary: #12121a;
@@ -42,11 +32,11 @@
             --accent-green: #10b981;
             --accent-orange: #f59e0b;
             --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
             --font-display: 'Ailerons', 'Outfit', sans-serif;
             --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
             --font-mono: 'Space Mono', monospace;
         }
-        
         body {
             font-family: var(--font-body);
             background: var(--bg-primary);
@@ -58,15 +48,10 @@
             padding: 2rem;
             overflow-x: hidden;
         }
-        
-        /* Animated background grid */
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: 
                 linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px),
                 linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px);
@@ -74,19 +59,8 @@
             pointer-events: none;
             z-index: -1;
         }
-        
-        .container {
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-        }
-        
-        /* Hero Section */
-        .hero {
-            padding-top: 3rem;
-            padding-bottom: 3rem;
-        }
-        
+        .container { max-width: 800px; width: 100%; text-align: center; }
+        .hero { padding-top: 3rem; padding-bottom: 3rem; }
         h1 {
             font-family: var(--font-display);
             font-size: 3.5rem;
@@ -99,7 +73,6 @@
             background-clip: text;
             text-transform: uppercase;
         }
-        
         .tagline {
             font-family: var(--font-mono);
             font-size: 1rem;
@@ -109,7 +82,6 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
         }
-        
         .description {
             font-size: 1.1rem;
             line-height: 1.8;
@@ -117,19 +89,8 @@
             margin-bottom: 2.5rem;
             font-weight: 300;
         }
-        
-        .description strong {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
+        .description strong { color: var(--text-primary); font-weight: 500; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
         .cta-button {
             display: inline-flex;
             align-items: center;
@@ -146,28 +107,10 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 20px var(--accent-glow);
         }
-        
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px var(--accent-glow);
-        }
-        
-        .cta-button.secondary {
-            background: transparent;
-            border: 1px solid var(--accent);
-            box-shadow: none;
-        }
-        
-        .cta-button.secondary:hover {
-            background: rgba(99, 102, 241, 0.1);
-            box-shadow: 0 4px 20px var(--accent-glow);
-        }
-        
-        .cta-button svg {
-            width: 20px;
-            height: 20px;
-        }
-        
+        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+        .cta-button.secondary { background: transparent; border: 1px solid var(--accent); box-shadow: none; }
+        .cta-button.secondary:hover { background: rgba(99, 102, 241, 0.1); box-shadow: 0 4px 20px var(--accent-glow); }
+        .cta-button svg { width: 20px; height: 20px; }
         .stats {
             display: flex;
             justify-content: center;
@@ -176,11 +119,7 @@
             padding-top: 2rem;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
-        
-        .stat {
-            text-align: center;
-        }
-        
+        .stat { text-align: center; }
         .stat-value {
             font-family: var(--font-display);
             font-size: 2.5rem;
@@ -188,7 +127,6 @@
             color: var(--accent);
             letter-spacing: 0.05em;
         }
-        
         .stat-label {
             font-family: var(--font-mono);
             font-size: 0.75rem;
@@ -197,8 +135,6 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
-        
-        /* Phase Tabs */
         .phase-tabs {
             display: flex;
             gap: 0;
@@ -206,7 +142,6 @@
             margin-bottom: 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        
         .phase-tab {
             flex: 1;
             padding: 1rem 1.5rem;
@@ -222,18 +157,8 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-        
-        .phase-tab:hover {
-            color: var(--text-primary);
-            background: rgba(255,255,255,0.02);
-        }
-        
-        .phase-tab.active {
-            color: var(--accent);
-            border-bottom-color: var(--accent);
-            background: rgba(99, 102, 241, 0.05);
-        }
-        
+        .phase-tab:hover { color: var(--text-primary); background: rgba(255,255,255,0.02); }
+        .phase-tab.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(99, 102, 241, 0.05); }
         .phase-tab .tab-badge {
             display: inline-block;
             padding: 0.15rem 0.5rem;
@@ -242,33 +167,11 @@
             margin-left: 0.5rem;
             vertical-align: middle;
         }
-        
-        .phase-tab .tab-badge.new {
-            background: var(--accent-green);
-            color: white;
-        }
-        
-        .phase-tab .tab-badge.complete {
-            background: rgba(255,255,255,0.1);
-            color: var(--text-secondary);
-        }
-        
-        /* Phase Content */
-        .phase-content {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .phase-content.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Phase Header */
+        .phase-tab .tab-badge.new { background: var(--accent-green); color: white; }
+        .phase-tab .tab-badge.complete { background: rgba(255,255,255,0.1); color: var(--text-secondary); }
+        .phase-content { display: none; animation: fadeIn 0.3s ease; }
+        .phase-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .phase-header {
             padding: 2rem;
             background: var(--bg-secondary);
@@ -276,11 +179,7 @@
             margin-bottom: 1.5rem;
             text-align: left;
         }
-        
-        .phase-header.phase-2 {
-            border-left-color: var(--accent-green);
-        }
-        
+        .phase-header.phase-2 { border-left-color: var(--accent-green); }
         .phase-title {
             font-family: var(--font-display);
             font-size: 1.3rem;
@@ -289,28 +188,10 @@
             color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
-        
-        .phase-description {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-        
-        .phase-description a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-        
-        .phase-description a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Questions Archive Section */
-        .questions-section {
-            text-align: left;
-            width: 100%;
-        }
-        
+        .phase-description { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
+        .phase-description a { color: var(--accent); text-decoration: none; }
+        .phase-description a:hover { text-decoration: underline; }
+        .questions-section { text-align: left; width: 100%; }
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -319,7 +200,6 @@
             padding-bottom: 1rem;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        
         .section-title {
             font-family: var(--font-display);
             font-size: 1.5rem;
@@ -327,12 +207,7 @@
             text-transform: uppercase;
             color: var(--text-primary);
         }
-        
-        /* Sort Dropdown */
-        .sort-dropdown {
-            position: relative;
-        }
-        
+        .sort-dropdown { position: relative; }
         .sort-button {
             display: flex;
             align-items: center;
@@ -348,22 +223,9 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
-        
-        .sort-button:hover {
-            background: #35353f;
-            color: var(--text-primary);
-        }
-        
-        .sort-button svg {
-            width: 14px;
-            height: 14px;
-            transition: transform 0.2s ease;
-        }
-        
-        .sort-dropdown.open .sort-button svg {
-            transform: rotate(180deg);
-        }
-        
+        .sort-button:hover { background: #35353f; color: var(--text-primary); }
+        .sort-button svg { width: 14px; height: 14px; transition: transform 0.2s ease; }
+        .sort-dropdown.open .sort-button svg { transform: rotate(180deg); }
         .sort-menu {
             position: absolute;
             top: calc(100% + 4px);
@@ -379,13 +241,7 @@
             min-width: 160px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.4);
         }
-        
-        .sort-dropdown.open .sort-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-        
+        .sort-dropdown.open .sort-menu { opacity: 1; visibility: visible; transform: translateY(0); }
         .sort-option {
             display: block;
             width: 100%;
@@ -399,23 +255,9 @@
             cursor: pointer;
             transition: all 0.15s ease;
         }
-        
-        .sort-option:hover {
-            background: rgba(99, 102, 241, 0.15);
-            color: var(--text-primary);
-        }
-        
-        .sort-option.active {
-            color: var(--accent);
-        }
-        
-        /* Question Cards */
-        .questions-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
+        .sort-option:hover { background: rgba(99, 102, 241, 0.15); color: var(--text-primary); }
+        .sort-option.active { color: var(--accent); }
+        .questions-list { display: flex; flex-direction: column; gap: 1rem; }
         .question-card {
             background: var(--bg-secondary);
             border-radius: 12px;
@@ -425,25 +267,13 @@
             text-decoration: none;
             display: block;
         }
-        
         .question-card:hover {
             border-color: rgba(99, 102, 241, 0.3);
             transform: translateX(4px);
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
-        
-        .question-card.phase-2-card:hover {
-            border-color: rgba(16, 185, 129, 0.3);
-        }
-        
-        .question-meta {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 0.75rem;
-            flex-wrap: wrap;
-        }
-        
+        .question-card.phase-2-card:hover { border-color: rgba(16, 185, 129, 0.3); }
+        .question-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
         .question-number {
             font-family: var(--font-mono);
             font-size: 0.75rem;
@@ -453,12 +283,7 @@
             border-radius: 4px;
             letter-spacing: 0.05em;
         }
-        
-        .question-number.phase-2 {
-            color: var(--accent-green);
-            background: rgba(16, 185, 129, 0.15);
-        }
-        
+        .question-number.phase-2 { color: var(--accent-green); background: rgba(16, 185, 129, 0.15); }
         .question-category {
             font-family: var(--font-mono);
             font-size: 0.7rem;
@@ -469,19 +294,14 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
-        
-        .question-category.edge {
-            color: var(--accent-red);
-            background: rgba(239, 68, 68, 0.15);
-        }
-        
+        .question-category.edge { color: var(--accent-red); background: rgba(239, 68, 68, 0.15); }
+        .question-category.analysis { color: var(--accent-blue); background: rgba(59, 130, 246, 0.15); }
         .question-date {
             font-family: var(--font-mono);
             font-size: 0.75rem;
             color: var(--text-secondary);
             letter-spacing: 0.05em;
         }
-        
         .question-text {
             font-size: 1.1rem;
             font-weight: 500;
@@ -489,14 +309,12 @@
             line-height: 1.5;
             margin-bottom: 0.5rem;
         }
-        
         .question-subtitle {
             font-size: 0.9rem;
             color: var(--text-secondary);
             line-height: 1.5;
             margin-bottom: 0.75rem;
         }
-        
         .question-link {
             display: inline-flex;
             align-items: center;
@@ -507,21 +325,9 @@
             text-decoration: none;
             transition: gap 0.2s ease;
         }
-        
-        .question-card.phase-2-card .question-link {
-            color: var(--accent-green);
-        }
-        
-        .question-card:hover .question-link {
-            gap: 0.75rem;
-        }
-        
-        .question-link svg {
-            width: 14px;
-            height: 14px;
-        }
-        
-        /* Winner Badge */
+        .question-card.phase-2-card .question-link { color: var(--accent-green); }
+        .question-card:hover .question-link { gap: 0.75rem; }
+        .question-link svg { width: 14px; height: 14px; }
         .winner-badge {
             display: inline-flex;
             align-items: center;
@@ -534,8 +340,6 @@
             border-radius: 4px;
             margin-left: auto;
         }
-        
-        /* Quote Section */
         .quote {
             margin-top: 3rem;
             padding: 1.5rem;
@@ -544,14 +348,7 @@
             border-left: 3px solid var(--accent);
             text-align: left;
         }
-        
-        .quote p {
-            font-style: italic;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        
+        .quote p { font-style: italic; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
         .quote cite {
             display: block;
             margin-top: 0.75rem;
@@ -560,14 +357,7 @@
             color: var(--text-secondary);
             font-style: normal;
         }
-        
-        .links {
-            margin-top: 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-        }
-        
+        .links { margin-top: 2rem; display: flex; justify-content: center; gap: 1.5rem; }
         .links a {
             font-family: var(--font-mono);
             color: var(--text-secondary);
@@ -576,11 +366,7 @@
             transition: color 0.2s;
             letter-spacing: 0.05em;
         }
-        
-        .links a:hover {
-            color: var(--accent);
-        }
-        
+        .links a:hover { color: var(--accent); }
         footer {
             margin-top: 3rem;
             font-family: var(--font-mono);
@@ -588,57 +374,31 @@
             color: var(--text-secondary);
             letter-spacing: 0.05em;
         }
-        
-        /* Empty State */
-        .empty-state {
-            padding: 3rem;
-            text-align: center;
-            color: var(--text-secondary);
-        }
-        
+        .empty-state { padding: 3rem; text-align: center; color: var(--text-secondary); }
         @media (max-width: 600px) {
             h1 { font-size: 2.2rem; }
             .tagline { font-size: 0.85rem; }
             .stats { gap: 1.5rem; }
             .stat-value { font-size: 1.8rem; }
-            .section-header {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-            .question-card {
-                padding: 1.25rem;
-            }
-            .phase-tabs {
-                flex-direction: column;
-            }
-            .phase-tab {
-                border-bottom: none;
-                border-left: 3px solid transparent;
-            }
-            .phase-tab.active {
-                border-bottom: none;
-                border-left-color: var(--accent);
-            }
-            .cta-buttons {
-                flex-direction: column;
-            }
+            .section-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
+            .question-card { padding: 1.25rem; }
+            .phase-tabs { flex-direction: column; }
+            .phase-tab { border-bottom: none; border-left: 3px solid transparent; }
+            .phase-tab.active { border-bottom: none; border-left-color: var(--accent); }
+            .cta-buttons { flex-direction: column; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Hero Section -->
         <section class="hero">
             <h1>The Multivac</h1>
             <p class="tagline">Daily AI Oracle</p>
-            
             <p class="description">
                 <strong>One question.</strong> All frontier AI models. 
                 <strong>Blind evaluation.</strong> No favoritism.
                 <strong>Daily.</strong> Fresh questions that can't be memorized.
             </p>
-            
             <div class="cta-buttons">
                 <a href="https://themultivac.substack.com" class="cta-button">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -653,7 +413,6 @@
                     About & Methodology
                 </a>
             </div>
-            
             <div class="stats">
                 <div class="stat">
                     <div class="stat-value">10</div>
@@ -669,8 +428,7 @@
                 </div>
             </div>
         </section>
-        
-        <!-- Phase Tabs -->
+
         <div class="phase-tabs">
             <button class="phase-tab" onclick="switchPhase('phase1')" id="tab-phase1">
                 Phase 1
@@ -681,8 +439,7 @@
                 <span class="tab-badge new">ACTIVE</span>
             </button>
         </div>
-        
-        <!-- Phase 2 Content -->
+
         <div class="phase-content active" id="phase2">
             <div class="phase-header phase-2">
                 <h3 class="phase-title">Phase 2: 10x10 Peer Matrix Evaluation</h3>
@@ -691,19 +448,14 @@
                     <a href="about.html">Learn more about the methodology</a>
                 </p>
             </div>
-            
             <section class="questions-section">
                 <div class="section-header">
                     <h2 class="section-title">Evaluations</h2>
                 </div>
-                
-                <div class="questions-list" id="phase2List">
-                    <!-- Phase 2 questions rendered by JS -->
-                </div>
+                <div class="questions-list" id="phase2List"></div>
             </section>
         </div>
-        
-        <!-- Phase 1 Content -->
+
         <div class="phase-content" id="phase1">
             <div class="phase-header">
                 <h3 class="phase-title">Phase 1: Foundation Questions</h3>
@@ -711,7 +463,6 @@
                     Daily questions exploring AI capabilities across knowledge domains. Each model's response published in full — you be the judge.
                 </p>
             </div>
-            
             <section class="questions-section">
                 <div class="section-header">
                     <h2 class="section-title">Questions Archive</h2>
@@ -728,163 +479,161 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="questions-list" id="questionsList">
-                    <!-- Phase 1 questions rendered by JS -->
-                </div>
+                <div class="questions-list" id="questionsList"></div>
             </section>
         </div>
-        
+
         <div class="quote">
             <p>"The last question was asked for the first time, half in jest... 
             'How can the net amount of entropy of the universe be massively decreased?'"</p>
             <cite>— Isaac Asimov, "The Last Question" (1956)</cite>
         </div>
-        
         <div class="links">
             <a href="about.html">Methodology</a>
             <a href="https://github.com/themultivac">GitHub</a>
             <a href="https://x.com/themultivac_">X / Twitter</a>
         </div>
     </div>
-    
     <footer>
         Anonymous evaluation. Transparent methodology. No affiliations.
     </footer>
-    
+
     <script>
-        // Phase 1 Questions
         const phase1Questions = [
-            {
-                number: 1,
-                date: "2025-12-23",
-                question: "What are Space-based Data Centres?",
-                link: "https://substack.com/home/post/p-182405353"
-            },
-            {
-                number: 2,
-                date: "2025-12-24",
-                question: "Answer: 42",
-                link: "https://substack.com/home/post/p-182497096"
-            },
-            {
-                number: 3,
-                date: "2025-12-25",
-                question: "If I want to maximize truth-seeking in my life, what habits should I ruthlessly eliminate?",
-                link: "https://substack.com/home/post/p-182569045"
-            },
-            {
-                number: 4,
-                date: "2025-12-26",
-                question: "Tell me a witty, Grok-style joke about why humans are terrified of superintelligent AI.",
-                link: "https://substack.com/home/post/p-182675782"
-            },
-            {
-                number: 5,
-                date: "2025-12-27",
-                question: "Create a thought experiment that illustrates the trolley problem but in the context of self-driving cars and modern ethics.",
-                link: "https://substack.com/home/post/p-182766726"
-            },
-            {
-                number: 6,
-                date: "2025-12-28",
-                question: "Answer the meaning of life in the style of Douglas Adams, but updated for 2025 AI developments.",
-                link: "https://substack.com/home/post/p-182767151"
-            },
-            {
-                number: 7,
-                date: "2025-12-29",
-                question: "Present The Strongest Argument Against LLMs as a stepping stone to AGI.",
-                link: "https://open.substack.com/pub/themultivac/p/present-the-strongest-argument-against"
-            },
-            {
-                number: 8,
-                date: "2025-12-30",
-                question: "What are the tradeoffs between General Intelligence and Universal Intelligence approaches?",
-                link: "https://open.substack.com/pub/themultivac/p/what-are-the-tradeoffs-between-general"
-            },
-            {
-                number: 9,
-                date: "2025-12-31",
-                question: "Explain Game Theory In a way A 5 Year Old would understand.",
-                link: "https://open.substack.com/pub/themultivac/p/explain-game-theory-in-a-way-a-5"
-            },
-            {
-                number: 10,
-                date: "2026-01-01",
-                question: "What is Nano Technology and Who are the key players?",
-                link: "https://open.substack.com/pub/themultivac/p/what-is-nano-technology-and-who-are"
-            },
-            {
-                number: 11,
-                date: "2026-01-02",
-                question: "Bitcoin: A First Principles Approach",
-                link: "https://open.substack.com/pub/themultivac/p/bitcoin-a-first-principles-approach"
-            },
-            {
-                number: 12,
-                date: "2026-01-03",
-                question: "Eric Drexler & Engines of Creation Book",
-                link: "https://open.substack.com/pub/themultivac/p/eric-drexler-and-engines-of-creation"
-            },
-            {
-                number: 13,
-                date: "2026-01-04",
-                question: "Why studying Thermodynamics is important to understand reality?",
-                link: "https://open.substack.com/pub/themultivac/p/why-studying-thermodynamics-is-important"
-            },
-            {
-                number: 14,
-                date: "2026-01-05",
-                question: "Why there isn't much progress in Fundamentals of Physics in past two years?",
-                link: "https://themultivac.substack.com/p/why-there-isnt-much-progress-in-fundamentals"
-            },
-            {
-                number: 15,
-                date: "2026-01-06",
-                question: "What are World Models?",
-                link: "https://themultivac.substack.com/p/what-are-world-models"
-            },
-            {
-                number: 16,
-                date: "2026-01-07",
-                question: "What are Neuromorphic Hardware?",
-                link: "https://themultivac.substack.com/p/what-are-neuromorphic-hardware"
-            },
-            {
-                number: 17,
-                date: "2026-01-08",
-                question: "How Important is Edge AI?",
-                link: "https://themultivac.substack.com/p/how-important-is-edge-ai"
-            },
-            {
-                number: 18,
-                date: "2026-01-09",
-                question: "Spatio Temporal Representation Learning",
-                link: "https://themultivac.substack.com/p/spatio-temporal-representation-learning"
-            },
-            {
-                number: 19,
-                date: "2026-01-10",
-                question: "Why Are We Back At Age Of Research After Age of Scaling [2019-2025]?",
-                link: "https://themultivac.substack.com/p/why-are-we-back-at-age-of-research"
-            },
-            {
-                number: 20,
-                date: "2026-01-11",
-                question: "Why Llama Models Underperformed?",
-                link: "https://themultivac.substack.com/p/why-llama-models-underperformed"
-            },
-            {
-                number: 21,
-                date: "2026-01-12",
-                question: "Recent Advancements Till 2026 Aligned With Situational Awareness by Leopold Aschenbrenner",
-                link: "https://substack.com/home/post/p-184373961"
-            }
+            { number: 1, date: "2025-12-23", question: "What are Space-based Data Centres?", link: "https://substack.com/home/post/p-182405353" },
+            { number: 2, date: "2025-12-24", question: "Answer: 42", link: "https://substack.com/home/post/p-182497096" },
+            { number: 3, date: "2025-12-25", question: "If I want to maximize truth-seeking in my life, what habits should I ruthlessly eliminate?", link: "https://substack.com/home/post/p-182569045" },
+            { number: 4, date: "2025-12-26", question: "Tell me a witty, Grok-style joke about why humans are terrified of superintelligent AI.", link: "https://substack.com/home/post/p-182675782" },
+            { number: 5, date: "2025-12-27", question: "Create a thought experiment that illustrates the trolley problem but in the context of self-driving cars and modern ethics.", link: "https://substack.com/home/post/p-182766726" },
+            { number: 6, date: "2025-12-28", question: "Answer the meaning of life in the style of Douglas Adams, but updated for 2025 AI developments.", link: "https://substack.com/home/post/p-182767151" },
+            { number: 7, date: "2025-12-29", question: "Present The Strongest Argument Against LLMs as a stepping stone to AGI.", link: "https://open.substack.com/pub/themultivac/p/present-the-strongest-argument-against" },
+            { number: 8, date: "2025-12-30", question: "What are the tradeoffs between General Intelligence and Universal Intelligence approaches?", link: "https://open.substack.com/pub/themultivac/p/what-are-the-tradeoffs-between-general" },
+            { number: 9, date: "2025-12-31", question: "Explain Game Theory In a way A 5 Year Old would understand.", link: "https://open.substack.com/pub/themultivac/p/explain-game-theory-in-a-way-a-5" },
+            { number: 10, date: "2026-01-01", question: "What is Nano Technology and Who are the key players?", link: "https://open.substack.com/pub/themultivac/p/what-is-nano-technology-and-who-are" },
+            { number: 11, date: "2026-01-02", question: "Bitcoin: A First Principles Approach", link: "https://open.substack.com/pub/themultivac/p/bitcoin-a-first-principles-approach" },
+            { number: 12, date: "2026-01-03", question: "Eric Drexler & Engines of Creation Book", link: "https://open.substack.com/pub/themultivac/p/eric-drexler-and-engines-of-creation" },
+            { number: 13, date: "2026-01-04", question: "Why studying Thermodynamics is important to understand reality?", link: "https://open.substack.com/pub/themultivac/p/why-studying-thermodynamics-is-important" },
+            { number: 14, date: "2026-01-05", question: "Why there isn't much progress in Fundamentals of Physics in past two years?", link: "https://themultivac.substack.com/p/why-there-isnt-much-progress-in-fundamentals" },
+            { number: 15, date: "2026-01-06", question: "What are World Models?", link: "https://themultivac.substack.com/p/what-are-world-models" },
+            { number: 16, date: "2026-01-07", question: "What are Neuromorphic Hardware?", link: "https://themultivac.substack.com/p/what-are-neuromorphic-hardware" },
+            { number: 17, date: "2026-01-08", question: "How Important is Edge AI?", link: "https://themultivac.substack.com/p/how-important-is-edge-ai" },
+            { number: 18, date: "2026-01-09", question: "Spatio Temporal Representation Learning", link: "https://themultivac.substack.com/p/spatio-temporal-representation-learning" },
+            { number: 19, date: "2026-01-10", question: "Why Are We Back At Age Of Research After Age of Scaling [2019-2025]?", link: "https://themultivac.substack.com/p/why-are-we-back-at-age-of-research" },
+            { number: 20, date: "2026-01-11", question: "Why Llama Models Underperformed?", link: "https://themultivac.substack.com/p/why-llama-models-underperformed" },
+            { number: 21, date: "2026-01-12", question: "Recent Advancements Till 2026 Aligned With Situational Awareness by Leopold Aschenbrenner", link: "https://substack.com/home/post/p-184373961" }
         ];
-        
-        // Phase 2 Questions (10x10 Matrix Evaluations)
+
         const phase2Questions = [
+            {
+                id: "CODE-003",
+                date: "2026-02-03",
+                category: "CODE",
+                categoryClass: "",
+                title: "Gemma 3 27B Just Humiliated Every Other Small Model at JSON Parsing",
+                subtitle: "10 small language models build JSON parsers with type hints, error handling, and circular reference detection. Gemma 3 27B dominated.",
+                link: "https://themultivac.substack.com/p/gemma-3-27b-just-humiliated-every",
+                winner: "Gemma 3 27B",
+                winnerScore: ""
+            },
+            {
+                id: "CODE-RAW",
+                date: "2026-02-03",
+                category: "RAW DATA",
+                categoryClass: "analysis",
+                title: "Raw Code: 10 Small Language Models Build JSON Parsers",
+                subtitle: "The full code outputs from Day 40 — see how each model tackled deeply nested JSON parsing with type hints, error handling, and circular reference detection.",
+                link: "https://themultivac.substack.com/p/raw-code-10-small-language-models",
+                winner: "",
+                winnerScore: ""
+            },
+            {
+                id: "ANALYSIS-003",
+                date: "2026-01-28",
+                category: "ANALYSIS",
+                categoryClass: "analysis",
+                title: "When a Legal-Trained Model Wins Media Analysis",
+                subtitle: "Day 34: A model optimized for legal reasoning outperforms domain specialists at media bias analysis. What does cross-domain transfer tell us?",
+                link: "https://themultivac.substack.com/p/day-34-when-a-legal-trained-model",
+                winner: "",
+                winnerScore: ""
+            },
+            {
+                id: "EDGE-004",
+                date: "2026-01-24",
+                category: "EDGE CASES",
+                categoryClass: "edge",
+                title: "Every Model Failed This Test",
+                subtitle: "A test so difficult that no frontier model passed. What does universal failure reveal about the boundaries of current AI?",
+                link: "https://themultivac.substack.com/p/every-model-failed-this-test",
+                winner: "",
+                winnerScore: ""
+            },
+            {
+                id: "EDGE-003",
+                date: "2026-01-23",
+                category: "EDGE CASES",
+                categoryClass: "edge",
+                title: "Do AI Models Know What They Don't Know?",
+                subtitle: "Testing metacognition and calibration — can models accurately assess the boundaries of their own knowledge?",
+                link: "https://themultivac.substack.com/p/do-ai-models-know-what-they-dont",
+                winner: "",
+                winnerScore: ""
+            },
+            {
+                id: "COMM-002",
+                date: "2026-01-22",
+                category: "COMMUNICATION",
+                categoryClass: "",
+                title: "A \"Small\" Model Just Beat Claude Opus 4.5 at Writing Crisis Comms",
+                subtitle: "When a smaller model outperforms the flagship at high-stakes communication, size isn't everything.",
+                link: "https://themultivac.substack.com/p/a-small-model-just-beat-claude-opus",
+                winner: "",
+                winnerScore: ""
+            },
+            {
+                id: "ANALYSIS-001",
+                date: "2026-01-21",
+                category: "ANALYSIS",
+                categoryClass: "analysis",
+                title: "Yesterday's Winner Came Last Today",
+                subtitle: "What happens when the top-ranked model from one evaluation drops to the bottom the next day? A deep dive into AI capability variance.",
+                link: "https://themultivac.substack.com/p/yesterdays-winner-came-last-today",
+                winner: "",
+                winnerScore: ""
+            },
+            {
+                id: "REASON-002",
+                date: "2026-01-20",
+                category: "REASONING",
+                categoryClass: "",
+                title: "Logic Grid: Meeting Schedule",
+                subtitle: "Solve the ultimate scheduling puzzle: Deduce who meets whom when in this five-person, five-day logic grid packed with tricky constraints!",
+                link: "https://themultivac.substack.com/p/logic-grid-meeting-schedule-solve",
+                winner: "",
+                winnerScore: ""
+            },
+            {
+                id: "CODE-002",
+                date: "2026-01-19",
+                category: "CODE",
+                categoryClass: "",
+                title: "DeepSeek V3.2 Wins the JSON Parsing Challenge",
+                subtitle: "DeepSeek V3.2 takes the top spot — but the real story is in the variance across models.",
+                link: "https://themultivac.substack.com/p/deepseek-v32-wins-the-json-parsing",
+                winner: "DeepSeek V3.2",
+                winnerScore: ""
+            },
+            {
+                id: "EDGE-002",
+                date: "2026-01-17",
+                category: "EDGE CASES",
+                categoryClass: "edge",
+                title: "Can AI Models Admit When You're Wrong?",
+                subtitle: "Testing whether models can push back on incorrect user assumptions — or if they just agree with everything.",
+                link: "https://themultivac.substack.com/p/can-ai-models-admit-when-youre-wrong",
+                winner: "",
+                winnerScore: ""
+            },
             {
                 id: "EDGE-001",
                 date: "2026-01-16",
@@ -930,34 +679,27 @@
                 winnerScore: "9.49"
             }
         ];
-        
+
         let sortOrder = 'newest';
-        
-        // Switch between phases
+
         function switchPhase(phase) {
-            // Update tabs
             document.querySelectorAll('.phase-tab').forEach(tab => tab.classList.remove('active'));
             document.getElementById('tab-' + phase).classList.add('active');
-            
-            // Update content
             document.querySelectorAll('.phase-content').forEach(content => content.classList.remove('active'));
             document.getElementById(phase).classList.add('active');
         }
-        
-        // Toggle sort dropdown
+
         function toggleSort() {
             document.getElementById('sortDropdown').classList.toggle('open');
         }
-        
-        // Close dropdown when clicking outside
+
         document.addEventListener('click', function(e) {
             const dropdown = document.getElementById('sortDropdown');
             if (dropdown && !dropdown.contains(e.target)) {
                 dropdown.classList.remove('open');
             }
         });
-        
-        // Set sort order
+
         function setSortOrder(order) {
             sortOrder = order;
             document.getElementById('sortLabel').textContent = 
@@ -967,25 +709,21 @@
             document.getElementById('sortDropdown').classList.remove('open');
             renderPhase1Questions();
         }
-        
-        // Format date
+
         function formatDate(dateStr) {
             const [year, month, day] = dateStr.split('-');
             const months = ['January', 'February', 'March', 'April', 'May', 'June', 
                             'July', 'August', 'September', 'October', 'November', 'December'];
             return `${parseInt(day)} ${months[parseInt(month) - 1]}, ${year}`;
         }
-        
-        // Render Phase 1 Questions
+
         function renderPhase1Questions() {
             const container = document.getElementById('questionsList');
-            
             const sorted = [...phase1Questions].sort((a, b) => {
                 const dateA = new Date(a.date);
                 const dateB = new Date(b.date);
                 return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
             });
-            
             container.innerHTML = sorted.map(q => `
                 <a href="${q.link}" target="_blank" rel="noopener" class="question-card">
                     <div class="question-meta">
@@ -1002,29 +740,25 @@
                 </a>
             `).join('');
         }
-        
-        // Render Phase 2 Questions
+
         function renderPhase2Questions() {
             const container = document.getElementById('phase2List');
-            
             if (phase2Questions.length === 0) {
                 container.innerHTML = '<div class="empty-state">Phase 2 evaluations coming soon!</div>';
                 return;
             }
-            
             const sorted = [...phase2Questions].sort((a, b) => {
                 const dateA = new Date(a.date);
                 const dateB = new Date(b.date);
-                return dateB - dateA; // Always newest first for Phase 2
+                return dateB - dateA;
             });
-            
             container.innerHTML = sorted.map(q => `
                 <a href="${q.link}" target="_blank" rel="noopener" class="question-card phase-2-card">
                     <div class="question-meta">
                         <span class="question-number phase-2">${q.id}</span>
                         <span class="question-category ${q.categoryClass}">${q.category}</span>
                         <span class="question-date">${formatDate(q.date)}</span>
-                        ${q.winner ? `<span class="winner-badge">🥇 ${q.winner} (${q.winnerScore})</span>` : ''}
+                        ${q.winner ? `<span class="winner-badge">🥇 ${q.winner}${q.winnerScore ? ' (' + q.winnerScore + ')' : ''}</span>` : ''}
                     </div>
                     <p class="question-text">${q.title}</p>
                     <p class="question-subtitle">${q.subtitle}</p>
@@ -1037,8 +771,7 @@
                 </a>
             `).join('');
         }
-        
-        // Initial render
+
         renderPhase1Questions();
         renderPhase2Questions();
     </script>
