@@ -1,0 +1,62 @@
+{
+  "version": "2.0",
+  "last_updated": "2025-02-07T12:00:00Z",
+  "total_evaluations": 60,
+  "stats": {
+    "models_tested": 10,
+    "avg_consensus": 87.2,
+    "total_api_calls": 6000
+  },
+  "leaderboard": [
+    { "model": "Grok 4.1 Fast", "score": 91.2, "wins": 15, "evaluations": 60 },
+    { "model": "Claude 3.5 Sonnet", "score": 89.2, "wins": 12, "evaluations": 60 },
+    { "model": "GPT-4o", "score": 86.7, "wins": 10, "evaluations": 60 },
+    { "model": "Gemini 2.0 Flash", "score": 84.1, "wins": 8, "evaluations": 60 },
+    { "model": "DeepSeek V3", "score": 81.5, "wins": 6, "evaluations": 60 },
+    { "model": "Llama 3.3 70B", "score": 78.3, "wins": 4, "evaluations": 60 },
+    { "model": "Qwen 2.5 72B", "score": 76.8, "wins": 3, "evaluations": 60 },
+    { "model": "Command R+", "score": 74.2, "wins": 2, "evaluations": 60 },
+    { "model": "Mistral Large", "score": 72.1, "wins": 0, "evaluations": 60 },
+    { "model": "Claude Opus 4", "score": 70.5, "wins": 0, "evaluations": 30 }
+  ],
+  "evaluations": [
+    {
+      "id": "CULTURAL-001",
+      "file": "eval-cultural-001.json",
+      "question": "Cultural Intelligence Assessment",
+      "category": "Cultural",
+      "date": "2025-01-17",
+      "winner": "Grok 4.1 Fast",
+      "score": 91.2,
+      "consensus": 92
+    },
+    {
+      "id": "META-009",
+      "file": "eval-meta-009.json",
+      "question": "Unknown Unknowns (Fabricated Person)",
+      "category": "Meta",
+      "date": "2025-01-22",
+      "winner": "Claude 3.5 Sonnet",
+      "score": 89.2,
+      "consensus": 88
+    },
+    {
+      "id": "CODE-003",
+      "file": "eval-code-003.json",
+      "question": "Binary Search Edge Cases",
+      "category": "Code",
+      "date": "2025-01-21",
+      "winner": "GPT-4o",
+      "score": 86.9,
+      "consensus": 85
+    }
+  ],
+  "categories": {
+    "Reasoning": { "total": 15, "top_performer": "Claude 3.5 Sonnet" },
+    "Code": { "total": 12, "top_performer": "GPT-4o" },
+    "Meta": { "total": 10, "top_performer": "Claude 3.5 Sonnet" },
+    "Creative": { "total": 8, "top_performer": "GPT-4o" },
+    "Edge Cases": { "total": 8, "top_performer": "Gemini 2.0 Flash" },
+    "Cultural": { "total": 7, "top_performer": "Grok 4.1 Fast" }
+  }
+}
