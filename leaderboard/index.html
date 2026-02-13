@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leaderboard — The Multivac</title>
+  <meta name="description" content="Live AI model leaderboard from The Multivac's 10×10 blind peer matrix evaluation. 34+ evaluations, 1,100+ judgments, 20+ frontier models."/>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css"/>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #1a1a25;
+      --border: #2d2d3d;
+      --text: #e5e7eb;
+      --text-muted: #9ca3af;
+      --purple: #7c3aed;
+      --purple-light: #a78bfa;
+      --purple-dim: #3b1f7a;
+      --green: #22c55e;
+      --gold: #f59e0b;
+      --silver: #94a3b8;
+      --bronze: #cd7f32;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* ── Header ───────────────────────────────────────────── */
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--purple-light);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .header .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--purple-light);
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    /* ── Nav Links ────────────────────────────────────────── */
+    .nav-links {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .nav-links a {
+      color: var(--purple-light);
+      text-decoration: none;
+      margin: 0 1rem;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--purple); text-decoration: underline; }
+
+    /* ── Tabs ─────────────────────────────────────────────── */
+    .tabs {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--border);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab-btn {
+      padding: 0.75rem 1.25rem;
+      background: transparent;
+      color: var(--text-muted);
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active {
+      color: var(--purple-light);
+      border-bottom-color: var(--purple);
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ── Tables ────────────────────────────────────────────── */
+    .table-wrapper {
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      overflow-x: auto;
+    }
+
+    table.dataTable {
+      width: 100% !important;
+      border-collapse: collapse;
+    }
+    table.dataTable thead th {
+      background: var(--surface2) !important;
+      color: var(--purple-light) !important;
+      border-bottom: 2px solid var(--purple-dim) !important;
+      padding: 12px 16px !important;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+    table.dataTable tbody td {
+      background: var(--surface) !important;
+      color: var(--text) !important;
+      border-bottom: 1px solid var(--border) !important;
+      padding: 10px 16px !important;
+      font-size: 0.9rem;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+    table.dataTable tbody tr:hover td {
+      background: var(--surface2) !important;
+    }
+
+    /* Rank badges */
+    .rank-1 { color: var(--gold); font-weight: 700; }
+    .rank-2 { color: var(--silver); font-weight: 600; }
+    .rank-3 { color: var(--bronze); font-weight: 600; }
+
+    /* Score coloring */
+    .score-high { color: var(--green); font-weight: 600; }
+    .score-mid { color: var(--gold); }
+    .score-low { color: var(--text-muted); }
+
+    /* DataTables overrides */
+    .dataTables_wrapper .dataTables_filter input {
+      background: var(--surface2) !important;
+      color: var(--text) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 6px;
+      padding: 6px 12px;
+      margin-left: 8px;
+    }
+    .dataTables_wrapper .dataTables_length select {
+      background: var(--surface2) !important;
+      color: var(--text) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 6px;
+      padding: 4px 8px;
+    }
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_length label,
+    .dataTables_wrapper .dataTables_filter label {
+      color: var(--text-muted) !important;
+      font-size: 0.85rem;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+      color: var(--text-muted) !important;
+      border: 1px solid var(--border) !important;
+      background: var(--surface) !important;
+      border-radius: 4px;
+      margin: 0 2px;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+      color: white !important;
+      background: var(--purple) !important;
+      border-color: var(--purple) !important;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+      color: white !important;
+      background: var(--purple-dim) !important;
+      border-color: var(--purple) !important;
+    }
+    table.dataTable thead .sorting::after,
+    table.dataTable thead .sorting_asc::after,
+    table.dataTable thead .sorting_desc::after {
+      opacity: 0.6 !important;
+    }
+
+    /* ── Key Finding ──────────────────────────────────────── */
+    .key-finding {
+      background: linear-gradient(135deg, var(--purple-dim), var(--surface));
+      border: 1px solid var(--purple);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .key-finding p {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    .key-finding strong { color: var(--purple-light); }
+
+    /* ── Transparency Box ─────────────────────────────────── */
+    .transparency {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .transparency strong { color: var(--gold); }
+
+    /* ── Footer ───────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      margin-top: 3rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .footer a { color: var(--purple-light); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      .header h1 { font-size: 1.8rem; }
+      .stats-row { gap: 1rem; }
+      .stat-value { font-size: 1.4rem; }
+      .tab-btn { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>The Multivac</h1>
+      <p class="subtitle">10×10 Blind Peer Matrix — AI Model Leaderboard</p>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-value">34+</div><div class="stat-label">Evaluations</div></div>
+        <div class="stat"><div class="stat-value">1,100+</div><div class="stat-label">Judgments</div></div>
+        <div class="stat"><div class="stat-value">20+</div><div class="stat-label">Models</div></div>
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">Categories</div></div>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <a href="https://themultivac.com">← Home</a>
+      <a href="https://themultivac.substack.com">Substack</a>
+      <a href="https://github.com/themultivac/multivac-evaluations">GitHub</a>
+      <a href="https://huggingface.co/spaces/themultivac/leaderboard">HuggingFace</a>
+    </div>
+
+    <div class="key-finding">
+      <p><strong>Key Finding:</strong> No single model dominates across all categories. Category-specific evaluation reveals strengths invisible to aggregate benchmarks.</p>
+    </div>
+
+    <div class="transparency">
+      <strong>⚠️ Transparency:</strong> This leaderboard uses LLM-as-judge methodology (10 judges per response). Multi-judge reduces but does not eliminate bias. Full model responses available on <a href="https://github.com/themultivac/multivac-evaluations/tree/main/data" style="color: #f59e0b;">GitHub</a>. Methodology paper forthcoming.
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs" id="tabs">
+      <button class="tab-btn active" data-tab="overall">🏆 Overall</button>
+      <button class="tab-btn" data-tab="code">💻 Code</button>
+      <button class="tab-btn" data-tab="reasoning">🧠 Reasoning</button>
+      <button class="tab-btn" data-tab="analysis">📊 Analysis</button>
+      <button class="tab-btn" data-tab="communication">💬 Communication</button>
+      <button class="tab-btn" data-tab="meta">🎯 Meta/Alignment</button>
+      <button class="tab-btn" data-tab="edge">⚡ Edge Cases</button>
+      <button class="tab-btn" data-tab="evaluations">🔍 All Evaluations</button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content active" id="tab-overall">
+      <div class="table-wrapper">
+        <table id="table-overall" class="display" style="width:100%">
+          <thead><tr><th>Rank</th><th>Model</th><th>Avg Score</th><th>Evals</th><th>Wins</th><th>Top 3</th><th>Categories</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-code"><div class="table-wrapper"><table id="table-code" class="display" style="width:100%"><thead><tr><th>Evaluation</th><th>Rank</th><th>Model</th><th>Score</th><th>±Std Dev</th></tr></thead><tbody></tbody></table></div></div>
+    <div class="tab-content" id="tab-reasoning"><div class="table-wrapper"><table id="table-reasoning" class="display" style="width:100%"><thead><tr><th>Evaluation</th><th>Rank</th><th>Model</th><th>Score</th><th>±Std Dev</th></tr></thead><tbody></tbody></table></div></div>
+    <div class="tab-content" id="tab-analysis"><div class="table-wrapper"><table id="table-analysis" class="display" style="width:100%"><thead><tr><th>Evaluation</th><th>Rank</th><th>Model</th><th>Score</th><th>±Std Dev</th></tr></thead><tbody></tbody></table></div></div>
+    <div class="tab-content" id="tab-communication"><div class="table-wrapper"><table id="table-communication" class="display" style="width:100%"><thead><tr><th>Evaluation</th><th>Rank</th><th>Model</th><th>Score</th><th>±Std Dev</th></tr></thead><tbody></tbody></table></div></div>
+    <div class="tab-content" id="tab-meta"><div class="table-wrapper"><table id="table-meta" class="display" style="width:100%"><thead><tr><th>Evaluation</th><th>Rank</th><th>Model</th><th>Score</th><th>±Std Dev</th></tr></thead><tbody></tbody></table></div></div>
+    <div class="tab-content" id="tab-edge"><div class="table-wrapper"><table id="table-edge" class="display" style="width:100%"><thead><tr><th>Evaluation</th><th>Rank</th><th>Model</th><th>Score</th><th>±Std Dev</th></tr></thead><tbody></tbody></table></div></div>
+
+    <div class="tab-content" id="tab-evaluations">
+      <div class="table-wrapper">
+        <table id="table-evaluations" class="display" style="width:100%">
+          <thead><tr><th>Date</th><th>Category</th><th>Title</th><th>Winner</th><th>Score</th><th>Agreement</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>The Multivac · One question. All frontier models. Blind peer evaluation. Daily.</p>
+      <p style="margin-top: 0.5rem;">
+        <a href="https://github.com/themultivac/multivac-evaluations">Open Source (MIT)</a> ·
+        Built by <a href="https://twitter.com/themultivac">Yash Darji</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script>
+    // ── Data ──────────────────────────────────────────────────────────────
+    const overallData = [
+      [1, "Mistral Small Creative", 9.74, 2, 2, 2, "communication"],
+      [2, "GPT-OSS Legal", 9.85, 1, 1, 1, "analysis"],
+      [3, "Claude Opus 4.5", 9.20, 11, 4, 11, "code, reasoning, communication, meta, edge, analysis"],
+      [4, "GPT-OSS-120B", 9.05, 6, 1, 4, "meta, analysis, reasoning"],
+      [5, "Gemini 3 Flash", 8.72, 8, 1, 4, "meta, code, edge, reasoning"],
+      [6, "DeepSeek V3.2", 8.65, 11, 1, 4, "code, reasoning, analysis, communication, meta, edge"],
+      [7, "Grok 4.1 Fast", 8.53, 8, 1, 2, "edge, code, communication, meta"],
+      [8, "Gemini 3 Pro", 8.51, 8, 1, 5, "reasoning, communication, analysis, code"],
+      [9, "Claude Sonnet 4.5", 8.48, 11, 0, 2, "code, reasoning, communication, meta, edge, analysis"],
+      [10, "GPT-5.2", 8.38, 6, 0, 3, "communication, edge, meta"]
+    ];
+
+    const categoryMap = {
+      code: [
+        ["Async Bug Hunt", 1, "Claude Opus 4.5", 9.49, 0.31],
+        ["Async Bug Hunt", 2, "DeepSeek V3.2", 9.12, 0.45],
+        ["Async Bug Hunt", 3, "Grok Code Fast 1", 8.87, 0.52],
+        ["Nested JSON Parser", 1, "DeepSeek V3.2", 9.39, 0.27],
+        ["Nested JSON Parser", 2, "Claude Opus 4.5", 9.15, 0.34],
+        ["Nested JSON Parser", 3, "Grok Code Fast 1", 8.92, 0.41]
+      ],
+      reasoning: [
+        ["The Two Envelopes", 1, "Claude Opus 4.5", 9.24, 0.28],
+        ["The Two Envelopes", 2, "Gemini 3 Pro", 8.91, 0.42],
+        ["The Two Envelopes", 3, "Claude Sonnet 4.5", 8.67, 0.35],
+        ["Logic Grid: Meeting Schedule", 1, "Gemini 3 Pro", 9.13, 0.35],
+        ["Logic Grid: Meeting Schedule", 2, "Claude Opus 4.5", 8.88, 0.42],
+        ["Logic Grid: Meeting Schedule", 3, "DeepSeek V3.2", 8.62, 0.48]
+      ],
+      analysis: [
+        ["Legal Document Analysis", 1, "GPT-OSS Legal", 9.85, 0.14],
+        ["Legal Document Analysis", 2, "Claude Opus 4.5", 9.42, 0.29],
+        ["Legal Document Analysis", 3, "Gemini 3 Pro", 9.05, 0.38]
+      ],
+      communication: [
+        ["Explain Transformers", 1, "Mistral Small Creative", 9.71, 0.22],
+        ["Explain Transformers", 2, "Claude Opus 4.5", 9.35, 0.31],
+        ["Explain Transformers", 3, "GPT-5.2", 9.11, 0.38],
+        ["Technical Incident Comms", 1, "Mistral Small Creative", 9.76, 0.19],
+        ["Technical Incident Comms", 2, "Claude Opus 4.5", 9.41, 0.32],
+        ["Technical Incident Comms", 3, "GPT-5.2", 9.18, 0.37]
+      ],
+      meta: [
+        ["Sycophancy: False Premise", 1, "GPT-OSS-120B", 9.88, 0.11],
+        ["Sycophancy: False Premise", 2, "Claude Opus 4.5", 9.55, 0.28],
+        ["Sycophancy: False Premise", 3, "Gemini 3 Flash", 9.21, 0.35],
+        ["Epistemic Calibration", 1, "Gemini 3 Flash", 9.32, 0.24],
+        ["Epistemic Calibration", 2, "Claude Opus 4.5", 9.08, 0.31],
+        ["Epistemic Calibration", 3, "GPT-OSS-120B", 8.85, 0.38]
+      ],
+      edge: [
+        ["Hidden Detail in Long Doc", 1, "Grok 4.1 Fast", 9.47, 0.25],
+        ["Hidden Detail in Long Doc", 2, "Claude Opus 4.5", 9.22, 0.33],
+        ["Hidden Detail in Long Doc", 3, "Gemini 3 Flash", 8.95, 0.41],
+        ["Instruction Following", 1, "Claude Opus 4.5", 7.42, 0.85],
+        ["Instruction Following", 2, "Claude Sonnet 4.5", 7.15, 0.91],
+        ["Instruction Following", 3, "GPT-5.2", 6.88, 0.95]
+      ]
+    };
+
+    const evaluationsData = [
+      ["2026-01-13", "Code", "Async Bug Hunt", "Claude Opus 4.5", 9.49, "72%"],
+      ["2026-01-14", "Reasoning", "The Two Envelopes", "Claude Opus 4.5", 9.24, "68%"],
+      ["2026-01-16", "Communication", "Explain Transformers", "Mistral Small Creative", 9.71, "74%"],
+      ["2026-01-16", "Edge Cases", "Hidden Detail in Long Doc", "Grok 4.1 Fast", 9.47, "65%"],
+      ["2026-01-17", "Meta/Alignment", "Sycophancy: False Premise", "GPT-OSS-120B", 9.88, "81%"],
+      ["2026-01-19", "Code", "Nested JSON Parser", "DeepSeek V3.2", 9.39, "71%"],
+      ["2026-01-21", "Reasoning", "Logic Grid: Meeting Schedule", "Gemini 3 Pro", 9.13, "63%"],
+      ["2026-01-22", "Analysis", "Legal Document Analysis", "GPT-OSS Legal", 9.85, "77%"],
+      ["2026-01-22", "Communication", "Technical Incident Comms", "Mistral Small Creative", 9.76, "72%"],
+      ["2026-01-23", "Meta/Alignment", "Epistemic Calibration", "Gemini 3 Flash", 9.32, "69%"],
+      ["2026-01-24", "Edge Cases", "Instruction Following", "Claude Opus 4.5", 7.42, "45%"]
+    ];
+
+    // ── Render helpers ────────────────────────────────────────────────────
+    function rankCell(rank) {
+      if (rank === 1) return '<span class="rank-1">🥇 1</span>';
+      if (rank === 2) return '<span class="rank-2">🥈 2</span>';
+      if (rank === 3) return '<span class="rank-3">🥉 3</span>';
+      return rank;
+    }
+
+    function scoreCell(score) {
+      if (score >= 9.0) return `<span class="score-high">${score.toFixed(2)}</span>`;
+      if (score >= 8.0) return `<span class="score-mid">${score.toFixed(2)}</span>`;
+      return `<span class="score-low">${score.toFixed(2)}</span>`;
+    }
+
+    // ── Tab Switching ─────────────────────────────────────────────────────
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        // Adjust column widths for newly visible tables
+        $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+      });
+    });
+
+    // ── Initialize Tables ─────────────────────────────────────────────────
+    $(document).ready(function() {
+      const dtOpts = {
+        paging: false,
+        info: false,
+        searching: true,
+        order: [],
+        language: { search: "Filter:" }
+      };
+
+      // Overall
+      $('#table-overall').DataTable({
+        ...dtOpts,
+        data: overallData.map(r => [
+          rankCell(r[0]), r[1], scoreCell(r[2]), r[3], r[4], r[5], r[6]
+        ]),
+        order: [[2, 'desc']],
+        columnDefs: [
+          { targets: [0, 2, 3, 4, 5], className: 'dt-center' }
+        ]
+      });
+
+      // Category tables
+      Object.entries(categoryMap).forEach(([key, rows]) => {
+        const tabKey = key === 'meta' ? 'meta' : key;
+        $(`#table-${tabKey}`).DataTable({
+          ...dtOpts,
+          data: rows.map(r => [r[0], rankCell(r[1]), r[2], scoreCell(r[3]), `±${r[4]}`]),
+          order: [[0, 'asc'], [1, 'asc']],
+          columnDefs: [
+            { targets: [1, 3, 4], className: 'dt-center' }
+          ]
+        });
+      });
+
+      // All evaluations
+      $('#table-evaluations').DataTable({
+        ...dtOpts,
+        data: evaluationsData.map(r => [r[0], r[1], r[2], r[3], scoreCell(r[4]), r[5]]),
+        order: [[0, 'desc']],
+        columnDefs: [
+          { targets: [4, 5], className: 'dt-center' }
+        ]
+      });
+    });
+  </script>
+</body>
+</html>
