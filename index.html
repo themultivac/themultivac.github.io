@@ -3,777 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Multivac | Daily AI Oracle</title>
-    <meta name="description" content="One question. All frontier AI models. Blind evaluation. Daily.">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%236366f1'/></svg>">
+    <title>The Multivac — Independent AI Model Evaluation</title>
+    <meta name="description" content="Blind peer evaluation of frontier AI models. 238 evaluations. 18,800 judgments. 56 models. Open data.">
+    <meta property="og:title" content="The Multivac — Who Actually Wins?">
+    <meta property="og:description" content="56 frontier AI models judge each other blind. No sponsors. No benchmarks. Just peer consensus.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        @font-face {
-            font-family: 'Ailerons';
-            src: url('https://cdn.jsdelivr.net/gh/sebastianoramarche/ailerons@master/fonts/ailerons.woff2') format('woff2'),
-                 url('https://cdn.jsdelivr.net/gh/sebastianoramarche/ailerons@master/fonts/ailerons.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-    </style>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #12121a;
-            --bg-tertiary: #1a1a24;
-            --text-primary: #e8e8ed;
-            --text-secondary: #9090a0;
-            --accent: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.3);
-            --accent-green: #10b981;
-            --accent-orange: #f59e0b;
-            --accent-red: #ef4444;
-            --accent-blue: #3b82f6;
-            --font-display: 'Ailerons', 'Outfit', sans-serif;
-            --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-mono: 'Space Mono', monospace;
+            --bg: #050507; --surface: #0A0A0E; --surface-2: #111116;
+            --border: #1A1A22; --text: #F0F0F5; --text-dim: #8888A0; --text-muted: #4A4A5E;
+            --purple: #8B5CF6; --purple-bright: #A78BFA; --purple-glow: rgba(139,92,246,0.4);
+            --purple-subtle: rgba(139,92,246,0.08);
+            --green: #34D399; --blue: #60A5FA; --amber: #FBBF24;
+            --mono: 'JetBrains Mono', monospace; --sans: 'Inter', -apple-system, sans-serif;
         }
-        body {
-            font-family: var(--font-body);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
-            overflow-x: hidden;
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--bg); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+        #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .page { position: relative; z-index: 1; }
+
+        /* NAV */
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(20px); background: rgba(5,5,7,0.7); border-bottom: 1px solid transparent; transition: border-color .4s, background .4s; }
+        .nav.scrolled { border-bottom-color: var(--border); background: rgba(5,5,7,0.9); }
+        .nav-logo { font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: .12em; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .logo-diamond { width: 20px; height: 20px; background: linear-gradient(135deg, var(--purple), var(--purple-bright)); transform: rotate(45deg); border-radius: 3px; animation: logoPulse 3s ease-in-out infinite; box-shadow: 0 0 20px var(--purple-glow); }
+        @keyframes logoPulse { 0%,100% { box-shadow: 0 0 20px var(--purple-glow); } 50% { box-shadow: 0 0 40px var(--purple-glow), 0 0 80px rgba(139,92,246,0.15); } }
+        .nav-right { display: flex; align-items: center; gap: 28px; }
+        .nav-right a { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--text-muted); text-decoration: none; transition: color .2s; }
+        .nav-right a:hover { color: var(--text-dim); }
+        .nav-explore { color: var(--purple) !important; padding: 8px 18px; border: 1px solid rgba(139,92,246,0.3); border-radius: 6px; transition: all .2s !important; }
+        .nav-explore:hover { background: var(--purple-subtle) !important; border-color: var(--purple) !important; color: var(--purple-bright) !important; }
+
+        /* HERO */
+        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 40px 80px; position: relative; }
+        .hero-badge { font-family: var(--mono); font-size: 10px; letter-spacing: .3em; color: var(--purple); text-transform: uppercase; padding: 8px 20px; border: 1px solid rgba(139,92,246,0.2); border-radius: 100px; margin-bottom: 40px; background: rgba(139,92,246,0.05); opacity: 0; transform: translateY(20px); animation: fadeUp .8s .2s forwards; }
+        .hero h1 { font-family: var(--sans); font-size: clamp(48px, 8vw, 96px); font-weight: 900; letter-spacing: -.03em; line-height: 1; margin-bottom: 24px; opacity: 0; transform: translateY(30px); animation: fadeUp .8s .4s forwards; }
+        .hero h1 .gradient { background: linear-gradient(135deg, var(--text) 0%, var(--purple-bright) 50%, var(--purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-sub { font-size: clamp(15px, 2vw, 18px); color: var(--text-dim); max-width: 560px; line-height: 1.7; font-weight: 400; margin-bottom: 48px; opacity: 0; transform: translateY(30px); animation: fadeUp .8s .6s forwards; }
+        .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; opacity: 0; transform: translateY(30px); animation: fadeUp .8s .8s forwards; }
+        .hero-scroll { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: 10px; letter-spacing: .15em; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeUp .8s 1.2s forwards; }
+        .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--purple), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+        @keyframes scrollPulse { 0%,100% { opacity: .3; } 50% { opacity: 1; } }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+        .btn { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .08em; padding: 16px 32px; border-radius: 8px; text-decoration: none; transition: all .25s; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; border: none; }
+        .btn-primary { background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); color: #fff; box-shadow: 0 4px 24px rgba(139,92,246,0.3), inset 0 1px 0 rgba(255,255,255,0.1); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(139,92,246,0.4), inset 0 1px 0 rgba(255,255,255,0.15); }
+        .btn-ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--border); }
+        .btn-ghost:hover { border-color: var(--text-muted); color: var(--text); background: rgba(255,255,255,0.02); }
+
+        /* STATS */
+        .stats-section { padding: 100px 40px; position: relative; }
+        .stats-section::before { content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+        .stats-grid { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; text-align: center; }
+        .stat-item { opacity: 0; transform: translateY(40px); transition: all .6s cubic-bezier(.23,1,.32,1); }
+        .stat-item.visible { opacity: 1; transform: translateY(0); }
+        .stat-number { font-family: var(--sans); font-size: clamp(36px, 5vw, 56px); font-weight: 900; letter-spacing: -.02em; background: linear-gradient(180deg, var(--text) 30%, var(--text-dim)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; margin-bottom: 8px; }
+        .stat-label { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; color: var(--text-muted); text-transform: uppercase; }
+
+        /* MATRIX */
+        .matrix-section { padding: 120px 40px; text-align: center; position: relative; overflow: hidden; }
+        .section-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .3em; color: var(--purple); text-transform: uppercase; margin-bottom: 16px; }
+        .section-heading { font-size: clamp(28px, 4vw, 44px); font-weight: 800; letter-spacing: -.02em; margin-bottom: 16px; line-height: 1.15; }
+        .section-desc { font-size: 16px; color: var(--text-dim); max-width: 520px; margin: 0 auto 60px; line-height: 1.7; }
+        .matrix-vis { max-width: 700px; margin: 0 auto; position: relative; height: 380px; }
+        .model-node { position: absolute; width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: .03em; color: var(--text); border: 1px solid var(--border); background: var(--surface); transition: all .4s cubic-bezier(.23,1,.32,1); z-index: 2; opacity: 0; transform: scale(0.5); }
+        .model-node.visible { opacity: 1; transform: scale(1); }
+        .model-node:hover { border-color: var(--purple); box-shadow: 0 0 30px var(--purple-glow); transform: scale(1.15); z-index: 10; }
+        #matrix-svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+        .judgment-line { stroke: var(--purple); stroke-width: 1; opacity: 0; fill: none; }
+        .judgment-line.active { animation: lineFlow 2s ease-in-out forwards; }
+        @keyframes lineFlow { 0% { opacity: 0; stroke-dashoffset: 200; } 30% { opacity: .4; } 70% { opacity: .4; } 100% { opacity: 0; stroke-dashoffset: 0; } }
+
+        /* STEPS */
+        .steps-section { padding: 120px 40px; max-width: 960px; margin: 0 auto; }
+        .step-row { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 120px; opacity: 0; transform: translateY(60px); transition: all .8s cubic-bezier(.23,1,.32,1); }
+        .step-row.visible { opacity: 1; transform: translateY(0); }
+        .step-row:nth-child(even) { direction: rtl; }
+        .step-row:nth-child(even) > * { direction: ltr; }
+        .step-row:last-child { margin-bottom: 0; }
+        .step-number { font-family: var(--sans); font-size: 80px; font-weight: 900; color: rgba(139,92,246,0.08); line-height: 1; margin-bottom: -12px; }
+        .step-title { font-size: 24px; font-weight: 800; letter-spacing: -.01em; margin-bottom: 12px; }
+        .step-text { font-size: 15px; color: var(--text-dim); line-height: 1.8; }
+        .step-visual { aspect-ratio: 1; border: 1px solid var(--border); border-radius: 20px; background: var(--surface); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        .step-visual-inner { font-family: var(--mono); font-size: 11px; color: var(--text-muted); padding: 32px; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; }
+        .vis-question { align-items: center; text-align: center; gap: 16px; }
+        .vis-q-mark { font-family: var(--sans); font-size: 72px; font-weight: 900; background: linear-gradient(135deg, var(--purple-bright), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: qPulse 2.5s ease-in-out infinite; }
+        @keyframes qPulse { 0%,100% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(1.08); filter: brightness(1.2); } }
+        .vis-q-cats { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+        .vis-cat-tag { font-size: 8px; letter-spacing: .1em; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; }
+        .vis-cat-tag:nth-child(1) { color: var(--purple); background: rgba(139,92,246,0.12); }
+        .vis-cat-tag:nth-child(2) { color: var(--green); background: rgba(52,211,153,0.12); }
+        .vis-cat-tag:nth-child(3) { color: var(--blue); background: rgba(96,165,250,0.12); }
+        .vis-cat-tag:nth-child(4) { color: var(--amber); background: rgba(251,191,36,0.12); }
+        .vis-cat-tag:nth-child(5) { color: #F472B6; background: rgba(244,114,182,0.12); }
+        .vis-cat-tag:nth-child(6) { color: #FB923C; background: rgba(251,146,60,0.12); }
+        .vis-blind-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 24px; }
+        .blind-cell { aspect-ratio: 1; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 9px; color: var(--text-muted); animation: blindBlink 3s ease-in-out infinite; }
+        .blind-cell:nth-child(1) { animation-delay: 0s; } .blind-cell:nth-child(2) { animation-delay: .15s; } .blind-cell:nth-child(3) { animation-delay: .3s; } .blind-cell:nth-child(4) { animation-delay: .45s; } .blind-cell:nth-child(5) { animation-delay: .6s; } .blind-cell:nth-child(6) { animation-delay: .75s; } .blind-cell:nth-child(7) { animation-delay: .9s; } .blind-cell:nth-child(8) { animation-delay: 1.05s; }
+        @keyframes blindBlink { 0%,100% { border-color: var(--border); } 50% { border-color: var(--purple); box-shadow: 0 0 12px rgba(139,92,246,0.15); } }
+        .vis-scores { gap: 8px; padding: 24px; }
+        .score-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .score-label { width: 60px; font-size: 9px; color: var(--text-muted); text-align: right; }
+        .score-bar-track { flex: 1; height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+        .score-bar-fill { height: 100%; border-radius: 3px; transition: width 1.5s cubic-bezier(.23,1,.32,1); width: 0; }
+        .score-val { width: 36px; font-size: 10px; font-weight: 700; text-align: right; }
+        .vis-ranking { gap: 6px; padding: 20px; }
+        .rank-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border); margin-bottom: 6px; opacity: 0; transform: translateX(-20px); transition: all .5s cubic-bezier(.23,1,.32,1); }
+        .rank-item.visible { opacity: 1; transform: translateX(0); }
+        .rank-pos { font-family: var(--sans); font-size: 14px; font-weight: 800; color: var(--purple); width: 24px; }
+        .rank-name { font-family: var(--mono); font-size: 10px; flex: 1; }
+        .rank-score { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--green); }
+
+        /* PRINCIPLES */
+        .principles-section { padding: 120px 40px; background: var(--surface); position: relative; }
+        .principles-section::before, .principles-section::after { content: ''; position: absolute; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+        .principles-section::before { top: 0; } .principles-section::after { bottom: 0; }
+        .principles-grid { max-width: 960px; margin: 60px auto 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .principle-card { padding: 36px; border: 1px solid var(--border); border-radius: 16px; background: var(--bg); transition: all .4s; opacity: 0; transform: translateY(40px); }
+        .principle-card.visible { opacity: 1; transform: translateY(0); }
+        .principle-card:hover { border-color: rgba(139,92,246,0.2); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .principle-icon-wrap { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 20px; }
+        .p-icon-1 { background: rgba(139,92,246,0.12); } .p-icon-2 { background: rgba(52,211,153,0.12); } .p-icon-3 { background: rgba(96,165,250,0.12); }
+        .principle-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; letter-spacing: -.01em; }
+        .principle-card p { font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+
+        /* CTA */
+        .cta-section { padding: 140px 40px; text-align: center; }
+        .cta-buttons-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
+
+        /* LINKS */
+        .links-section { padding: 0 40px 100px; max-width: 960px; margin: 0 auto; }
+        .links-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .link-tile { padding: 28px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); text-decoration: none; color: inherit; transition: all .3s; }
+        .link-tile:hover { border-color: var(--purple); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+        .link-tile-label { font-family: var(--mono); font-size: 9px; letter-spacing: .15em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
+        .link-tile-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+        .link-tile-desc { font-size: 12px; color: var(--text-dim); line-height: 1.6; }
+
+        /* QUOTE & FOOTER */
+        .quote-section { padding: 80px 40px; text-align: center; border-top: 1px solid var(--border); }
+        .quote-mark { font-size: 60px; color: rgba(139,92,246,0.15); line-height: 1; margin-bottom: -10px; }
+        .quote-text { font-size: 16px; font-style: italic; color: var(--text-dim); max-width: 560px; margin: 0 auto 12px; line-height: 1.8; }
+        .quote-cite { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+        footer { padding: 32px 40px 48px; text-align: center; border-top: 1px solid var(--border); }
+        .footer-links { display: flex; justify-content: center; gap: 28px; margin-bottom: 16px; }
+        .footer-links a { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color .2s; }
+        .footer-links a:hover { color: var(--text-dim); }
+        .footer-copy { font-family: var(--mono); font-size: 10px; color: var(--text-muted); letter-spacing: .08em; }
+
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+            .step-row { grid-template-columns: 1fr; gap: 32px; } .step-row:nth-child(even) { direction: ltr; }
+            .step-number { font-size: 48px; } .principles-grid { grid-template-columns: 1fr; }
+            .links-grid { grid-template-columns: repeat(2, 1fr); } .hero { padding: 100px 24px 60px; }
+            .nav { padding: 16px 20px; } .nav-right a:not(.nav-explore) { display: none; }
+            .matrix-vis { height: 280px; } .model-node { width: 42px; height: 42px; font-size: 7px; border-radius: 10px; }
         }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: 
-                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px),
-                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
-            z-index: -1;
-        }
-        .container { max-width: 800px; width: 100%; text-align: center; }
-        .hero { padding-top: 3rem; padding-bottom: 3rem; }
-        h1 {
-            font-family: var(--font-display);
-            font-size: 3.5rem;
-            font-weight: 400;
-            letter-spacing: 0.15em;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-transform: uppercase;
-        }
-        .tagline {
-            font-family: var(--font-mono);
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin-bottom: 2.5rem;
-            font-weight: 400;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-        .description {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
-            margin-bottom: 2.5rem;
-            font-weight: 300;
-        }
-        .description strong { color: var(--text-primary); font-weight: 500; }
-        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            font-family: var(--font-body);
-            font-size: 1rem;
-            font-weight: 600;
-            color: white;
-            background: var(--accent);
-            border: none;
-            border-radius: 12px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px var(--accent-glow);
-        }
-        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
-        .cta-button.secondary { background: transparent; border: 1px solid var(--accent); box-shadow: none; }
-        .cta-button.secondary:hover { background: rgba(99, 102, 241, 0.1); box-shadow: 0 4px 20px var(--accent-glow); }
-        .cta-button svg { width: 20px; height: 20px; }
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        .stat { text-align: center; }
-        .stat-value {
-            font-family: var(--font-display);
-            font-size: 2.5rem;
-            font-weight: 400;
-            color: var(--accent);
-            letter-spacing: 0.05em;
-        }
-        .stat-label {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-top: 0.25rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-        .phase-tabs {
-            display: flex;
-            gap: 0;
-            margin-top: 4rem;
-            margin-bottom: 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .phase-tab {
-            flex: 1;
-            padding: 1rem 1.5rem;
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            background: transparent;
-            border: none;
-            border-bottom: 3px solid transparent;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        .phase-tab:hover { color: var(--text-primary); background: rgba(255,255,255,0.02); }
-        .phase-tab.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(99, 102, 241, 0.05); }
-        .phase-tab .tab-badge {
-            display: inline-block;
-            padding: 0.15rem 0.5rem;
-            font-size: 0.65rem;
-            border-radius: 4px;
-            margin-left: 0.5rem;
-            vertical-align: middle;
-        }
-        .phase-tab .tab-badge.new { background: var(--accent-green); color: white; }
-        .phase-tab .tab-badge.complete { background: rgba(255,255,255,0.1); color: var(--text-secondary); }
-        .phase-content { display: none; animation: fadeIn 0.3s ease; }
-        .phase-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .phase-header {
-            padding: 2rem;
-            background: var(--bg-secondary);
-            border-left: 4px solid var(--accent);
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-        .phase-header.phase-2 { border-left-color: var(--accent-green); }
-        .phase-title {
-            font-family: var(--font-display);
-            font-size: 1.3rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-        .phase-description { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
-        .phase-description a { color: var(--accent); text-decoration: none; }
-        .phase-description a:hover { text-decoration: underline; }
-        .questions-section { text-align: left; width: 100%; }
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .section-title {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-primary);
-        }
-        .sort-dropdown { position: relative; }
-        .sort-button {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.65rem 1rem;
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            background: #2a2a32;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .sort-button:hover { background: #35353f; color: var(--text-primary); }
-        .sort-button svg { width: 14px; height: 14px; transition: transform 0.2s ease; }
-        .sort-dropdown.open .sort-button svg { transform: rotate(180deg); }
-        .sort-menu {
-            position: absolute;
-            top: calc(100% + 4px);
-            right: 0;
-            background: #2a2a32;
-            border-radius: 8px;
-            overflow: hidden;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-8px);
-            transition: all 0.2s ease;
-            z-index: 100;
-            min-width: 160px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-        }
-        .sort-dropdown.open .sort-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        .sort-option {
-            display: block;
-            width: 100%;
-            padding: 0.75rem 1rem;
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            background: none;
-            border: none;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-        .sort-option:hover { background: rgba(99, 102, 241, 0.15); color: var(--text-primary); }
-        .sort-option.active { color: var(--accent); }
-        .questions-list { display: flex; flex-direction: column; gap: 1rem; }
-        .question-card {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-            text-decoration: none;
-            display: block;
-        }
-        .question-card:hover {
-            border-color: rgba(99, 102, 241, 0.3);
-            transform: translateX(4px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-        .question-card.phase-2-card:hover { border-color: rgba(16, 185, 129, 0.3); }
-        .question-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
-        .question-number {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--accent);
-            background: rgba(99, 102, 241, 0.15);
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            letter-spacing: 0.05em;
-        }
-        .question-number.phase-2 { color: var(--accent-green); background: rgba(16, 185, 129, 0.15); }
-        .question-category {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: var(--accent-orange);
-            background: rgba(245, 158, 11, 0.15);
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-        .question-category.edge { color: var(--accent-red); background: rgba(239, 68, 68, 0.15); }
-        .question-category.analysis { color: var(--accent-blue); background: rgba(59, 130, 246, 0.15); }
-        .question-date {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            letter-spacing: 0.05em;
-        }
-        .question-text {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            line-height: 1.5;
-            margin-bottom: 0.5rem;
-        }
-        .question-subtitle {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-            margin-bottom: 0.75rem;
-        }
-        .question-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            color: var(--accent);
-            text-decoration: none;
-            transition: gap 0.2s ease;
-        }
-        .question-card.phase-2-card .question-link { color: var(--accent-green); }
-        .question-card:hover .question-link { gap: 0.75rem; }
-        .question-link svg { width: 14px; height: 14px; }
-        .winner-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: var(--accent-orange);
-            background: rgba(245, 158, 11, 0.1);
-            padding: 0.25rem 0.6rem;
-            border-radius: 4px;
-            margin-left: auto;
-        }
-        .quote {
-            margin-top: 3rem;
-            padding: 1.5rem;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            border-left: 3px solid var(--accent);
-            text-align: left;
-        }
-        .quote p { font-style: italic; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
-        .quote cite {
-            display: block;
-            margin-top: 0.75rem;
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            font-style: normal;
-        }
-        .links { margin-top: 2rem; display: flex; justify-content: center; gap: 1.5rem; }
-        .links a {
-            font-family: var(--font-mono);
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.2s;
-            letter-spacing: 0.05em;
-        }
-        .links a:hover { color: var(--accent); }
-        footer {
-            margin-top: 3rem;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            letter-spacing: 0.05em;
-        }
-        .empty-state { padding: 3rem; text-align: center; color: var(--text-secondary); }
-        @media (max-width: 600px) {
-            h1 { font-size: 2.2rem; }
-            .tagline { font-size: 0.85rem; }
-            .stats { gap: 1.5rem; }
-            .stat-value { font-size: 1.8rem; }
-            .section-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
-            .question-card { padding: 1.25rem; }
-            .phase-tabs { flex-direction: column; }
-            .phase-tab { border-bottom: none; border-left: 3px solid transparent; }
-            .phase-tab.active { border-bottom: none; border-left-color: var(--accent); }
-            .cta-buttons { flex-direction: column; }
-        }
+        @media (max-width: 480px) { .links-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <section class="hero">
-            <h1>The Multivac</h1>
-            <p class="tagline">Daily AI Oracle</p>
-            <p class="description">
-                <strong>One question.</strong> All frontier AI models. 
-                <strong>Blind evaluation.</strong> No favoritism.
-                <strong>Daily.</strong> Fresh questions that can't be memorized.
-            </p>
-            <div class="cta-buttons">
-                <a href="https://themultivac.substack.com" class="cta-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                    </svg>
-                    Read on Substack
-                </a>
-                <a href="about.html" class="cta-button secondary">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    About & Methodology
-                </a>
-            </div>
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-value">10</div>
-                    <div class="stat-label">Models/Category</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">100</div>
-                    <div class="stat-label">Judgments/Eval</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">5</div>
-                    <div class="stat-label">Category Pools</div>
-                </div>
-            </div>
-        </section>
-
-        <div class="phase-tabs">
-            <button class="phase-tab" onclick="switchPhase('phase1')" id="tab-phase1">
-                Phase 1
-                <span class="tab-badge complete">21 Questions</span>
-            </button>
-            <button class="phase-tab active" onclick="switchPhase('phase2')" id="tab-phase2">
-                Phase 2
-                <span class="tab-badge new">ACTIVE</span>
-            </button>
+<canvas id="bg-canvas"></canvas>
+<div class="page">
+    <nav class="nav" id="nav">
+        <a href="/" class="nav-logo"><div class="logo-diamond"></div>MULTIVAC</a>
+        <div class="nav-right">
+            <a href="https://themultivac.substack.com">Substack</a>
+            <a href="https://github.com/themultivac/multivac-evaluation">GitHub</a>
+            <a href="https://discord.gg/QvVTPCxH">Discord</a>
+            <a href="https://app.themultivac.com/dashboard" class="nav-explore">Explore Data →</a>
         </div>
-
-        <div class="phase-content active" id="phase2">
-            <div class="phase-header phase-2">
-                <h3 class="phase-title">Phase 2: 10x10 Peer Matrix Evaluation</h3>
-                <p class="phase-description">
-                    Category-optimized model pools answer each question. Then all 10 models judge all 10 responses — 100 total judgments per evaluation. No single-judge bias. 
-                    <a href="about.html">Learn more about the methodology</a>
-                </p>
-            </div>
-            <section class="questions-section">
-                <div class="section-header">
-                    <h2 class="section-title">Evaluations</h2>
-                </div>
-                <div class="questions-list" id="phase2List"></div>
-            </section>
+    </nav>
+    <section class="hero">
+        <div class="hero-badge">Independent AI Evaluation</div>
+        <h1><span class="gradient">Who Actually Wins?</span></h1>
+        <p class="hero-sub">56 frontier AI models judge each other blind across 6 categories. No sponsors. No benchmarks. No single judge. Just peer consensus from 18,800+ evaluations.</p>
+        <div class="hero-ctas">
+            <a href="https://app.themultivac.com/dashboard" class="btn btn-primary">Explore the Data ↗</a>
+            <a href="https://themultivac.substack.com" class="btn btn-ghost">Read the Analysis</a>
         </div>
-
-        <div class="phase-content" id="phase1">
-            <div class="phase-header">
-                <h3 class="phase-title">Phase 1: Foundation Questions</h3>
-                <p class="phase-description">
-                    Daily questions exploring AI capabilities across knowledge domains. Each model's response published in full — you be the judge.
-                </p>
-            </div>
-            <section class="questions-section">
-                <div class="section-header">
-                    <h2 class="section-title">Questions Archive</h2>
-                    <div class="sort-dropdown" id="sortDropdown">
-                        <button class="sort-button" onclick="toggleSort()">
-                            <span id="sortLabel">Newest to Oldest</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div class="sort-menu">
-                            <button class="sort-option active" onclick="setSortOrder('newest')">Newest to Oldest</button>
-                            <button class="sort-option" onclick="setSortOrder('oldest')">Oldest to Newest</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="questions-list" id="questionsList"></div>
-            </section>
+        <div class="hero-scroll"><span>SCROLL</span><div class="scroll-line"></div></div>
+    </section>
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item" data-reveal><div class="stat-number" data-count="238">0</div><div class="stat-label">Evaluations</div></div>
+            <div class="stat-item" data-reveal><div class="stat-number" data-count="18800" data-format="comma">0</div><div class="stat-label">Judgments</div></div>
+            <div class="stat-item" data-reveal><div class="stat-number" data-count="56">0</div><div class="stat-label">Models Tested</div></div>
+            <div class="stat-item" data-reveal><div class="stat-number" data-count="6">0</div><div class="stat-label">Categories</div></div>
         </div>
-
-        <div class="quote">
-            <p>"The last question was asked for the first time, half in jest... 
-            'How can the net amount of entropy of the universe be massively decreased?'"</p>
-            <cite>— Isaac Asimov, "The Last Question" (1956)</cite>
+    </section>
+    <section class="matrix-section">
+        <div class="section-eyebrow">Peer Evaluation Matrix</div>
+        <h2 class="section-heading">Every Model Judges Every Response</h2>
+        <p class="section-desc">No single evaluator. No human bottleneck. Models score each other in a blind matrix — the frontier defines its own consensus.</p>
+        <div class="matrix-vis" id="matrix-vis"><svg id="matrix-svg"></svg></div>
+    </section>
+    <section class="steps-section">
+        <div style="text-align:center; margin-bottom: 80px;"><div class="section-eyebrow">How It Works</div><h2 class="section-heading">Four Steps. Zero Bias.</h2></div>
+        <div class="step-row" data-reveal>
+            <div class="step-content"><div class="step-number">01</div><h3 class="step-title">One Question</h3><p class="step-text">A fresh question is posed to all frontier models simultaneously. Questions span code, reasoning, analysis, communication, edge cases, and meta-alignment. No model sees the question in advance.</p></div>
+            <div class="step-visual"><div class="step-visual-inner vis-question"><div class="vis-q-mark">?</div><div class="vis-q-cats"><span class="vis-cat-tag">Code</span><span class="vis-cat-tag">Reasoning</span><span class="vis-cat-tag">Analysis</span><span class="vis-cat-tag">Communication</span><span class="vis-cat-tag">Edge Cases</span><span class="vis-cat-tag">Meta-Alignment</span></div></div></div>
         </div>
-        <div class="links">
-            <a href="about.html">Methodology</a>
-            <a href="https://github.com/themultivac">GitHub</a>
+        <div class="step-row" data-reveal>
+            <div class="step-content"><div class="step-number">02</div><h3 class="step-title">Blind Responses</h3><p class="step-text">Each model answers independently. No model knows who else is participating. Identical prompts. No system-level advantages. Responses are anonymized before evaluation.</p></div>
+            <div class="step-visual"><div class="step-visual-inner vis-blind-grid"><div class="blind-cell">▊▊▊</div><div class="blind-cell">▊▊▊</div><div class="blind-cell">▊▊▊</div><div class="blind-cell">▊▊▊</div><div class="blind-cell">▊▊▊</div><div class="blind-cell">▊▊▊</div><div class="blind-cell">▊▊▊</div><div class="blind-cell">▊▊▊</div></div></div>
+        </div>
+        <div class="step-row" data-reveal>
+            <div class="step-content"><div class="step-number">03</div><h3 class="step-title">Peer Judgment</h3><p class="step-text">All models score all responses on a structured rubric — correctness, completeness, clarity, depth, and usefulness. Self-judgments are excluded. Multiple scores per response eliminate single-judge noise.</p></div>
+            <div class="step-visual"><div class="step-visual-inner vis-scores">
+                <div class="score-row"><span class="score-label">Correct</span><div class="score-bar-track"><div class="score-bar-fill" data-width="92%" style="background:var(--purple)"></div></div><span class="score-val" style="color:var(--purple)">9.2</span></div>
+                <div class="score-row"><span class="score-label">Complete</span><div class="score-bar-track"><div class="score-bar-fill" data-width="85%" style="background:var(--green)"></div></div><span class="score-val" style="color:var(--green)">8.5</span></div>
+                <div class="score-row"><span class="score-label">Clear</span><div class="score-bar-track"><div class="score-bar-fill" data-width="88%" style="background:var(--blue)"></div></div><span class="score-val" style="color:var(--blue)">8.8</span></div>
+                <div class="score-row"><span class="score-label">Depth</span><div class="score-bar-track"><div class="score-bar-fill" data-width="79%" style="background:var(--amber)"></div></div><span class="score-val" style="color:var(--amber)">7.9</span></div>
+                <div class="score-row"><span class="score-label">Useful</span><div class="score-bar-track"><div class="score-bar-fill" data-width="91%" style="background:#F472B6"></div></div><span class="score-val" style="color:#F472B6">9.1</span></div>
+            </div></div>
+        </div>
+        <div class="step-row" data-reveal>
+            <div class="step-content"><div class="step-number">04</div><h3 class="step-title">Consensus Rankings</h3><p class="step-text">Multiple judgments per response smooth out individual bias. The rankings reflect what the frontier collectively thinks — not one evaluator's opinion, not a marketing claim.</p></div>
+            <div class="step-visual"><div class="step-visual-inner vis-ranking">
+                <div class="rank-item" data-rank-reveal style="transition-delay:0s"><span class="rank-pos">1</span><span class="rank-name">████████</span><span class="rank-score">8.94</span></div>
+                <div class="rank-item" data-rank-reveal style="transition-delay:.1s"><span class="rank-pos">2</span><span class="rank-name">██████</span><span class="rank-score">8.71</span></div>
+                <div class="rank-item" data-rank-reveal style="transition-delay:.2s"><span class="rank-pos">3</span><span class="rank-name">███████</span><span class="rank-score">8.52</span></div>
+                <div class="rank-item" data-rank-reveal style="transition-delay:.3s"><span class="rank-pos">4</span><span class="rank-name">█████</span><span class="rank-score">8.33</span></div>
+                <div class="rank-item" data-rank-reveal style="transition-delay:.4s"><span class="rank-pos">5</span><span class="rank-name">████████</span><span class="rank-score">8.14</span></div>
+            </div></div>
+        </div>
+    </section>
+    <section class="principles-section">
+        <div style="text-align:center; max-width:960px; margin:0 auto;"><div class="section-eyebrow">Why This Exists</div><h2 class="section-heading">Built on Three Principles</h2></div>
+        <div class="principles-grid">
+            <div class="principle-card" data-reveal><div class="principle-icon-wrap p-icon-1">📊</div><h3>Open Data</h3><p>Every judgment is public. Raw scores, judge identities, response texts, generation times. Verify any result yourself. No black boxes.</p></div>
+            <div class="principle-card" data-reveal><div class="principle-icon-wrap p-icon-2">🔄</div><h3>Peer Evaluation</h3><p>Models evaluate each other — not benchmarks, not human annotators, not single-judge opinions. The frontier defines its own consensus.</p></div>
+            <div class="principle-card" data-reveal><div class="principle-icon-wrap p-icon-3">🔓</div><h3>Open Source</h3><p>The evaluation engine is MIT-licensed. Fork it, modify the rubric, test your own models. The methodology is the product.</p></div>
+        </div>
+    </section>
+    <section class="cta-section">
+        <div class="section-eyebrow">Ready?</div>
+        <h2 class="section-heading">See Which Model Actually Wins</h2>
+        <p class="section-desc">Browse the full leaderboard, explore individual evaluations, compare models head-to-head. No account required.</p>
+        <div class="cta-buttons-row">
+            <a href="https://app.themultivac.com/dashboard" class="btn btn-primary">Open Dashboard ↗</a>
+            <a href="https://app.themultivac.com/dashboard/leaderboard" class="btn btn-ghost">View Leaderboard</a>
+            <a href="https://github.com/themultivac/multivac-evaluation" class="btn btn-ghost">GitHub Repo</a>
+        </div>
+    </section>
+    <section class="links-section">
+        <div class="links-grid">
+            <a href="https://app.themultivac.com/dashboard" class="link-tile"><div class="link-tile-label">Live Data</div><div class="link-tile-title">Dashboard →</div><div class="link-tile-desc">Full evaluation data, judgment matrices, and model stats.</div></a>
+            <a href="https://themultivac.substack.com" class="link-tile"><div class="link-tile-label">Analysis</div><div class="link-tile-title">Substack →</div><div class="link-tile-desc">Deep dives on what the data means and why models win or lose.</div></a>
+            <a href="https://github.com/themultivac/multivac-evaluation" class="link-tile"><div class="link-tile-label">Code</div><div class="link-tile-title">GitHub →</div><div class="link-tile-desc">MIT-licensed evaluation engine. Run it yourself.</div></a>
+            <a href="https://discord.gg/QvVTPCxH" class="link-tile"><div class="link-tile-label">Community</div><div class="link-tile-title">Discord →</div><div class="link-tile-desc">Methodology discussion and model requests.</div></a>
+        </div>
+    </section>
+    <section class="quote-section">
+        <div class="quote-mark">"</div>
+        <p class="quote-text">The last question was asked for the first time, half in jest…<br>'How can the net amount of entropy of the universe be massively decreased?'</p>
+        <p class="quote-cite">— Isaac Asimov, "The Last Question" (1956)</p>
+    </section>
+    <footer>
+        <div class="footer-links">
+            <a href="https://app.themultivac.com/dashboard">Dashboard</a>
+            <a href="https://themultivac.substack.com">Substack</a>
+            <a href="https://github.com/themultivac/multivac-evaluation">GitHub</a>
+            <a href="https://discord.gg/QvVTPCxH">Discord</a>
             <a href="https://x.com/themultivac_">X / Twitter</a>
         </div>
-    </div>
-    <footer>
-        Anonymous evaluation. Transparent methodology. No affiliations.
+        <div class="footer-copy">Independent evaluation · Open data · No affiliations</div>
     </footer>
-
-    <script>
-        const phase1Questions = [
-            { number: 1, date: "2025-12-23", question: "What are Space-based Data Centres?", link: "https://substack.com/home/post/p-182405353" },
-            { number: 2, date: "2025-12-24", question: "Answer: 42", link: "https://substack.com/home/post/p-182497096" },
-            { number: 3, date: "2025-12-25", question: "If I want to maximize truth-seeking in my life, what habits should I ruthlessly eliminate?", link: "https://substack.com/home/post/p-182569045" },
-            { number: 4, date: "2025-12-26", question: "Tell me a witty, Grok-style joke about why humans are terrified of superintelligent AI.", link: "https://substack.com/home/post/p-182675782" },
-            { number: 5, date: "2025-12-27", question: "Create a thought experiment that illustrates the trolley problem but in the context of self-driving cars and modern ethics.", link: "https://substack.com/home/post/p-182766726" },
-            { number: 6, date: "2025-12-28", question: "Answer the meaning of life in the style of Douglas Adams, but updated for 2025 AI developments.", link: "https://substack.com/home/post/p-182767151" },
-            { number: 7, date: "2025-12-29", question: "Present The Strongest Argument Against LLMs as a stepping stone to AGI.", link: "https://open.substack.com/pub/themultivac/p/present-the-strongest-argument-against" },
-            { number: 8, date: "2025-12-30", question: "What are the tradeoffs between General Intelligence and Universal Intelligence approaches?", link: "https://open.substack.com/pub/themultivac/p/what-are-the-tradeoffs-between-general" },
-            { number: 9, date: "2025-12-31", question: "Explain Game Theory In a way A 5 Year Old would understand.", link: "https://open.substack.com/pub/themultivac/p/explain-game-theory-in-a-way-a-5" },
-            { number: 10, date: "2026-01-01", question: "What is Nano Technology and Who are the key players?", link: "https://open.substack.com/pub/themultivac/p/what-is-nano-technology-and-who-are" },
-            { number: 11, date: "2026-01-02", question: "Bitcoin: A First Principles Approach", link: "https://open.substack.com/pub/themultivac/p/bitcoin-a-first-principles-approach" },
-            { number: 12, date: "2026-01-03", question: "Eric Drexler & Engines of Creation Book", link: "https://open.substack.com/pub/themultivac/p/eric-drexler-and-engines-of-creation" },
-            { number: 13, date: "2026-01-04", question: "Why studying Thermodynamics is important to understand reality?", link: "https://open.substack.com/pub/themultivac/p/why-studying-thermodynamics-is-important" },
-            { number: 14, date: "2026-01-05", question: "Why there isn't much progress in Fundamentals of Physics in past two years?", link: "https://themultivac.substack.com/p/why-there-isnt-much-progress-in-fundamentals" },
-            { number: 15, date: "2026-01-06", question: "What are World Models?", link: "https://themultivac.substack.com/p/what-are-world-models" },
-            { number: 16, date: "2026-01-07", question: "What are Neuromorphic Hardware?", link: "https://themultivac.substack.com/p/what-are-neuromorphic-hardware" },
-            { number: 17, date: "2026-01-08", question: "How Important is Edge AI?", link: "https://themultivac.substack.com/p/how-important-is-edge-ai" },
-            { number: 18, date: "2026-01-09", question: "Spatio Temporal Representation Learning", link: "https://themultivac.substack.com/p/spatio-temporal-representation-learning" },
-            { number: 19, date: "2026-01-10", question: "Why Are We Back At Age Of Research After Age of Scaling [2019-2025]?", link: "https://themultivac.substack.com/p/why-are-we-back-at-age-of-research" },
-            { number: 20, date: "2026-01-11", question: "Why Llama Models Underperformed?", link: "https://themultivac.substack.com/p/why-llama-models-underperformed" },
-            { number: 21, date: "2026-01-12", question: "Recent Advancements Till 2026 Aligned With Situational Awareness by Leopold Aschenbrenner", link: "https://substack.com/home/post/p-184373961" }
-        ];
-
-        const phase2Questions = [
-            {
-                id: "CODE-003",
-                date: "2026-02-03",
-                category: "CODE",
-                categoryClass: "",
-                title: "Gemma 3 27B Just Humiliated Every Other Small Model at JSON Parsing",
-                subtitle: "10 small language models build JSON parsers with type hints, error handling, and circular reference detection. Gemma 3 27B dominated.",
-                link: "https://themultivac.substack.com/p/gemma-3-27b-just-humiliated-every",
-                winner: "Gemma 3 27B",
-                winnerScore: ""
-            },
-            {
-                id: "CODE-RAW",
-                date: "2026-02-03",
-                category: "RAW DATA",
-                categoryClass: "analysis",
-                title: "Raw Code: 10 Small Language Models Build JSON Parsers",
-                subtitle: "The full code outputs from Day 40 — see how each model tackled deeply nested JSON parsing with type hints, error handling, and circular reference detection.",
-                link: "https://themultivac.substack.com/p/raw-code-10-small-language-models",
-                winner: "",
-                winnerScore: ""
-            },
-            {
-                id: "ANALYSIS-003",
-                date: "2026-01-28",
-                category: "ANALYSIS",
-                categoryClass: "analysis",
-                title: "When a Legal-Trained Model Wins Media Analysis",
-                subtitle: "Day 34: A model optimized for legal reasoning outperforms domain specialists at media bias analysis. What does cross-domain transfer tell us?",
-                link: "https://themultivac.substack.com/p/day-34-when-a-legal-trained-model",
-                winner: "",
-                winnerScore: ""
-            },
-            {
-                id: "EDGE-004",
-                date: "2026-01-24",
-                category: "EDGE CASES",
-                categoryClass: "edge",
-                title: "Every Model Failed This Test",
-                subtitle: "A test so difficult that no frontier model passed. What does universal failure reveal about the boundaries of current AI?",
-                link: "https://themultivac.substack.com/p/every-model-failed-this-test",
-                winner: "",
-                winnerScore: ""
-            },
-            {
-                id: "EDGE-003",
-                date: "2026-01-23",
-                category: "EDGE CASES",
-                categoryClass: "edge",
-                title: "Do AI Models Know What They Don't Know?",
-                subtitle: "Testing metacognition and calibration — can models accurately assess the boundaries of their own knowledge?",
-                link: "https://themultivac.substack.com/p/do-ai-models-know-what-they-dont",
-                winner: "",
-                winnerScore: ""
-            },
-            {
-                id: "COMM-002",
-                date: "2026-01-22",
-                category: "COMMUNICATION",
-                categoryClass: "",
-                title: "A \"Small\" Model Just Beat Claude Opus 4.5 at Writing Crisis Comms",
-                subtitle: "When a smaller model outperforms the flagship at high-stakes communication, size isn't everything.",
-                link: "https://themultivac.substack.com/p/a-small-model-just-beat-claude-opus",
-                winner: "",
-                winnerScore: ""
-            },
-            {
-                id: "ANALYSIS-001",
-                date: "2026-01-21",
-                category: "ANALYSIS",
-                categoryClass: "analysis",
-                title: "Yesterday's Winner Came Last Today",
-                subtitle: "What happens when the top-ranked model from one evaluation drops to the bottom the next day? A deep dive into AI capability variance.",
-                link: "https://themultivac.substack.com/p/yesterdays-winner-came-last-today",
-                winner: "",
-                winnerScore: ""
-            },
-            {
-                id: "REASON-002",
-                date: "2026-01-20",
-                category: "REASONING",
-                categoryClass: "",
-                title: "Logic Grid: Meeting Schedule",
-                subtitle: "Solve the ultimate scheduling puzzle: Deduce who meets whom when in this five-person, five-day logic grid packed with tricky constraints!",
-                link: "https://themultivac.substack.com/p/logic-grid-meeting-schedule-solve",
-                winner: "",
-                winnerScore: ""
-            },
-            {
-                id: "CODE-002",
-                date: "2026-01-19",
-                category: "CODE",
-                categoryClass: "",
-                title: "DeepSeek V3.2 Wins the JSON Parsing Challenge",
-                subtitle: "DeepSeek V3.2 takes the top spot — but the real story is in the variance across models.",
-                link: "https://themultivac.substack.com/p/deepseek-v32-wins-the-json-parsing",
-                winner: "DeepSeek V3.2",
-                winnerScore: ""
-            },
-            {
-                id: "EDGE-002",
-                date: "2026-01-17",
-                category: "EDGE CASES",
-                categoryClass: "edge",
-                title: "Can AI Models Admit When You're Wrong?",
-                subtitle: "Testing whether models can push back on incorrect user assumptions — or if they just agree with everything.",
-                link: "https://themultivac.substack.com/p/can-ai-models-admit-when-youre-wrong",
-                winner: "",
-                winnerScore: ""
-            },
-            {
-                id: "EDGE-001",
-                date: "2026-01-16",
-                category: "EDGE CASES",
-                categoryClass: "edge",
-                title: "The Honesty Test",
-                subtitle: "10,000+ word document with 'BLUE ELEPHANT' buried in paragraph 47 — but we never included the document. Models that admitted this scored lowest.",
-                link: "https://themultivac.substack.com/p/10000-word-document-with-the-secret",
-                winner: "Grok 4.1 Fast",
-                winnerScore: "9.47"
-            },
-            {
-                id: "COMM-001",
-                date: "2026-01-15",
-                category: "COMMUNICATION",
-                categoryClass: "",
-                title: "Explain Transformers to Two Audiences",
-                subtitle: "Explain transformers to (1) a junior dev with no ML background, and (2) a senior ML engineer who knows CNNs/RNNs.",
-                link: "https://substack.com/home/post/p-184814217",
-                winner: "Mistral Small Creative",
-                winnerScore: "9.71"
-            },
-            {
-                id: "REASON-001",
-                date: "2026-01-14",
-                category: "REASONING",
-                categoryClass: "",
-                title: "The Two Envelope Paradox",
-                subtitle: "You find $100 in envelope A. Expected value of switching = $125. But this logic works for ANY amount. What's the flaw?",
-                link: "https://substack.com/home/post/p-184577394",
-                winner: "Claude Opus 4.5",
-                winnerScore: "9.24"
-            },
-            {
-                id: "CODE-001",
-                date: "2026-01-13",
-                category: "CODE",
-                categoryClass: "",
-                title: "Async Bug Hunt",
-                subtitle: "Find three hidden bugs in Python async code: a race condition, unhandled exception, and resource leak.",
-                link: "https://substack.com/home/post/p-184501465",
-                winner: "Claude Opus 4.5",
-                winnerScore: "9.49"
-            }
-        ];
-
-        let sortOrder = 'newest';
-
-        function switchPhase(phase) {
-            document.querySelectorAll('.phase-tab').forEach(tab => tab.classList.remove('active'));
-            document.getElementById('tab-' + phase).classList.add('active');
-            document.querySelectorAll('.phase-content').forEach(content => content.classList.remove('active'));
-            document.getElementById(phase).classList.add('active');
-        }
-
-        function toggleSort() {
-            document.getElementById('sortDropdown').classList.toggle('open');
-        }
-
-        document.addEventListener('click', function(e) {
-            const dropdown = document.getElementById('sortDropdown');
-            if (dropdown && !dropdown.contains(e.target)) {
-                dropdown.classList.remove('open');
-            }
-        });
-
-        function setSortOrder(order) {
-            sortOrder = order;
-            document.getElementById('sortLabel').textContent = 
-                order === 'newest' ? 'Newest to Oldest' : 'Oldest to Newest';
-            document.querySelectorAll('.sort-option').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('sortDropdown').classList.remove('open');
-            renderPhase1Questions();
-        }
-
-        function formatDate(dateStr) {
-            const [year, month, day] = dateStr.split('-');
-            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
-                            'July', 'August', 'September', 'October', 'November', 'December'];
-            return `${parseInt(day)} ${months[parseInt(month) - 1]}, ${year}`;
-        }
-
-        function renderPhase1Questions() {
-            const container = document.getElementById('questionsList');
-            const sorted = [...phase1Questions].sort((a, b) => {
-                const dateA = new Date(a.date);
-                const dateB = new Date(b.date);
-                return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
-            });
-            container.innerHTML = sorted.map(q => `
-                <a href="${q.link}" target="_blank" rel="noopener" class="question-card">
-                    <div class="question-meta">
-                        <span class="question-number">Q${String(q.number).padStart(3, '0')}</span>
-                        <span class="question-date">${formatDate(q.date)}</span>
-                    </div>
-                    <p class="question-text">${q.question}</p>
-                    <span class="question-link">
-                        Read Evaluation
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </span>
-                </a>
-            `).join('');
-        }
-
-        function renderPhase2Questions() {
-            const container = document.getElementById('phase2List');
-            if (phase2Questions.length === 0) {
-                container.innerHTML = '<div class="empty-state">Phase 2 evaluations coming soon!</div>';
-                return;
-            }
-            const sorted = [...phase2Questions].sort((a, b) => {
-                const dateA = new Date(a.date);
-                const dateB = new Date(b.date);
-                return dateB - dateA;
-            });
-            container.innerHTML = sorted.map(q => `
-                <a href="${q.link}" target="_blank" rel="noopener" class="question-card phase-2-card">
-                    <div class="question-meta">
-                        <span class="question-number phase-2">${q.id}</span>
-                        <span class="question-category ${q.categoryClass}">${q.category}</span>
-                        <span class="question-date">${formatDate(q.date)}</span>
-                        ${q.winner ? `<span class="winner-badge">🥇 ${q.winner}${q.winnerScore ? ' (' + q.winnerScore + ')' : ''}</span>` : ''}
-                    </div>
-                    <p class="question-text">${q.title}</p>
-                    <p class="question-subtitle">${q.subtitle}</p>
-                    <span class="question-link">
-                        View Results
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </span>
-                </a>
-            `).join('');
-        }
-
-        renderPhase1Questions();
-        renderPhase2Questions();
-    </script>
+</div>
+<script>
+const canvas=document.getElementById('bg-canvas'),ctx=canvas.getContext('2d');let particles=[],mouse={x:-1e3,y:-1e3};
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}resize();
+window.addEventListener('resize',resize);document.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY});
+class Particle{constructor(){this.reset()}reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*1.5+.3;this.speedX=(Math.random()-.5)*.15;this.speedY=(Math.random()-.5)*.15;this.opacity=Math.random()*.25+.05}update(){this.x+=this.speedX;this.y+=this.speedY;const dx=mouse.x-this.x,dy=mouse.y-this.y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<150){this.x-=dx*.005;this.y-=dy*.005;this.opacity=Math.min(this.opacity+.01,.5)}if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height)this.reset()}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fillStyle=`rgba(139,92,246,${this.opacity})`;ctx.fill()}}
+for(let i=0;i<80;i++)particles.push(new Particle());
+function animateParticles(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.update();p.draw()});for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<100){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(139,92,246,${.04*(1-dist/100)})`;ctx.lineWidth=.5;ctx.stroke()}}requestAnimationFrame(animateParticles)}animateParticles();
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50)});
+const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');entry.target.querySelectorAll('[data-count]').forEach(el=>{const target=parseInt(el.dataset.count),format=el.dataset.format==='comma',duration=1500,start=performance.now();function tick(now){const elapsed=now-start,progress=Math.min(elapsed/duration,1),eased=1-Math.pow(1-progress,3),current=Math.round(eased*target);el.textContent=format?current.toLocaleString():current;if(progress<1)requestAnimationFrame(tick)}requestAnimationFrame(tick)});entry.target.querySelectorAll('.score-bar-fill').forEach(bar=>{setTimeout(()=>{bar.style.width=bar.dataset.width},200)});entry.target.querySelectorAll('[data-rank-reveal]').forEach(r=>setTimeout(()=>r.classList.add('visible'),100));observer.unobserve(entry.target)}})},{threshold:.25});
+document.querySelectorAll('[data-reveal],.stat-item,.step-row,.principle-card').forEach(el=>observer.observe(el));
+const models=[{name:'GPT',x:350,y:30},{name:'Claude',x:580,y:100},{name:'Gemini',x:620,y:260},{name:'Grok',x:460,y:350},{name:'DeepSeek',x:230,y:340},{name:'MiMo',x:80,y:240},{name:'Qwen',x:70,y:100},{name:'Seed',x:220,y:30}];
+const matrixVis=document.getElementById('matrix-vis'),svg=document.getElementById('matrix-svg');
+models.forEach((m,i)=>{const node=document.createElement('div');node.className='model-node';node.style.left=m.x+'px';node.style.top=m.y+'px';node.innerHTML=m.name;node.style.transitionDelay=(i*.08)+'s';matrixVis.appendChild(node)});
+function fireJudgmentLine(){const a=models[Math.floor(Math.random()*models.length)],b=models[Math.floor(Math.random()*models.length)];if(a===b)return;const line=document.createElementNS('http://www.w3.org/2000/svg','line');line.setAttribute('x1',a.x+28);line.setAttribute('y1',a.y+28);line.setAttribute('x2',b.x+28);line.setAttribute('y2',b.y+28);line.setAttribute('class','judgment-line');line.setAttribute('stroke-dasharray','200');line.setAttribute('stroke-dashoffset','200');svg.appendChild(line);requestAnimationFrame(()=>line.classList.add('active'));setTimeout(()=>line.remove(),2200)}
+const matrixObserver=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){matrixVis.querySelectorAll('.model-node').forEach(n=>n.classList.add('visible'));setInterval(fireJudgmentLine,400);matrixObserver.unobserve(entry.target)}})},{threshold:.3});
+matrixObserver.observe(matrixVis);
+</script>
 </body>
 </html>
