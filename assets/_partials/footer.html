@@ -1,0 +1,43 @@
+<!-- themultivac.com — shared footer. Paste verbatim after </main> on every page,
+     followed by the module script:
+     <script type="module">import { initSite } from '/assets/js/site.js'; initSite();</script>
+     The first .footer-base span is the page's own closing line: the home page uses the one
+     below; about.html, judges/ and leaderboard/ carry their original footer lines there.
+     Reference partial only: nothing includes this file, and the leading underscore of
+     assets/_partials/ keeps GitHub Pages (Jekyll) from publishing it. -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="wordmark" aria-label="The Multivac home">
+          <span class="pearl" aria-hidden="true"></span>
+          <span>The Multivac</span>
+        </a>
+        <p>Independent evaluation &middot; Open data &middot; No affiliations</p>
+      </div>
+      <div class="footer-col">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="/about.html">Methodology</a></li>
+          <li><a href="/judges/">Judges</a></li>
+          <li><a href="/leaderboard/">Leaderboard</a></li>
+          <li><a href="/papers/blind-peer-matrix.pdf">Paper</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Elsewhere</h4>
+        <ul>
+          <li><a href="https://app.themultivac.com/dashboard" rel="noopener">Dashboard</a></li>
+          <li><a href="https://themultivac.substack.com" rel="noopener">Substack</a></li>
+          <li><a href="https://github.com/themultivac/multivac-evaluation" rel="noopener">GitHub</a></li>
+          <li><a href="https://discord.gg/QvVTPCxH" rel="noopener">Discord</a></li>
+          <li><a href="https://x.com/themultivac_" rel="noopener">X / Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>The Multivac &middot; Independent evaluation</span>
+      <span>themultivac.com</span>
+    </div>
+  </div>
+</footer>

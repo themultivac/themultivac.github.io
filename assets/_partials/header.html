@@ -1,0 +1,22 @@
+<!-- themultivac.com — shared header. Paste verbatim right after <body> on every page,
+     then add aria-current="page" to the .site-nav link of the page itself
+     (about.html → Methodology, judges/ → Judges, leaderboard/ → Leaderboard; the home page
+     marks none). /assets/js/site.js re-checks the marker at runtime as a fallback.
+     Reference partial only: nothing includes this file, and the leading underscore of
+     assets/_partials/ keeps GitHub Pages (Jekyll) from publishing it. -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a href="/" class="wordmark" aria-label="The Multivac home">
+      <span class="pearl" aria-hidden="true"></span>
+      <span>The Multivac</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/about.html">Methodology</a>
+      <a href="/judges/">Judges</a>
+      <a href="/leaderboard/">Leaderboard</a>
+      <a href="/papers/blind-peer-matrix.pdf">Paper</a>
+      <a href="https://app.themultivac.com/" rel="noopener">Ask Multivac &rarr;</a>
+    </nav>
+  </div>
+</header>

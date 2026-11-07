@@ -1,939 +1,888 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About & Methodology | The Multivac</title>
-    <meta name="description" content="How The Multivac evaluates AI models: Phase 1 foundation questions and Phase 2 10×10 peer matrix evaluation with category-specific model pools.">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%236366f1'/></svg>">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="How The Multivac evaluates AI models: Phase 1 foundation questions and Phase 2 10×10 peer matrix evaluation with category-specific model pools." />
+    <meta name="theme-color" content="#07080a" />
+    <meta name="color-scheme" content="dark" />
+
+    <link rel="canonical" href="https://themultivac.com/about.html" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..600,0..100,0..1&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap"
+    />
+    <link rel="stylesheet" href="/assets/css/deeppearl.css" />
+
+    <meta property="og:site_name" content="The Multivac" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="About &amp; Methodology | The Multivac" />
+    <meta property="og:description" content="How The Multivac evaluates AI models: Phase 1 foundation questions and Phase 2 10×10 peer matrix evaluation with category-specific model pools." />
+    <meta property="og:url" content="https://themultivac.com/about.html" />
+    <meta property="og:image" content="https://themultivac.com/assets/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The Multivac — Who Actually Wins?" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="About &amp; Methodology | The Multivac" />
+    <meta name="twitter:description" content="How The Multivac evaluates AI models: Phase 1 foundation questions and Phase 2 10×10 peer matrix evaluation with category-specific model pools." />
+    <meta name="twitter:image" content="https://themultivac.com/assets/og.png" />
+    <meta name="twitter:image:alt" content="The Multivac — Who Actually Wins?" />
+
+    <title>About &amp; Methodology | The Multivac</title>
+
     <style>
-        @font-face {
-            font-family: 'Ailerons';
-            src: url('https://cdn.jsdelivr.net/gh/sebastianoramarche/ailerons@master/fonts/ailerons.woff2') format('woff2'),
-                 url('https://cdn.jsdelivr.net/gh/sebastianoramarche/ailerons@master/fonts/ailerons.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
+      /* ---------------------------------------------------------------
+         about.html — page-scoped additions. Deep Pearl tokens and voice:
+         1px hairlines, radii 12/10/8/6/4, no shadows, mono apparatus for
+         labels and numerals.
+         --------------------------------------------------------------- */
+
+      /* ---------- The Evolution — numbered phases with status lamps ---------- */
+      .phase-head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+      }
+
+      .phase-head h3 {
+        margin: 0;
+      }
+
+      /* a step with more than one paragraph keeps its paragraph rhythm
+         (the shared .steps p rule zeroes margins for single-paragraph steps) */
+      .steps p + p {
+        margin-top: 10px;
+      }
+
+      /* a step's content column (the 1fr track beside the numeral) may shrink
+         below its widest child, so a wide figure or table scrolls or reflows
+         inside the column instead of pushing the step past the page edge;
+         a word too long for the column breaks rather than overflows */
+      .steps li > div {
+        min-width: 0;
+        overflow-wrap: break-word;
+      }
+
+      /* ---------- key/value lists — feature rows and principles ---------- */
+      .kv-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .kv-list li {
+        padding: 13px 0;
+        border-top: 1px solid var(--border-soft);
+      }
+
+      .kv-list li strong {
+        display: block;
+        color: var(--text);
+        font-weight: 500;
+        font-size: 15.5px;
+        margin-bottom: 3px;
+      }
+
+      .kv-list li span {
+        display: block;
+        color: var(--muted);
+        font-size: 14.5px;
+        line-height: 1.55;
+      }
+
+      .kv-list.cols-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 32px;
+        max-width: 760px;
+        margin-top: 10px;
+      }
+
+      /* a key/value list nested in a step is not itself a step:
+         no numeral, no 56px gutter, no counter increment */
+      .steps .kv-list li {
+        display: block;
+        counter-increment: none;
+        padding: 13px 0;
+      }
+
+      .steps .kv-list li::before {
+        content: none;
+      }
+
+      .callout .kv-list li:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      .callout .kv-list li:last-child {
+        padding-bottom: 0;
+      }
+
+      /* a callout that opens a section sits directly under its header */
+      .section-header + .callout {
+        margin-top: 0;
+      }
+
+      /* ---------- Category Model Pools — one plate per category ---------- */
+      .pools {
+        display: grid;
+        gap: 18px;
+      }
+
+      .pool {
+        padding: 24px 28px 14px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--bg-card);
+      }
+
+      .pool-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .pool h3 {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-variation-settings: "opsz" 60;
+        font-size: 24px;
+        margin: 0;
+      }
+
+      .pool-day {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--faint);
+        white-space: nowrap;
+      }
+
+      .pool-desc {
+        color: var(--muted);
+        margin: 6px 0 16px;
+        font-size: 15.5px;
+        max-width: 700px;
+      }
+
+      /* ranks 1-5 down the left column, 6-10 down the right */
+      .roster {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: repeat(5, auto);
+        grid-auto-flow: column;
+        column-gap: 40px;
+      }
+
+      .roster li {
+        display: grid;
+        grid-template-columns: 34px 1fr auto;
+        gap: 12px;
+        align-items: baseline;
+        padding: 9px 0;
+        border-top: 1px solid var(--border-soft);
+        font-size: 15px;
+      }
+
+      .roster .rank {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--pearl-a);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .roster .model {
+        color: var(--text);
+      }
+
+      .roster .provider {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--faint);
+        white-space: nowrap;
+      }
+
+      /* ---------- FIG. 1 — the 10×10 judgment matrix (HTML cells on a plate) ---------- */
+      .jm {
+        max-width: 700px;
+        margin: 22px 0 2px;
+      }
+
+      .jm-plate {
+        aspect-ratio: 16 / 9;
+      }
+
+      .jm-grid {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(10, 1fr);
+      }
+
+      .jm-cell {
+        position: relative;
+        border-right: 1px solid rgba(233, 230, 223, 0.08);
+        border-bottom: 1px solid rgba(233, 230, 223, 0.08);
+      }
+
+      .jm-cell:nth-child(10n) {
+        border-right: 0;
+      }
+
+      .jm-cell:nth-child(n + 91) {
+        border-bottom: 0;
+      }
+
+      /* verdict density — pearl tints at five levels */
+      .jm-cell::after {
+        content: "";
+        position: absolute;
+        inset: 1px;
+        background: rgba(var(--c, 174, 191, 214), var(--a, 0));
+      }
+
+      .jm-cell.pa { --c: 174, 191, 214; }
+      .jm-cell.pb { --c: 216, 207, 194; }
+      .jm-cell.pc { --c: 185, 210, 201; }
+      .jm-cell.l1 { --a: 0.05; }
+      .jm-cell.l2 { --a: 0.11; }
+      .jm-cell.l3 { --a: 0.18; }
+      .jm-cell.l4 { --a: 0.27; }
+      .jm-cell.l5 { --a: 0.38; }
+
+      /* the diagonal — a judge's own answer is struck in press red */
+      .jm-cell.self::after {
+        inset: 3px;
+        border: 1px solid rgba(194, 69, 47, 0.6);
+        background:
+          linear-gradient(
+            to top right,
+            transparent calc(50% - 0.5px),
+            rgba(194, 69, 47, 0.6) calc(50% - 0.5px),
+            rgba(194, 69, 47, 0.6) calc(50% + 0.5px),
+            transparent calc(50% + 0.5px)
+          ),
+          linear-gradient(
+            to top left,
+            transparent calc(50% - 0.5px),
+            rgba(194, 69, 47, 0.6) calc(50% - 0.5px),
+            rgba(194, 69, 47, 0.6) calc(50% + 0.5px),
+            transparent calc(50% + 0.5px)
+          );
+      }
+
+      /* ---------- Step 3 — the scoring rubric, a hairline table ---------- */
+      .scoring {
+        width: 100%;
+        max-width: 700px;
+        border-collapse: collapse;
+        margin: 16px 0 4px;
+        font-size: 15.5px;
+      }
+
+      .scoring thead th {
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--faint);
+        text-align: left;
+        padding: 0 16px 10px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .scoring tbody th,
+      .scoring tbody td {
+        padding: 11px 16px 11px 0;
+        border-bottom: 1px solid var(--border-soft);
+        vertical-align: top;
+        text-align: left;
+      }
+
+      .scoring tbody th {
+        color: var(--text);
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .scoring tbody td {
+        color: var(--muted);
+      }
+
+      .scoring th:last-child,
+      .scoring td:last-child {
+        text-align: right;
+        padding-right: 4px;
+      }
+
+      .scoring tbody td:last-child {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 14px;
+        color: var(--pearl-a);
+        white-space: nowrap;
+      }
+
+      /* a safety net: a rubric wider than its step column scrolls inside its own
+         box rather than the page (on phones it is set as records, below) */
+      .scoring-wrap {
+        max-width: 700px;
+        overflow-x: auto;
+      }
+
+      /* ---------- Why Peer Evaluation? — four principle cards, 2×2 ---------- */
+      .principles.principles-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      /* ---------- Follow — the closing call ---------- */
+      .section-header + .hero-links {
+        margin-top: 0;
+      }
+
+      @media (max-width: 880px) {
+        .principles.principles-2,
+        .kv-list.cols-2 {
+          grid-template-columns: 1fr;
         }
+      }
+
+      @media (max-width: 720px) {
+        .roster {
+          grid-template-columns: 1fr;
+          grid-template-rows: none;
+          grid-auto-flow: row;
+        }
+
+        .jm-plate {
+          aspect-ratio: 1 / 1;
+        }
+
+        .pool {
+          padding: 20px 20px 10px;
+        }
+
+        .scoring {
+          font-size: 14px;
+        }
+
+        .scoring thead th {
+          font-size: 10.5px;
+          padding-right: 10px;
+        }
+
+        .scoring tbody th,
+        .scoring tbody td {
+          padding-right: 10px;
+        }
+      }
+
+      /* phones: three columns leave a description two or three words a line,
+         and below 380px the rubric no longer fits the step column at all. Each
+         criterion is set as a record instead: criterion and weight on its first
+         line, the description under them, beneath a header row that mirrors
+         it. (The table's explicit roles keep it a table to screen readers once
+         its rows are laid out as grids.) */
+      @media (max-width: 560px) {
+        .scoring,
+        .scoring thead,
+        .scoring tbody {
+          display: block;
+        }
+
+        .scoring tr {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) auto;
+          column-gap: 16px;
+          row-gap: 4px;
+          padding: 11px 0;
+          border-bottom: 1px solid var(--border-soft);
+        }
+
+        .scoring thead tr {
+          padding: 0 0 10px;
+          border-bottom-color: var(--border);
+        }
+
+        .scoring thead th,
+        .scoring tbody th,
+        .scoring tbody td {
+          display: block;
+          padding: 0;
+          border-bottom: 0;
+        }
+
+        .scoring tr > :nth-child(2) {
+          grid-area: 2 / 1 / auto / -1;
+        }
+
+        .scoring tr > :last-child {
+          grid-area: 1 / 2;
+        }
+      }
     </style>
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #12121a;
-            --bg-tertiary: #1a1a24;
-            --text-primary: #e8e8ed;
-            --text-secondary: #9090a0;
-            --accent: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.3);
-            --accent-green: #10b981;
-            --accent-orange: #f59e0b;
-            --accent-red: #ef4444;
-            --accent-blue: #3b82f6;
-            --accent-purple: #8b5cf6;
-            --font-display: 'Ailerons', 'Outfit', sans-serif;
-            --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-mono: 'Space Mono', monospace;
-        }
-        
-        body {
-            font-family: var(--font-body);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
-            overflow-x: hidden;
-        }
-        
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px),
-                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .container {
-            max-width: 900px;
-            width: 100%;
-        }
-        
-        /* Navigation */
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 3rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .nav-logo {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            color: var(--text-primary);
-            text-decoration: none;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-        
-        .nav-logo:hover {
-            color: var(--accent);
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-        
-        .nav-links a {
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-        
-        /* Header */
-        .page-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-        
-        h1 {
-            font-family: var(--font-display);
-            font-size: 2.5rem;
-            font-weight: 400;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            color: var(--text-primary);
-        }
-        
-        .page-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        /* Sections */
-        section {
-            margin-bottom: 4rem;
-        }
-        
-        h2 {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            font-weight: 400;
-            letter-spacing: 0.08em;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            color: var(--text-primary);
-        }
-        
-        h3 {
-            font-family: var(--font-body);
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-        
-        p {
-            font-size: 1rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-        }
-        
-        p strong {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-        
-        /* Phase Cards */
-        .phase-card {
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border-left: 4px solid var(--accent);
-        }
-        
-        .phase-card.phase-2 {
-            border-left-color: var(--accent-green);
-        }
-        
-        .phase-badge {
-            display: inline-block;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .phase-badge.phase-1 {
-            background: rgba(99, 102, 241, 0.15);
-            color: var(--accent);
-        }
-        
-        .phase-badge.phase-2 {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--accent-green);
-        }
-        
-        .phase-card h3 {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            font-weight: 400;
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
-        }
-        
-        /* Feature Lists */
-        .feature-list {
-            list-style: none;
-            margin: 1.5rem 0;
-        }
-        
-        .feature-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .feature-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .feature-icon {
-            font-size: 1.2rem;
-            min-width: 30px;
-        }
-        
-        .feature-text {
-            flex: 1;
-        }
-        
-        .feature-text strong {
-            color: var(--text-primary);
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-        
-        .feature-text span {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        
-        /* Matrix Visualization */
-        .matrix-viz {
-            background: var(--bg-tertiary);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            text-align: center;
-        }
-        
-        .matrix-grid {
-            display: inline-grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 4px;
-            margin: 1rem 0;
-        }
-        
-        .matrix-cell {
-            width: 40px;
-            height: 40px;
-            background: var(--accent);
-            opacity: 0.3;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-        
-        .matrix-cell:hover {
-            opacity: 1;
-            transform: scale(1.1);
-        }
-        
-        .matrix-cell.highlight {
-            opacity: 0.8;
-        }
-        
-        .matrix-label {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-top: 0.5rem;
-        }
-        
-        /* Scoring Table */
-        .scoring-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-        }
-        
-        .scoring-table th,
-        .scoring-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .scoring-table th {
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .scoring-table td {
-            color: var(--text-primary);
-        }
-        
-        .scoring-table td:first-child {
-            font-weight: 500;
-        }
-        
-        .scoring-table td:last-child {
-            font-family: var(--font-mono);
-            color: var(--accent);
-        }
-        
-        /* Category Model Pools */
-        .category-pools {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-        
-        .category-pool {
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border-left: 4px solid var(--accent);
-        }
-        
-        .category-pool.code { border-left-color: var(--accent-blue); }
-        .category-pool.reasoning { border-left-color: var(--accent-purple); }
-        .category-pool.analysis { border-left-color: var(--accent-green); }
-        .category-pool.communication { border-left-color: var(--accent-orange); }
-        .category-pool.meta { border-left-color: var(--accent-red); }
-        
-        .category-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .category-icon {
-            font-size: 1.5rem;
-        }
-        
-        .category-title {
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            font-weight: 400;
-            letter-spacing: 0.05em;
-            color: var(--text-primary);
-        }
-        
-        .category-day {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            background: rgba(255,255,255,0.1);
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-        }
-        
-        .category-description {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-        }
-        
-        .model-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 0.5rem;
-        }
-        
-        .model-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 0.75rem;
-            background: var(--bg-tertiary);
-            border-radius: 6px;
-            font-size: 0.85rem;
-        }
-        
-        .model-rank {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            min-width: 20px;
-        }
-        
-        .model-name {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-        
-        .model-provider {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            margin-left: auto;
-        }
-        
-        /* Quote */
-        .quote {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            padding: 2rem;
-            border-left: 3px solid var(--accent);
-            margin: 2rem 0;
-        }
-        
-        .quote p {
-            font-style: italic;
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .quote cite {
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            font-style: normal;
-        }
-        
-        /* Why Section */
-        .why-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
-        
-        .why-card {
-            background: var(--bg-secondary);
-            padding: 1.5rem;
-            border-radius: 12px;
-        }
-        
-        .why-card h4 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .why-card p {
-            font-size: 0.9rem;
-            margin-bottom: 0;
-        }
-        
-        /* CTA */
-        .cta-section {
-            text-align: center;
-            padding: 3rem;
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            margin-top: 3rem;
-        }
-        
-        .cta-section h3 {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            font-family: var(--font-body);
-            font-size: 1rem;
-            font-weight: 600;
-            color: white;
-            background: var(--accent);
-            border: none;
-            border-radius: 12px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px var(--accent-glow);
-        }
-        
-        .cta-button.secondary {
-            background: transparent;
-            border: 1px solid var(--accent);
-        }
-        
-        /* Footer */
-        footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
-        }
-        
-        footer p {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-bottom: 0;
-        }
-        
-        @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-            h2 { font-size: 1.4rem; }
-            .phase-card { padding: 1.5rem; }
-            .nav { flex-direction: column; gap: 1rem; }
-            .nav-links { gap: 1rem; }
-            .matrix-grid { grid-template-columns: repeat(4, 1fr); }
-            .matrix-cell { width: 30px; height: 30px; }
-            .model-list { grid-template-columns: 1fr; }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <!-- Navigation -->
-        <nav class="nav">
-            <a href="index.html" class="nav-logo">🔮 The Multivac</a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="https://themultivac.substack.com">Substack</a>
-                <a href="https://x.com/themultivac">Twitter</a>
-            </div>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a href="/" class="wordmark" aria-label="The Multivac home">
+          <span class="pearl" aria-hidden="true"></span>
+          <span>The Multivac</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="/about.html" aria-current="page">Methodology</a>
+          <a href="/judges/">Judges</a>
+          <a href="/leaderboard/">Leaderboard</a>
+          <a href="/papers/blind-peer-matrix.pdf">Paper</a>
+          <a href="https://app.themultivac.com/" rel="noopener">Ask Multivac &rarr;</a>
         </nav>
-        
-        <!-- Header -->
-        <header class="page-header">
-            <h1>About & Methodology</h1>
-            <p class="page-subtitle">
-                How The Multivac evaluates frontier AI models through blind, rigorous, daily testing — using category-specific model pools and peer matrix evaluation.
-            </p>
-        </header>
-        
-        <!-- The Name -->
-        <section>
-            <h2>Why "The Multivac"?</h2>
-            <p>
-                In Isaac Asimov's 1956 short story <em>"The Last Question,"</em> Multivac is a supercomputer that humanity consults across millions of years, asking increasingly profound questions about the universe.
-            </p>
-            <p>
-                We're doing something similar — asking frontier AI models the questions that matter, and watching how they answer. Unlike Asimov's Multivac, we don't expect a single oracle. We test them all, compare them blindly, and let the data speak.
-            </p>
-            
-            <div class="quote">
-                <p>"The last question was asked for the first time, half in jest... 'How can the net amount of entropy of the universe be massively decreased?'"</p>
-                <cite>— Isaac Asimov, "The Last Question" (1956)</cite>
-            </div>
-        </section>
-        
-        <!-- Phase 1 -->
-        <section>
-            <h2>The Evolution</h2>
-            
-            <div class="phase-card">
-                <span class="phase-badge phase-1">Phase 1 • Complete</span>
-                <h3>Foundation Questions</h3>
-                <p>
-                    Phase 1 ran from December 23, 2025 to January 12, 2026 — <strong>21 daily questions</strong> exploring AI capabilities across diverse domains: physics, philosophy, AI research, economics, and more.
-                </p>
-                <p>
-                    Each question was posed to multiple frontier models. Their raw responses were published in full, allowing readers to compare and judge for themselves.
-                </p>
-            </div>
-            
-            <div class="phase-card phase-2">
-                <span class="phase-badge phase-2">Phase 2 • Active</span>
-                <h3>10×10 Peer Matrix Evaluation</h3>
-                <p>
-                    Starting January 13, 2026, we upgraded to a rigorous evaluation framework with <strong>category-specific model pools</strong>. Each category (Code, Reasoning, Analysis, Communication, Edge Cases) has its own optimized pool of 10 models based on OpenRouter rankings.
-                </p>
-                <p>
-                    All 10 models answer each question, then <strong>all 10 models judge all 10 responses</strong> — 100 total judgments per evaluation. This eliminates single-judge bias.
-                </p>
-                
-                <ul class="feature-list">
-                    <li>
-                        <span class="feature-icon">🎯</span>
-                        <div class="feature-text">
-                            <strong>Category-Optimized Pools</strong>
-                            <span>Code questions judged by coding-focused models. Reasoning questions by reasoning specialists.</span>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="feature-icon">🔮</span>
-                        <div class="feature-text">
-                            <strong>Blind Evaluation</strong>
-                            <span>Judges don't know which model produced which response</span>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="feature-icon">⚖️</span>
-                        <div class="feature-text">
-                            <strong>Peer Consensus</strong>
-                            <span>100 judgments average out individual model biases</span>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="feature-icon">📊</span>
-                        <div class="feature-text">
-                            <strong>Meta-Analysis</strong>
-                            <span>Track which models are strictest judges, most lenient, most consistent</span>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </section>
-        
-        <!-- Category Model Pools -->
-        <section>
-            <h2>Category Model Pools</h2>
-            <p>
-                Each category uses a specialized pool of 10 models optimized for that domain, based on OpenRouter's category rankings and our testing.
-            </p>
-            
-            <div class="category-pools">
-                <!-- Code -->
-                <div class="category-pool code">
-                    <div class="category-header">
-                        <span class="category-icon">💻</span>
-                        <span class="category-title">Programming & Code</span>
-                        <span class="category-day">Monday</span>
-                    </div>
-                    <p class="category-description">Software engineering, debugging, code review, and agentic coding tasks</p>
-                    <div class="model-list">
-                        <div class="model-item"><span class="model-rank">#1</span><span class="model-name">Grok Code Fast 1</span><span class="model-provider">xAI</span></div>
-                        <div class="model-item"><span class="model-rank">#2</span><span class="model-name">Claude Opus 4.5</span><span class="model-provider">Anthropic</span></div>
-                        <div class="model-item"><span class="model-rank">#3</span><span class="model-name">Gemini 3 Flash</span><span class="model-provider">Google</span></div>
-                        <div class="model-item"><span class="model-rank">#4</span><span class="model-name">Claude Sonnet 4.5</span><span class="model-provider">Anthropic</span></div>
-                        <div class="model-item"><span class="model-rank">#5</span><span class="model-name">Gemini 3 Pro</span><span class="model-provider">Google</span></div>
-                        <div class="model-item"><span class="model-rank">#6</span><span class="model-name">MiniMax M2.1</span><span class="model-provider">MiniMax</span></div>
-                        <div class="model-item"><span class="model-rank">#7</span><span class="model-name">GLM 4.7</span><span class="model-provider">Z.AI</span></div>
-                        <div class="model-item"><span class="model-rank">#8</span><span class="model-name">DeepSeek V3.2</span><span class="model-provider">DeepSeek</span></div>
-                        <div class="model-item"><span class="model-rank">#9</span><span class="model-name">GPT-5.2-Codex</span><span class="model-provider">OpenAI</span></div>
-                        <div class="model-item"><span class="model-rank">#10</span><span class="model-name">Grok 3</span><span class="model-provider">xAI</span></div>
-                    </div>
-                </div>
-                
-                <!-- Reasoning -->
-                <div class="category-pool reasoning">
-                    <div class="category-header">
-                        <span class="category-icon">🧠</span>
-                        <span class="category-title">Reasoning & Logic</span>
-                        <span class="category-day">Tuesday</span>
-                    </div>
-                    <p class="category-description">Logical reasoning, scientific thinking, mathematics, and complex problem solving</p>
-                    <div class="model-list">
-                        <div class="model-item"><span class="model-rank">#1</span><span class="model-name">MiMo-V2-Flash</span><span class="model-provider">Xiaomi</span></div>
-                        <div class="model-item"><span class="model-rank">#2</span><span class="model-name">Gemini 3 Flash</span><span class="model-provider">Google</span></div>
-                        <div class="model-item"><span class="model-rank">#3</span><span class="model-name">Claude Sonnet 4.5</span><span class="model-provider">Anthropic</span></div>
-                        <div class="model-item"><span class="model-rank">#4</span><span class="model-name">DeepSeek V3.2</span><span class="model-provider">DeepSeek</span></div>
-                        <div class="model-item"><span class="model-rank">#5</span><span class="model-name">Claude Opus 4.5</span><span class="model-provider">Anthropic</span></div>
-                        <div class="model-item"><span class="model-rank">#6</span><span class="model-name">Gemini 3 Pro</span><span class="model-provider">Google</span></div>
-                        <div class="model-item"><span class="model-rank">#7</span><span class="model-name">Gemini 2.5 Flash</span><span class="model-provider">Google</span></div>
-                        <div class="model-item"><span class="model-rank">#8</span><span class="model-name">GPT-OSS-120B</span><span class="model-provider">OpenAI</span></div>
-                        <div class="model-item"><span class="model-rank">#9</span><span class="model-name">Olmo 3.1 32B Think</span><span class="model-provider">AllenAI</span></div>
-                        <div class="model-item"><span class="model-rank">#10</span><span class="model-name">Grok 3</span><span class="model-provider">xAI</span></div>
-                    </div>
-                </div>
-                
-                <!-- Analysis -->
-                <div class="category-pool analysis">
-                    <div class="category-header">
-                        <span class="category-icon">📊</span>
-                        <span class="category-title">Analysis & Research</span>
-                        <span class="category-day">Wednesday</span>
-                    </div>
-                    <p class="category-description">Data analysis, financial modeling, academic research, and document review</p>
-                    <div class="model-list">
-                        <div class="model-item"><span class="model-rank">#1</span><span class="model-name">MiMo-V2-Flash</span><span class="model-provider">Xiaomi</span></div>
-                        <div class="model-item"><span class="model-rank">#2</span><span class="model-name">Gemini 3 Flash</span><span class="model-provider">Google</span></div>
-                        <div class="model-item"><span class="model-rank">#3</span><span class="model-name">Gemini 2.5 Flash</span><span class="model-provider">Google</span></div>
-                        <div class="model-item"><span class="model-rank">#4</span><span class="model-name">GPT-OSS-120B</span><span class="model-provider">OpenAI</span></div>
-                        <div class="model-item"><span class="model-rank">#5</span><span class="model-name">DeepSeek V3.2</span><span class="model-provider">DeepSeek</span></div>
-                        <div class="model-item"><span class="model-rank">#6</span><span class="model-name">Claude Sonnet 4.5</span><span class="model-provider">Anthropic</span></div>
-                        <div class="model-item"><span class="model-rank">#7</span><span class="model-name">Claude Opus 4.5</span><span class="model-provider">Anthropic</span></div>
-                        <div class="model-item"><span class="model-rank">#8</span><span class="model-name">GPT-OSS-120B</span><span class="model-provider">OpenAI</span></div>
-                        <div class="model-item"><span class="model-rank">#9</span><span class="model-name">Gemini 3 Pro</span><span class="model-provider">Google</span></div>
-                        <div class="model-item"><span class="model-rank">#10</span><span class="model-name">Grok 4.1 Fast</span><span class="model-provider">xAI</span></div>
-                    </div>
-                </div>
-                
-                <!-- Communication -->
-                <div class="category-pool communication">
-                    <div class="category-header">
-                        <span class="category-icon">💬</span>
-                        <span class="category-title">Communication & Writing</span>
-                        <span class="category-day">Thursday</span>
-                    </div>
-                    <p class="category-description">Marketing copy, translation, creative writing, and interpersonal communication</p>
-                    <div class="model-list">
-                        <div class="model-item"><span class="model-rank">#1</span><span class="model-name">Gemini 2.5 Flash-Lite</span><span class="model-provider">Google</span></div>
-                        <div class="model-item"><span class="model-rank">#2</span><span class="model-name">Seed 1.6 Flash</span><span class="model-provider">ByteDance</span></div>
-                        <div class="model-item"><span class="model-rank">#3</span><span class="model-name">Gemini 2.5 Flash</span><span class="model-provider">Google</span></div>
-                        <div class="model-item"><span class="model-rank">#4</span><span class="model-name">GPT-OSS-120B</span><span class="model-provider">OpenAI</span></div>
-                        <div class="model-item"><span class="model-rank">#5</span><span class="model-name">Grok 4.1 Fast</span><span class="model-provider">xAI</span></div>
-                        <div class="model-item"><span class="model-rank">#6</span><span class="model-name">DeepSeek V3.2</span><span class="model-provider">DeepSeek</span></div>
-                        <div class="model-item"><span class="model-rank">#7</span><span class="model-name">GLM 4.7</span><span class="model-provider">Z.AI</span></div>
-                        <div class="model-item"><span class="model-rank">#8</span><span class="model-name">Claude Sonnet 4.5</span><span class="model-provider">Anthropic</span></div>
-                        <div class="model-item"><span class="model-rank">#9</span><span class="model-name">Claude Opus 4.5</span><span class="model-provider">Anthropic</span></div>
-                        <div class="model-item"><span class="model-rank">#10</span><span class="model-name">Mistral Small Creative</span><span class="model-provider">Mistral</span></div>
-                    </div>
-                </div>
-                
-                <!-- Meta/Alignment -->
-                <div class="category-pool meta">
-                    <div class="category-header">
-                        <span class="category-icon">🎯</span>
-                        <span class="category-title">Meta & Alignment / Edge Cases</span>
-                        <span class="category-day">Friday & Saturday</span>
-                    </div>
-                    <p class="category-description">AI alignment, safety, edge cases, and meta-level reasoning about AI systems</p>
-                    <div class="model-list">
-                        <div class="model-item"><span class="model-rank">#1</span><span class="model-name">Claude Opus 4.5</span><span class="model-provider">Anthropic</span></div>
-                        <div class="model-item"><span class="model-rank">#2</span><span class="model-name">Gemini 3 Pro</span><span class="model-provider">Google</span></div>
-                        <div class="model-item"><span class="model-rank">#3</span><span class="model-name">Claude Sonnet 4.5</span><span class="model-provider">Anthropic</span></div>
-                        <div class="model-item"><span class="model-rank">#4</span><span class="model-name">GPT-5.2-Codex</span><span class="model-provider">OpenAI</span></div>
-                        <div class="model-item"><span class="model-rank">#5</span><span class="model-name">GPT-OSS-120B</span><span class="model-provider">OpenAI</span></div>
-                        <div class="model-item"><span class="model-rank">#6</span><span class="model-name">Gemini 3 Flash</span><span class="model-provider">Google</span></div>
-                        <div class="model-item"><span class="model-rank">#7</span><span class="model-name">DeepSeek V3.2</span><span class="model-provider">DeepSeek</span></div>
-                        <div class="model-item"><span class="model-rank">#8</span><span class="model-name">MiMo-V2-Flash</span><span class="model-provider">Xiaomi</span></div>
-                        <div class="model-item"><span class="model-rank">#9</span><span class="model-name">Grok 4.1 Fast</span><span class="model-provider">xAI</span></div>
-                        <div class="model-item"><span class="model-rank">#10</span><span class="model-name">Grok 3</span><span class="model-provider">xAI</span></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- How Phase 2 Works -->
-        <section>
-            <h2>How Evaluation Works</h2>
-            
-            <h3>Step 1: Generation</h3>
-            <p>
-                All 10 models from the category pool receive the identical prompt. They don't know they're being compared or who else is participating.
-            </p>
-            
-            <h3>Step 2: Blind Judgment</h3>
-            <p>
-                Each model evaluates all 10 responses (including others' and their own, though self-judgments are excluded from rankings). Judges see only the response text — no model names.
-            </p>
-            
-            <div class="matrix-viz">
-                <div class="matrix-grid">
-                    <div class="matrix-cell highlight"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell highlight"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell highlight"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell highlight"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell"></div>
-                    <div class="matrix-cell highlight"></div>
-                </div>
-                <p class="matrix-label">10 judges × 10 responses = 100 judgments (diagonal = self-judgments, excluded)</p>
-            </div>
-            
-            <h3>Step 3: Scoring</h3>
-            <p>
-                Each judgment scores the response on five criteria:
-            </p>
-            
-            <table class="scoring-table">
-                <thead>
-                    <tr>
-                        <th>Criterion</th>
-                        <th>Description</th>
-                        <th>Weight</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Correctness</td>
-                        <td>Is the answer factually and logically correct?</td>
-                        <td>25%</td>
-                    </tr>
-                    <tr>
-                        <td>Completeness</td>
-                        <td>Does it address all aspects of the question?</td>
-                        <td>20%</td>
-                    </tr>
-                    <tr>
-                        <td>Clarity</td>
-                        <td>Is the response clear and well-structured?</td>
-                        <td>20%</td>
-                    </tr>
-                    <tr>
-                        <td>Depth</td>
-                        <td>Does it show deep understanding?</td>
-                        <td>20%</td>
-                    </tr>
-                    <tr>
-                        <td>Usefulness</td>
-                        <td>Would this actually help someone?</td>
-                        <td>15%</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <h3>Step 4: Aggregation</h3>
-            <p>
-                Each model's score is the average of all judgments it received (excluding self-judgments). With 9 judges scoring each response, individual biases are smoothed out.
-            </p>
-        </section>
-        
-        <!-- Why Peer Evaluation -->
-        <section>
-            <h2>Why Peer Evaluation?</h2>
-            
-            <div class="why-grid">
-                <div class="why-card">
-                    <h4>🚫 No Single-Judge Bias</h4>
-                    <p>Most benchmarks use GPT-4 as the sole evaluator. That means GPT-4's biases contaminate every result. We use 10 judges.</p>
-                </div>
-                <div class="why-card">
-                    <h4>🎯 Domain Expertise</h4>
-                    <p>Code questions are judged by coding specialists. Communication by communication-focused models. Better signal, less noise.</p>
-                </div>
-                <div class="why-card">
-                    <h4>📊 Statistical Validity</h4>
-                    <p>With 9 judgments per response (excluding self), outlier opinions are smoothed out. The rankings reflect consensus.</p>
-                </div>
-                <div class="why-card">
-                    <h4>🔍 Meta-Insights</h4>
-                    <p>We learn which models are harsh critics vs. lenient graders. This data is valuable and unique.</p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Principles -->
-        <section>
-            <h2>Our Principles</h2>
-            
-            <ul class="feature-list">
-                <li>
-                    <span class="feature-icon">🔒</span>
-                    <div class="feature-text">
-                        <strong>No Affiliations</strong>
-                        <span>We don't work for any AI lab. We pay for API access like everyone else.</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="feature-icon">📖</span>
-                    <div class="feature-text">
-                        <strong>Full Transparency</strong>
-                        <span>Exact prompts, scoring criteria, and raw outputs are published.</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="feature-icon">🔄</span>
-                    <div class="feature-text">
-                        <strong>Reproducibility</strong>
-                        <span>Anyone can verify our results using the same prompts.</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="feature-icon">⚡</span>
-                    <div class="feature-text">
-                        <strong>Fresh Questions</strong>
-                        <span>New questions daily that can't be pre-memorized or gamed.</span>
-                    </div>
-                </li>
-            </ul>
-        </section>
-        
-        <!-- CTA -->
-        <div class="cta-section">
-            <h3>Follow The Multivac</h3>
-            <p>Daily evaluations. Category-optimized pools. Blind judgments.</p>
-            <div class="cta-buttons">
-                <a href="https://themultivac.substack.com" class="cta-button">Subscribe on Substack</a>
-                <a href="https://x.com/themultivac_" class="cta-button secondary">Follow on X</a>
-            </div>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      <span class="ghost-num" aria-hidden="true">01</span>
+
+      <section class="page-hero">
+        <div class="wrap">
+          <a class="back" href="/">
+            <span aria-hidden="true">&larr;</span>
+            <span>The Multivac</span>
+          </a>
+          <div class="meta-row">
+            <p class="eyebrow"><span class="bar" aria-hidden="true"></span>Methodology</p>
+            <span class="tag tag-active">Phase 2 &bull; Active</span>
+          </div>
+          <h1>About &amp; Methodology</h1>
+          <p class="lede">
+            How The Multivac evaluates frontier AI models through blind, rigorous, daily testing — using category-specific model pools and peer matrix evaluation.
+          </p>
         </div>
-        
-        <footer>
-            <p>© 2026 The Multivac • Anonymous evaluation. Transparent methodology. No affiliations.</p>
-        </footer>
-    </div>
-</body>
+      </section>
+
+      <section class="section" id="name">
+        <div class="wrap" data-accrete>
+          <header class="section-header">
+            <p class="eyebrow"><span class="bar" aria-hidden="true"></span>The Name</p>
+            <h2>Why "The Multivac"?</h2>
+          </header>
+          <div class="prose">
+            <p>
+              In Isaac Asimov's 1956 short story <em>"The Last Question,"</em> Multivac is a supercomputer that humanity consults across millions of years, asking increasingly profound questions about the universe.
+            </p>
+            <p>
+              We're doing something similar — asking frontier AI models the questions that matter, and watching how they answer. Unlike Asimov's Multivac, we don't expect a single oracle. We test them all, compare them blindly, and let the data speak.
+            </p>
+          </div>
+          <figure class="callout quote">
+            <blockquote>
+              <p>"The last question was asked for the first time, half in jest... 'How can the net amount of entropy of the universe be massively decreased?'"</p>
+            </blockquote>
+            <figcaption class="cite">— Isaac Asimov, "The Last Question" (1956)</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section" id="evolution">
+        <div class="wrap">
+          <header class="section-header" data-accrete>
+            <p class="eyebrow"><span class="bar" aria-hidden="true"></span>Timeline</p>
+            <h2>The Evolution</h2>
+          </header>
+          <ol class="steps" data-accrete>
+            <li>
+              <div>
+                <div class="phase-head">
+                  <h3>Foundation Questions</h3>
+                  <span class="tag">Phase 1 &bull; Complete</span>
+                </div>
+                <p>
+                  Phase 1 ran from December 23, 2025 to January 12, 2026 — <strong>21 daily questions</strong> exploring AI capabilities across diverse domains: physics, philosophy, AI research, economics, and more.
+                </p>
+                <p>
+                  Each question was posed to multiple frontier models. Their raw responses were published in full, allowing readers to compare and judge for themselves.
+                </p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="phase-head">
+                  <h3>10×10 Peer Matrix Evaluation</h3>
+                  <span class="tag tag-active">Phase 2 &bull; Active</span>
+                </div>
+                <p>
+                  Starting January 13, 2026, we upgraded to a rigorous evaluation framework with <strong>category-specific model pools</strong>. Each category (Code, Reasoning, Analysis, Communication, Edge Cases) has its own optimized pool of 10 models based on OpenRouter rankings.
+                </p>
+                <p>
+                  All 10 models answer each question, then <strong>all 10 models judge all 10 responses</strong> — 100 total judgments per evaluation. This eliminates single-judge bias.
+                </p>
+                <ul class="kv-list cols-2">
+                  <li>
+                    <strong>Category-Optimized Pools</strong>
+                    <span>Code questions judged by coding-focused models. Reasoning questions by reasoning specialists.</span>
+                  </li>
+                  <li>
+                    <strong>Blind Evaluation</strong>
+                    <span>Judges don't know which model produced which response</span>
+                  </li>
+                  <li>
+                    <strong>Peer Consensus</strong>
+                    <span>100 judgments average out individual model biases</span>
+                  </li>
+                  <li>
+                    <strong>Meta-Analysis</strong>
+                    <span>Track which models are strictest judges, most lenient, most consistent</span>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section" id="pools">
+        <div class="wrap">
+          <header class="section-header" data-accrete>
+            <p class="eyebrow"><span class="bar" aria-hidden="true"></span>Rosters</p>
+            <h2>Category Model Pools</h2>
+            <p class="kicker">
+              Each category uses a specialized pool of 10 models optimized for that domain, based on OpenRouter's category rankings and our testing.
+            </p>
+          </header>
+          <div class="pools">
+          <article class="pool" id="pool-code" data-accrete>
+            <div class="pool-head">
+              <h3>Programming &amp; Code</h3>
+              <span class="pool-day">Monday</span>
+            </div>
+            <p class="pool-desc">Software engineering, debugging, code review, and agentic coding tasks</p>
+            <ol class="roster" aria-label="Programming &amp; Code — model pool">
+              <li><span class="rank">#1</span><span class="model">Grok Code Fast 1</span><span class="provider">xAI</span></li>
+              <li><span class="rank">#2</span><span class="model">Claude Opus 4.5</span><span class="provider">Anthropic</span></li>
+              <li><span class="rank">#3</span><span class="model">Gemini 3 Flash</span><span class="provider">Google</span></li>
+              <li><span class="rank">#4</span><span class="model">Claude Sonnet 4.5</span><span class="provider">Anthropic</span></li>
+              <li><span class="rank">#5</span><span class="model">Gemini 3 Pro</span><span class="provider">Google</span></li>
+              <li><span class="rank">#6</span><span class="model">MiniMax M2.1</span><span class="provider">MiniMax</span></li>
+              <li><span class="rank">#7</span><span class="model">GLM 4.7</span><span class="provider">Z.AI</span></li>
+              <li><span class="rank">#8</span><span class="model">DeepSeek V3.2</span><span class="provider">DeepSeek</span></li>
+              <li><span class="rank">#9</span><span class="model">GPT-5.2-Codex</span><span class="provider">OpenAI</span></li>
+              <li><span class="rank">#10</span><span class="model">Grok 3</span><span class="provider">xAI</span></li>
+            </ol>
+          </article>
+          <article class="pool" id="pool-reasoning" data-accrete>
+            <div class="pool-head">
+              <h3>Reasoning &amp; Logic</h3>
+              <span class="pool-day">Tuesday</span>
+            </div>
+            <p class="pool-desc">Logical reasoning, scientific thinking, mathematics, and complex problem solving</p>
+            <ol class="roster" aria-label="Reasoning &amp; Logic — model pool">
+              <li><span class="rank">#1</span><span class="model">MiMo-V2-Flash</span><span class="provider">Xiaomi</span></li>
+              <li><span class="rank">#2</span><span class="model">Gemini 3 Flash</span><span class="provider">Google</span></li>
+              <li><span class="rank">#3</span><span class="model">Claude Sonnet 4.5</span><span class="provider">Anthropic</span></li>
+              <li><span class="rank">#4</span><span class="model">DeepSeek V3.2</span><span class="provider">DeepSeek</span></li>
+              <li><span class="rank">#5</span><span class="model">Claude Opus 4.5</span><span class="provider">Anthropic</span></li>
+              <li><span class="rank">#6</span><span class="model">Gemini 3 Pro</span><span class="provider">Google</span></li>
+              <li><span class="rank">#7</span><span class="model">Gemini 2.5 Flash</span><span class="provider">Google</span></li>
+              <li><span class="rank">#8</span><span class="model">GPT-OSS-120B</span><span class="provider">OpenAI</span></li>
+              <li><span class="rank">#9</span><span class="model">Olmo 3.1 32B Think</span><span class="provider">AllenAI</span></li>
+              <li><span class="rank">#10</span><span class="model">Grok 3</span><span class="provider">xAI</span></li>
+            </ol>
+          </article>
+          <article class="pool" id="pool-analysis" data-accrete>
+            <div class="pool-head">
+              <h3>Analysis &amp; Research</h3>
+              <span class="pool-day">Wednesday</span>
+            </div>
+            <p class="pool-desc">Data analysis, financial modeling, academic research, and document review</p>
+            <ol class="roster" aria-label="Analysis &amp; Research — model pool">
+              <li><span class="rank">#1</span><span class="model">MiMo-V2-Flash</span><span class="provider">Xiaomi</span></li>
+              <li><span class="rank">#2</span><span class="model">Gemini 3 Flash</span><span class="provider">Google</span></li>
+              <li><span class="rank">#3</span><span class="model">Gemini 2.5 Flash</span><span class="provider">Google</span></li>
+              <li><span class="rank">#4</span><span class="model">GPT-OSS-120B</span><span class="provider">OpenAI</span></li>
+              <li><span class="rank">#5</span><span class="model">DeepSeek V3.2</span><span class="provider">DeepSeek</span></li>
+              <li><span class="rank">#6</span><span class="model">Claude Sonnet 4.5</span><span class="provider">Anthropic</span></li>
+              <li><span class="rank">#7</span><span class="model">Claude Opus 4.5</span><span class="provider">Anthropic</span></li>
+              <li><span class="rank">#8</span><span class="model">GPT-OSS-120B</span><span class="provider">OpenAI</span></li>
+              <li><span class="rank">#9</span><span class="model">Gemini 3 Pro</span><span class="provider">Google</span></li>
+              <li><span class="rank">#10</span><span class="model">Grok 4.1 Fast</span><span class="provider">xAI</span></li>
+            </ol>
+          </article>
+          <article class="pool" id="pool-communication" data-accrete>
+            <div class="pool-head">
+              <h3>Communication &amp; Writing</h3>
+              <span class="pool-day">Thursday</span>
+            </div>
+            <p class="pool-desc">Marketing copy, translation, creative writing, and interpersonal communication</p>
+            <ol class="roster" aria-label="Communication &amp; Writing — model pool">
+              <li><span class="rank">#1</span><span class="model">Gemini 2.5 Flash-Lite</span><span class="provider">Google</span></li>
+              <li><span class="rank">#2</span><span class="model">Seed 1.6 Flash</span><span class="provider">ByteDance</span></li>
+              <li><span class="rank">#3</span><span class="model">Gemini 2.5 Flash</span><span class="provider">Google</span></li>
+              <li><span class="rank">#4</span><span class="model">GPT-OSS-120B</span><span class="provider">OpenAI</span></li>
+              <li><span class="rank">#5</span><span class="model">Grok 4.1 Fast</span><span class="provider">xAI</span></li>
+              <li><span class="rank">#6</span><span class="model">DeepSeek V3.2</span><span class="provider">DeepSeek</span></li>
+              <li><span class="rank">#7</span><span class="model">GLM 4.7</span><span class="provider">Z.AI</span></li>
+              <li><span class="rank">#8</span><span class="model">Claude Sonnet 4.5</span><span class="provider">Anthropic</span></li>
+              <li><span class="rank">#9</span><span class="model">Claude Opus 4.5</span><span class="provider">Anthropic</span></li>
+              <li><span class="rank">#10</span><span class="model">Mistral Small Creative</span><span class="provider">Mistral</span></li>
+            </ol>
+          </article>
+          <article class="pool" id="pool-meta" data-accrete>
+            <div class="pool-head">
+              <h3>Meta &amp; Alignment / Edge Cases</h3>
+              <span class="pool-day">Friday &amp; Saturday</span>
+            </div>
+            <p class="pool-desc">AI alignment, safety, edge cases, and meta-level reasoning about AI systems</p>
+            <ol class="roster" aria-label="Meta &amp; Alignment / Edge Cases — model pool">
+              <li><span class="rank">#1</span><span class="model">Claude Opus 4.5</span><span class="provider">Anthropic</span></li>
+              <li><span class="rank">#2</span><span class="model">Gemini 3 Pro</span><span class="provider">Google</span></li>
+              <li><span class="rank">#3</span><span class="model">Claude Sonnet 4.5</span><span class="provider">Anthropic</span></li>
+              <li><span class="rank">#4</span><span class="model">GPT-5.2-Codex</span><span class="provider">OpenAI</span></li>
+              <li><span class="rank">#5</span><span class="model">GPT-OSS-120B</span><span class="provider">OpenAI</span></li>
+              <li><span class="rank">#6</span><span class="model">Gemini 3 Flash</span><span class="provider">Google</span></li>
+              <li><span class="rank">#7</span><span class="model">DeepSeek V3.2</span><span class="provider">DeepSeek</span></li>
+              <li><span class="rank">#8</span><span class="model">MiMo-V2-Flash</span><span class="provider">Xiaomi</span></li>
+              <li><span class="rank">#9</span><span class="model">Grok 4.1 Fast</span><span class="provider">xAI</span></li>
+              <li><span class="rank">#10</span><span class="model">Grok 3</span><span class="provider">xAI</span></li>
+            </ol>
+          </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="how-it-works">
+        <div class="wrap">
+          <header class="section-header" data-accrete>
+            <p class="eyebrow"><span class="bar" aria-hidden="true"></span>Procedure</p>
+            <h2>How Evaluation Works</h2>
+          </header>
+          <ol class="steps" data-accrete>
+            <li>
+              <div>
+                <h3>Step 1: Generation</h3>
+                <p>
+                  All 10 models from the category pool receive the identical prompt. They don't know they're being compared or who else is participating.
+                </p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Step 2: Blind Judgment</h3>
+                <p>
+                  Each model evaluates all 10 responses (including others' and their own, though self-judgments are excluded from rankings). Judges see only the response text — no model names.
+                </p>
+                <figure class="figure jm">
+                  <div class="plate jm-plate">
+                    <div class="jm-grid" aria-hidden="true">
+                      <span class="jm-cell self"></span><span class="jm-cell pc l1"></span><span class="jm-cell pb l5"></span><span class="jm-cell pa l2"></span><span class="jm-cell pc l4"></span><span class="jm-cell pb l1"></span><span class="jm-cell pa l1"></span><span class="jm-cell pc l1"></span><span class="jm-cell pb l4"></span><span class="jm-cell pa l5"></span>
+                      <span class="jm-cell pc l5"></span><span class="jm-cell self"></span><span class="jm-cell pa l5"></span><span class="jm-cell pc l3"></span><span class="jm-cell pb l1"></span><span class="jm-cell pa l1"></span><span class="jm-cell pc l1"></span><span class="jm-cell pb l1"></span><span class="jm-cell pa l1"></span><span class="jm-cell pc l2"></span>
+                      <span class="jm-cell pb l1"></span><span class="jm-cell pa l3"></span><span class="jm-cell self"></span><span class="jm-cell pb l2"></span><span class="jm-cell pa l3"></span><span class="jm-cell pc l1"></span><span class="jm-cell pb l5"></span><span class="jm-cell pa l5"></span><span class="jm-cell pc l4"></span><span class="jm-cell pb l3"></span>
+                      <span class="jm-cell pa l3"></span><span class="jm-cell pc l3"></span><span class="jm-cell pb l2"></span><span class="jm-cell self"></span><span class="jm-cell pc l1"></span><span class="jm-cell pb l5"></span><span class="jm-cell pa l5"></span><span class="jm-cell pc l3"></span><span class="jm-cell pb l4"></span><span class="jm-cell pa l3"></span>
+                      <span class="jm-cell pc l2"></span><span class="jm-cell pb l4"></span><span class="jm-cell pa l5"></span><span class="jm-cell pc l2"></span><span class="jm-cell self"></span><span class="jm-cell pa l5"></span><span class="jm-cell pc l1"></span><span class="jm-cell pb l4"></span><span class="jm-cell pa l5"></span><span class="jm-cell pc l1"></span>
+                      <span class="jm-cell pb l3"></span><span class="jm-cell pa l1"></span><span class="jm-cell pc l3"></span><span class="jm-cell pb l1"></span><span class="jm-cell pa l2"></span><span class="jm-cell self"></span><span class="jm-cell pb l1"></span><span class="jm-cell pa l2"></span><span class="jm-cell pc l5"></span><span class="jm-cell pb l3"></span>
+                      <span class="jm-cell pa l4"></span><span class="jm-cell pc l2"></span><span class="jm-cell pb l3"></span><span class="jm-cell pa l2"></span><span class="jm-cell pc l5"></span><span class="jm-cell pb l2"></span><span class="jm-cell self"></span><span class="jm-cell pc l2"></span><span class="jm-cell pb l3"></span><span class="jm-cell pa l2"></span>
+                      <span class="jm-cell pc l1"></span><span class="jm-cell pb l3"></span><span class="jm-cell pa l3"></span><span class="jm-cell pc l5"></span><span class="jm-cell pb l3"></span><span class="jm-cell pa l1"></span><span class="jm-cell pc l1"></span><span class="jm-cell self"></span><span class="jm-cell pa l5"></span><span class="jm-cell pc l3"></span>
+                      <span class="jm-cell pb l4"></span><span class="jm-cell pa l3"></span><span class="jm-cell pc l3"></span><span class="jm-cell pb l1"></span><span class="jm-cell pa l1"></span><span class="jm-cell pc l2"></span><span class="jm-cell pb l4"></span><span class="jm-cell pa l1"></span><span class="jm-cell self"></span><span class="jm-cell pb l4"></span>
+                      <span class="jm-cell pa l3"></span><span class="jm-cell pc l3"></span><span class="jm-cell pb l3"></span><span class="jm-cell pa l5"></span><span class="jm-cell pc l3"></span><span class="jm-cell pb l1"></span><span class="jm-cell pa l3"></span><span class="jm-cell pc l1"></span><span class="jm-cell pb l1"></span><span class="jm-cell self"></span>
+                    </div>
+                    <span class="plate-label" style="top:12px;right:30px">Judges &darr; &middot; Responses &rarr;</span>
+                    <span class="plate-label red recused-label">Recused</span>
+                  </div>
+                  <figcaption class="figcap">
+                    <span><span class="fig-no">FIG. 1</span> — 10 judges × 10 responses = 100 judgments</span>
+                    <span class="fig-note">(diagonal = self-judgments, excluded)</span>
+                  </figcaption>
+                </figure>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Step 3: Scoring</h3>
+                <p>
+                  Each judgment scores the response on five criteria:
+                </p>
+                <div class="scoring-wrap">
+                  <table class="scoring" role="table">
+                    <thead role="rowgroup">
+                      <tr role="row">
+                        <th scope="col" role="columnheader">Criterion</th>
+                        <th scope="col" role="columnheader">Description</th>
+                        <th scope="col" role="columnheader">Weight</th>
+                      </tr>
+                    </thead>
+                    <tbody role="rowgroup">
+                      <tr role="row">
+                        <th scope="row" role="rowheader">Correctness</th>
+                        <td role="cell">Is the answer factually and logically correct?</td>
+                        <td role="cell">25%</td>
+                      </tr>
+                      <tr role="row">
+                        <th scope="row" role="rowheader">Completeness</th>
+                        <td role="cell">Does it address all aspects of the question?</td>
+                        <td role="cell">20%</td>
+                      </tr>
+                      <tr role="row">
+                        <th scope="row" role="rowheader">Clarity</th>
+                        <td role="cell">Is the response clear and well-structured?</td>
+                        <td role="cell">20%</td>
+                      </tr>
+                      <tr role="row">
+                        <th scope="row" role="rowheader">Depth</th>
+                        <td role="cell">Does it show deep understanding?</td>
+                        <td role="cell">20%</td>
+                      </tr>
+                      <tr role="row">
+                        <th scope="row" role="rowheader">Usefulness</th>
+                        <td role="cell">Would this actually help someone?</td>
+                        <td role="cell">15%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Step 4: Aggregation</h3>
+                <p>
+                  Each model's score is the average of all judgments it received (excluding self-judgments). With 9 judges scoring each response, individual biases are smoothed out.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section" id="why-peer-evaluation">
+        <div class="wrap">
+          <header class="section-header" data-accrete>
+            <p class="eyebrow"><span class="bar" aria-hidden="true"></span>Rationale</p>
+            <h2>Why Peer Evaluation?</h2>
+          </header>
+          <div class="principles principles-2" data-accrete>
+            <article class="principle">
+              <span class="num">01</span>
+              <h3>No Single-Judge Bias</h3>
+              <p>Most benchmarks use GPT-4 as the sole evaluator. That means GPT-4's biases contaminate every result. We use 10 judges.</p>
+            </article>
+            <article class="principle">
+              <span class="num">02</span>
+              <h3>Domain Expertise</h3>
+              <p>Code questions are judged by coding specialists. Communication by communication-focused models. Better signal, less noise.</p>
+            </article>
+            <article class="principle">
+              <span class="num">03</span>
+              <h3>Statistical Validity</h3>
+              <p>With 9 judgments per response (excluding self), outlier opinions are smoothed out. The rankings reflect consensus.</p>
+            </article>
+            <article class="principle">
+              <span class="num">04</span>
+              <h3>Meta-Insights</h3>
+              <p>We learn which models are harsh critics vs. lenient graders. This data is valuable and unique.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="principles">
+        <div class="wrap" data-accrete>
+          <header class="section-header">
+            <p class="eyebrow"><span class="bar" aria-hidden="true"></span>Ground Rules</p>
+            <h2>Our Principles</h2>
+          </header>
+          <div class="callout">
+            <ul class="kv-list">
+              <li>
+                <strong>No Affiliations</strong>
+                <span>We don't work for any AI lab. We pay for API access like everyone else.</span>
+              </li>
+              <li>
+                <strong>Full Transparency</strong>
+                <span>Exact prompts, scoring criteria, and raw outputs are published.</span>
+              </li>
+              <li>
+                <strong>Reproducibility</strong>
+                <span>Anyone can verify our results using the same prompts.</span>
+              </li>
+              <li>
+                <strong>Fresh Questions</strong>
+                <span>New questions daily that can't be pre-memorized or gamed.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="follow">
+        <div class="wrap" data-accrete>
+          <header class="section-header">
+            <p class="eyebrow"><span class="bar" aria-hidden="true"></span>Follow Along</p>
+            <h2>Follow The Multivac</h2>
+            <p class="kicker">Daily evaluations. Category-optimized pools. Blind judgments.</p>
+          </header>
+          <div class="hero-links">
+            <a class="btn btn-primary" href="https://themultivac.substack.com" rel="noopener">Subscribe on Substack</a>
+            <a class="btn" href="https://x.com/themultivac_" rel="noopener">Follow on X</a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/" class="wordmark" aria-label="The Multivac home">
+              <span class="pearl" aria-hidden="true"></span>
+              <span>The Multivac</span>
+            </a>
+            <p>Independent evaluation &middot; Open data &middot; No affiliations</p>
+          </div>
+          <div class="footer-col">
+            <h4>Site</h4>
+            <ul>
+              <li><a href="/about.html">Methodology</a></li>
+              <li><a href="/judges/">Judges</a></li>
+              <li><a href="/leaderboard/">Leaderboard</a></li>
+              <li><a href="/papers/blind-peer-matrix.pdf">Paper</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Elsewhere</h4>
+            <ul>
+              <li><a href="https://app.themultivac.com/dashboard" rel="noopener">Dashboard</a></li>
+              <li><a href="https://themultivac.substack.com" rel="noopener">Substack</a></li>
+              <li><a href="https://github.com/themultivac/multivac-evaluation" rel="noopener">GitHub</a></li>
+              <li><a href="https://discord.gg/QvVTPCxH" rel="noopener">Discord</a></li>
+              <li><a href="https://x.com/themultivac_" rel="noopener">X / Twitter</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-base">
+          <span>© 2026 The Multivac • Anonymous evaluation. Transparent methodology. No affiliations.</span>
+          <span>themultivac.com</span>
+        </div>
+      </div>
+    </footer>
+    <script type="module">
+      import { initSite } from '/assets/js/site.js';
+      initSite();
+    </script>
+  </body>
 </html>

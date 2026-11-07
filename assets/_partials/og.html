@@ -1,0 +1,141 @@
+<!doctype html>
+<!-- themultivac.com — source of /assets/og.png, the 1200×630 Open Graph and
+     Twitter card image every page points to: the Deep Pearl OG card layout, set
+     in the Deep Pearl tokens and faces (the wordmark's pearl, Fraunces, the
+     hero's shimmer on "Wins?"). To re-render it, load this file in a 1200×630
+     viewport at device scale 1, wait for document.fonts.ready, and screenshot
+     the viewport to assets/og.png.
+     Reference only: nothing links to it, and the leading underscore of
+     assets/_partials/ keeps GitHub Pages (Jekyll) from publishing it. -->
+<html>
+<head>
+<meta charset="utf-8" />
+<title>The Multivac — Open Graph card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..600,0..100,0..1&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=block" />
+<style>
+  :root {
+    --bg: #07080a;
+    --text: #e9e6df;
+    --muted: #9aa0a4;
+    --faint: #6b7176;
+    --pearl-a: #aebfd6;
+    --pearl-b: #d8cfc2;
+    --pearl-c: #b9d2c9;
+    --font-sans: ui-sans-serif, system-ui, -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  }
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 1200px;
+    height: 630px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 80px;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+  }
+  .top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-display);
+    font-size: 24px;
+    letter-spacing: 0.01em;
+    color: var(--text);
+  }
+  /* the wordmark's pearl */
+  .pearl {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 30%, #f3f1ec 0%, var(--pearl-a) 38%, var(--pearl-c) 70%, #5a6b7a 100%);
+    box-shadow: 0 0 12px rgba(174, 191, 214, 0.45);
+    flex: none;
+  }
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .bar {
+    width: 34px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--pearl-a), var(--pearl-b));
+  }
+  h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-variation-settings: "opsz" 144, "SOFT" 40, "WONK" 1;
+    font-size: 152px;
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--text);
+  }
+  .lede {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-variation-settings: "opsz" 72, "SOFT" 40, "WONK" 1;
+    font-size: 46px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--text);
+  }
+  /* "Wins?" in the hero's pearl shimmer, held at its first stop */
+  .shimmer {
+    background: linear-gradient(100deg, var(--pearl-a) 0%, #f0ede7 25%, var(--pearl-b) 50%, var(--pearl-c) 75%, var(--pearl-a) 100%);
+    background-size: 200% 100%;
+    background-position: 0 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .ventures {
+    margin: 0;
+    font-size: 22px;
+    color: var(--muted);
+  }
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    color: var(--faint);
+    font-size: 18px;
+    letter-spacing: -0.005em;
+  }
+</style>
+</head>
+<body>
+  <div class="top">
+    <span class="pearl"></span>
+    <span>The Multivac</span>
+  </div>
+  <div class="stack">
+    <p class="eyebrow"><span class="bar"></span>Independent AI Evaluation</p>
+    <h1>The Multivac</h1>
+    <p class="lede">Who Actually <span class="shimmer">Wins?</span></p>
+    <p class="ventures">Frontier AI models judge each other blind.</p>
+  </div>
+  <div class="foot">
+    <span>themultivac.com</span>
+    <span>Open data &middot; No affiliations</span>
+  </div>
+</body>
+</html>
